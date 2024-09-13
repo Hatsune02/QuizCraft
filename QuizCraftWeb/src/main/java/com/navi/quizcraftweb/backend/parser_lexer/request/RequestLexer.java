@@ -1437,7 +1437,7 @@ public class RequestLexer implements java_cup.runtime.Scanner {
           // fall through
           case 71: break;
           case 6:
-            { return symbol(DIGIT, Integer.parseInt(yytext()));
+            { return symbol(DIGIT, yytext());
             }
           // fall through
           case 72: break;

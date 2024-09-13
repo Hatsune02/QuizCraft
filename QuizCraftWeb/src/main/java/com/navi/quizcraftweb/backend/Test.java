@@ -2,6 +2,8 @@ package com.navi.quizcraftweb.backend;
 
 import com.navi.quizcraftweb.backend.model.User;
 import com.navi.quizcraftweb.backend.parser_lexer.ErrorsLP;
+import com.navi.quizcraftweb.backend.parser_lexer.db.DBLexer;
+import com.navi.quizcraftweb.backend.parser_lexer.db.DBParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
@@ -10,7 +12,7 @@ import java.io.*;
 
 public class Test {
     public static void main(String[] args) {
-        RequestLexer lexer;
+        /*RequestLexer lexer;
         Reader reader;
         RequestParser parser = null;
         try{
@@ -133,12 +135,12 @@ public class Test {
             ErrorsLP.getErrors().forEach(System.out::println);
         }
         else{
-            /*for(RequestXSON r: parser.requests){
+            *//*for(RequestXSON r: parser.requests){
                 System.out.println(r.toString());
-            }*/
-        }
+            }*//*
+        }*/
         
-        File userHome = new File(System.getProperty("user.home"));
+        /*File userHome = new File(System.getProperty("user.home"));
         String appFolderName = "QuizCraft";
         File appFolder = new File(userHome, appFolderName);
 
@@ -154,7 +156,6 @@ public class Test {
             writer.write(userText);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
+        }*/
     }
 }

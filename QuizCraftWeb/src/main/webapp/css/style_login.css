@@ -1,0 +1,85 @@
+body {
+    color: #e0e0e0; /* Color de texto claro */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    background-color: #1c1c1c;
+}
+
+/* Estilos del navbar */
+.navbar {
+    background-color: #39c5bb; /* Color Aqua base */
+    overflow: hidden;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #e0e0e0; /* Color de texto claro */
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+.navbar .app-name {
+    font-size: 24px; /* Tamaño de fuente para el nombre de la app */
+    font-family: 'Arial', sans-serif; /* Fuente para el nombre de la app */
+    float: left;
+    display: block;
+    color: #e0e0e0; /* Color de texto claro */
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+.navbar a:hover {
+    background-color: #2f9c95; /* Tono más oscuro para el hover */
+    color: #e0e0e0; /* Color de texto claro */
+}
+
+/* Estilos para centrar el área de texto */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    background-color: #1c1c1c; /* Fondo oscuro para el contenedor */
+}
+
+.form-container {
+    border: 2px solid #276f6b; /* Color Aqua oscuro para el borde */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Sombra más oscura */
+    text-align: center;
+    background-color: #283838; /* Fondo oscuro para el formulario */
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #39c5bb; /* Color Aqua base */
+}
+
+textarea {
+    width: 100%;
+    max-width: 500px; /* Ajusta según el tamaño deseado */
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #276f6b; /* Color Aqua oscuro para el borde */
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #2c2c2c; /* Fondo oscuro para el área de texto */
+    color: #e0e0e0; /* Color de texto claro */
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #283838; /* Fondo oscuro para el botón */
+    color: #a1f4f0; /* Color de texto del botón */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #2f9c95; /* Tono más oscuro para el hover */
+}

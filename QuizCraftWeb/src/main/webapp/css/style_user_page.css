@@ -1,0 +1,149 @@
+body {
+    background-color: #1c1c1c; /* Color de fondo oscuro */
+    color: #e0e0e0; /* Color de texto claro */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos del navbar */
+.navbar {
+    background-color: #39c5bb; /* Color Aqua base */
+    overflow: hidden;
+    padding: 10px; /* Espaciado interno */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .app-name {
+    color: #e0e0e0; /* Color de texto claro */
+    font-size: 24px; /* Tamaño de fuente para el nombre de la app */
+    font-family: 'Arial', sans-serif; /* Fuente para el nombre de la app */
+}
+
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .username {
+    margin-right: 10px;
+}
+
+.navbar .logout-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar .dropdown-btn {
+    background-color: #39c5bb; /* Color Aqua base */
+    color: #e0e0e0; /* Color de texto claro */
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.navbar .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #283838; /* Fondo oscuro para el dropdown */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.navbar .dropdown-content a {
+    color: #e0e0e0; /* Color de texto claro */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.navbar .dropdown-content a:hover {
+    background-color: #2f9c95; /* Tono más oscuro para el hover */
+}
+
+.navbar .logout-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #1c1c1c; /* Fondo oscuro para el contenedor */
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.tab-button {
+    background-color: #2c2c2c; /* Fondo oscuro para las tabs */
+    border: 1px solid #276f6b; /* Color Aqua oscuro para el borde */
+    color: #e0e0e0; /* Color de texto claro */
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px 4px 0 0;
+    margin-right: 5px;
+    flex: 1; /* Flexibilidad para adaptarse al contenedor */
+}
+
+.tab-button.active {
+    background-color: #39c5bb; /* Color Aqua base para la tab activa */
+    color: #1c1c1c; /* Color de texto oscuro para la tab activa */
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px; /* Ajusta según el tamaño deseado */
+}
+
+.request-container,
+.response-container {
+    border: 2px solid #276f6b; /* Color Aqua oscuro para el borde */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Sombra más oscura */
+    background-color: #283838; /* Fondo oscuro para el contenedor */
+    margin: 0 10px;
+    flex: 1; /* Flexibilidad para adaptarse al contenedor */
+}
+
+.request-container h2,
+.response-container h2 {
+    margin-bottom: 20px;
+    color: #39c5bb; /* Color Aqua base */
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #276f6b; /* Color Aqua oscuro para el borde */
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #2c2c2c; /* Fondo oscuro para el área de texto */
+    color: #e0e0e0; /* Color de texto claro */
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #283838; /* Fondo oscuro para el botón */
+    color: #a1f4f0; /* Color de texto del botón */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #2f9c95; /* Tono más oscuro para el hover */
+}

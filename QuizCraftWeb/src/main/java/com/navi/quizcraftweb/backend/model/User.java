@@ -40,6 +40,14 @@ public class User {
         this.createDate = new Date();
     }
 
+    public void setCreateDateString(String d) {
+        createDate = stringToDate(d);
+    }
+    public void setUpdateDateString(String d) {
+        updateDate = stringToDate(d);
+    }
+
+
     public Date stringToDate(String date) {
         Date d;
         SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
@@ -100,7 +108,7 @@ public class User {
                 "\t\"NOMBRE\":\""+name+"\",\n" +
                 "\t\"INSTITUCION\":\""+institution+"\",\n" +
                 "\t\"FECHA_CREACION\":\""+dateToString(createDate)+"\",\n" +
-                "\t\"FECHA_MODIFICACION\":\""+dateToString(updateDate)+"\",\n" +
+                "\t\"FECHA_MODIFICACION\":\""+dateToString(updateDate)+"\"\n" +
                 "}"
                 ;
 

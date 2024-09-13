@@ -284,7 +284,7 @@ Integer = [0-9]+
 {return symbol(Q, yytext());}
 
 {Integer}
-{return symbol(DIGIT, Integer.parseInt(yytext()));}
+{return symbol(DIGIT, yytext());}
 {Identifier}
 {return symbol(IDENTIFIER, yytext());}
 {StringContent}

@@ -5,23 +5,31 @@
 <html>
 <head>
     <title>QuizCraftWeb</title>
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous"
-    />
+    <link href="css/style_login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<nav>
-    <a class="navbar-brand" style="color: #00ddc0;"><strong>QuizCraft</strong></a>
-    <button class="navbar-toggler" type="button"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
+<div class="navbar">
+    <div class="app-name"><strong>QuizCraft</strong></div>
+</div>
 
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<!-- Contenedor principal -->
+<div class="container">
+    <!-- Área de texto -->
+    <div class="form-container">
+        <h2>Iniciar sesión</h2>
+        <form action="login" method="post">
+            <textarea placeholder='<?xson version="1.0" ?>
+<!realizar_solicitud: "LOGIN_USUARIO" >
+    { "DATOS_USUARIO":[{
+        "USUARIO": "",
+        "PASSWORD": ""
+    }
+    ]}
+<fin_solicitud_realizada!>' rows="10" cols="50" id="request" name="request" required></textarea>
+            <br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+</div>
 </body>
 </html>

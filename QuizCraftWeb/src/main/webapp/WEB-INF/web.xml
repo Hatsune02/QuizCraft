@@ -3,4 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://jakarta.ee/jstl/core</taglib-uri>
+            <taglib-location>/WEB-INF/tld/jstl-core.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://jakarta.ee/jstl/sql</taglib-uri>
+            <taglib-location>/WEB-INF/tld/jstl-sql.tld</taglib-location>
+        </taglib>
+        <!-- Agrega más configuraciones de taglibs según necesites -->
+    </jsp-config>
+
 </web-app>

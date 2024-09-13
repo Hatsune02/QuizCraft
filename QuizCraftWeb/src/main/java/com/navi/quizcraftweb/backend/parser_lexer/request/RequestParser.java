@@ -1182,7 +1182,6 @@ class CUP$RequestParser$actions {
                 User u = new User();
                 if(validateNewUser()){
                     u.setNewUser(d, hasCreateDate);
-                    System.out.println(u.toString());
                 }
                 else errorsNewUser(d);
                 RequestXSON<User> r = new RequestXSON<>(u, RequestXSON.USUARIO_NUEVO);
@@ -1235,7 +1234,6 @@ class CUP$RequestParser$actions {
                 if(validateUpdateUser()){
                     u.setUpdateUser(d, hasNewUser, hasNewPassword, hasInstitution);
                     us = (String) d.get(Parameter.OLD_USER).getParameter();
-                    System.out.println(u.toString());
                 }
                 else errorsUpdateUser(d);
 
@@ -1276,7 +1274,6 @@ class CUP$RequestParser$actions {
                 User u = new User();
                 if(validateLogin()){
                     u.setLogin(d);
-                    System.out.println(u.toString());
                 }
                 else errorsLogin(d);
 
@@ -2000,9 +1997,9 @@ class CUP$RequestParser$actions {
               Parameter<Integer> RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()).right;
-		Integer d = (Integer)((java_cup.runtime.Symbol) CUP$RequestParser$stack.peek()).value;
+		String d = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.peek()).value;
 		
-        Parameter<Integer> p = new Parameter<>(d, Parameter.QUESTION_TIME, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.QUESTION_TIME, dleft, dright);
         RESULT = p;
         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("question_time",28, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-4)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -2090,9 +2087,9 @@ class CUP$RequestParser$actions {
               Parameter<Integer> RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
-		Integer d = (Integer)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
+		String d = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
-        Parameter<Integer> p = new Parameter<>(d, Parameter.INDEX, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.INDEX, dleft, dright);
         RESULT = p;
         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("index",30, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -2135,9 +2132,9 @@ class CUP$RequestParser$actions {
               Parameter<Integer> RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
-		Integer d = (Integer)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
+		String d = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
-        Parameter<Integer> p = new Parameter<>(d, Parameter.LINE, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.LINE, dleft, dright);
         RESULT = p;
         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("line",31, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -2150,9 +2147,9 @@ class CUP$RequestParser$actions {
               Parameter<Integer> RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
-		Integer d = (Integer)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
+		String d = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
-        Parameter<Integer> p = new Parameter<>(d, Parameter.COLUMNS, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.COLUMNS, dleft, dright);
         RESULT = p;
         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("columns",32, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -2355,8 +2352,8 @@ class CUP$RequestParser$actions {
               String RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()).right;
-		Integer s = (Integer)((java_cup.runtime.Symbol) CUP$RequestParser$stack.peek()).value;
-		RESULT = String.valueOf(s); 
+		String s = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.peek()).value;
+		RESULT = s; 
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("string_content",51, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
             }
           return CUP$RequestParser$result;

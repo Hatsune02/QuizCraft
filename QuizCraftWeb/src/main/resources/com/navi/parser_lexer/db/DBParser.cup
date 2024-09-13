@@ -1,0 +1,134 @@
+package com.navi.quizcraftweb.backend.parser_lexer.db;
+import java_cup.runtime.*;
+import java.util.*;
+import java.text.DecimalFormat;
+import com.navi.quizcraftweb.backend.parser_lexer.*;
+import com.navi.quizcraftweb.backend.model.*;
+
+parser code
+{:
+    public ArrayList<String> idUsers = new ArrayList<>();
+    public ArrayList<User> users = new ArrayList<>();
+    public DBParser(DBLexer lex) {
+        super(lex);
+    }
+    //Metodo al que se llama ante algun error sintactico
+    public void syntax_error(Symbol s){
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTÁCTICO RECUPERADO");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        addError(lexeme, line, col, " ");
+    }
+
+    //Metodo que se llama en el momento en que ya no es posible una recuperacion
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTACTICO NO RECUPERABLE");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        addError(lexeme, line, col, " ");
+    }
+
+    private void addError(String lexeme, int line, int col, String description){
+        ErrorsLP.addError(lexeme, line, col, "Error Sintáctico", description);
+    }
+
+    private void addParameterError(String type, int line, int col){
+        addError(type, line, col, "Parametro " + type + " duplicado");
+    }
+    private void addPError(String type, int line, int col){
+        addError(type, line, col, "Parametro " + type + " no esperado");
+    }
+    protected int error_sync_size() {
+            return 1;
+    }
+:}
+
+terminal
+        DB_USER, DB_TRIVIA,
+        ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA, ELIMINAR_TRIVIA, MODIFICAR_TRIVIA,
+        AGREGAR_COMPONENTE, PARAMETROS_COMPONENTE, ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
+        CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO, ELIMINAR_COMPONENTE, MODIFICAR_COMPONENTE, VERTICAL_BAR,
+        LPAREN, RPAREN, LBRACE, RBRACE;
+
+terminal String STRING, IDENTIFIER;
+
+terminal String USUARIO, PASSWORD, INSTITUCION, NOMBRE, FECHA_CREACION, FECHA_MODIFICACION,
+                COLON, COMMA;
+
+terminal Integer DIGIT;
+
+
+non terminal s, db_user, db_trivia;
+
+non terminal User user;
+
+non terminal ArrayList<User> users;
+
+non terminal String username, password, name, institution, creation_date, update_date;
+
+start with s;
+
+s ::=  db_user
+
+    | db_trivia
+
+    ;
+
+db_user ::= DB_USER LPAREN users:us RPAREN
+        {:
+        users = us;
+        :};
+
+users ::= user:u
+        {:
+        ArrayList<User> users = new ArrayList<>();
+        users.add(u);
+        RESULT = users;
+        :}
+        | users:us COMMA user:u
+        {:
+        us.add(u);
+        RESULT = us;
+        :}
+        ;
+
+user ::= LBRACE username:u password:p name:n institution:i creation_date:c update_date:e RBRACE
+        {:
+        User usr = new User(u,p,n,i);
+        if(c.equals("null")) usr.setCreateDate(null);
+        else usr.setCreateDateString(c);
+
+        if(e.equals("null")) usr.setUpdateDate(null);
+        else usr.setUpdateDateString(e);
+        System.out.println(usr);
+        idUsers.add(u);
+        RESULT = usr;
+        :}
+        ;
+
+username ::= USUARIO COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+password ::= PASSWORD COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+name ::= NOMBRE COLON STRING:s COMMA
+        {: RESULT = s.replaceAll("\"", ""); :};
+
+institution ::= INSTITUCION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+creation_date ::= FECHA_CREACION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+update_date ::= FECHA_MODIFICACION COLON STRING:s
+                {: RESULT = s.replaceAll("\"", ""); :};
+

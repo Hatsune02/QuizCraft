@@ -482,7 +482,7 @@ terminal String USUARIO_NUEVO, DATOS_USUARIO, USUARIO, PASSWORD, INSTITUCION, NO
                 COLON, COMMA, QM;
 
 
-terminal Integer DIGIT;
+terminal String DIGIT;
 
 non terminal s, xson_label, open_request, close_request, open_requests, close_requests,
             open_user_data, close_data, open_trivia_data, open_component_data
@@ -939,7 +939,7 @@ id_trivia ::= Q ID_TRIVIA Q COLON Q IDENTIFIER:st Q
 
 question_time ::= Q TIEMPO_PREGUNTA Q COLON DIGIT:d
         {:
-        Parameter<Integer> p = new Parameter<>(d, Parameter.QUESTION_TIME, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.QUESTION_TIME, dleft, dright);
         RESULT = p;
         :};
 
@@ -976,7 +976,7 @@ clase ::= Q CLASE Q COLON Q clase_content:st Q
 
 index ::= Q INDICE Q COLON Q DIGIT:d Q
         {:
-        Parameter<Integer> p = new Parameter<>(d, Parameter.INDEX, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.INDEX, dleft, dright);
         RESULT = p;
         :};
 
@@ -994,13 +994,13 @@ options ::= Q OPCIONES Q COLON Q multiple_string:st Q
 
 line ::= Q FILAS Q COLON Q DIGIT:d Q
         {:
-        Parameter<Integer> p = new Parameter<>(d, Parameter.LINE, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.LINE, dleft, dright);
         RESULT = p;
         :};
 
 columns ::= Q COLUMNAS Q COLON Q DIGIT:d Q
         {:
-        Parameter<Integer> p = new Parameter<>(d, Parameter.COLUMNS, dleft, dright);
+        Parameter<Integer> p = new Parameter<>(Integer.parseInt(d), Parameter.COLUMNS, dleft, dright);
         RESULT = p;
         :};
 
@@ -1062,7 +1062,7 @@ string_contentP ::= string_content:s {: RESULT = s;:}
 
 string_content ::= STRINGCONTENT:s  {:RESULT = s; :}
                 | IDENTIFIER:s      {:RESULT = s; :}
-                | DIGIT:s           {:RESULT = String.valueOf(s); :}
+                | DIGIT:s           {:RESULT = s; :}
                 | NOMBRE:s          {:RESULT = s; :}
                 | COLON:s           {:RESULT = s; :}
                 | COMMA:s           {:RESULT = s; :}
