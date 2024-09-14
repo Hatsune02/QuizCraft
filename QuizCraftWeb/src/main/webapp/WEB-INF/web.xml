@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+    <!--
+        <filter>
+            <filter-name>AuthFilter</filter-name>
+            <filter-class>com.navi.quizcraftweb.backend.controller.AuthFilter</filter-class>
+        </filter>
 
-    <jsp-config>
-        <taglib>
-            <taglib-uri>http://jakarta.ee/jstl/core</taglib-uri>
-            <taglib-location>/WEB-INF/tld/jstl-core.tld</taglib-location>
-        </taglib>
-        <taglib>
-            <taglib-uri>http://jakarta.ee/jstl/sql</taglib-uri>
-            <taglib-location>/WEB-INF/tld/jstl-sql.tld</taglib-location>
-        </taglib>
-        <!-- Agrega más configuraciones de taglibs según necesites -->
-    </jsp-config>
+
+        <filter-mapping>
+            <filter-name>AuthFilter</filter-name>
+            <url-pattern>/*</url-pattern> &lt;!&ndash; Aplica el filtro a todas las rutas &ndash;&gt;
+        </filter-mapping>
+    -->
 
 </web-app>

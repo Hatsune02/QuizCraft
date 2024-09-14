@@ -1,9 +1,11 @@
 package com.navi.quizcraftweb.backend;
 
+import com.navi.quizcraftweb.backend.dao.UserDAO;
 import com.navi.quizcraftweb.backend.model.User;
 import com.navi.quizcraftweb.backend.parser_lexer.ErrorsLP;
 import com.navi.quizcraftweb.backend.parser_lexer.db.DBLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.db.DBParser;
+import com.navi.quizcraftweb.backend.parser_lexer.request.CompileRequest;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
@@ -12,10 +14,34 @@ import java.io.*;
 
 public class Test {
     public static void main(String[] args) {
-        /*RequestLexer lexer;
+        RequestLexer lexer;
         Reader reader;
         RequestParser parser = null;
-        try{
+        String login = """
+                <?xson version="1.0" ?>
+                <!realizar_solicitud: "LOGIN_USUARIO" >
+                    { "DATOS_USUARIO":[{
+                        "USUARIO": "admin",
+                        "PASSWORD": "1234"
+                    }
+                    ]}
+                <fin_solicitud_realizada!>
+                """;
+
+        User user = null;
+        UserDAO userDAO = new UserDAO();
+        CompileRequest.Compile(login);
+        var requests = CompileRequest.requests;
+        if(requests.size() == 1){
+            if(requests.get(0).getType() == RequestXSON.LOGIN_USUARIO){
+                User u = (User) requests.get(0).getData();
+                user = userDAO.login(u.getUsername(), u.getPassword());
+            }
+        }
+        if(user == null) System.out.println("No hay");
+        else System.out.println("si hay");
+
+        /*try{
             String text = """
                     <?xson version="1.0" ?>\s
                     <!realizar_solicitudes>\s
@@ -135,9 +161,9 @@ public class Test {
             ErrorsLP.getErrors().forEach(System.out::println);
         }
         else{
-            *//*for(RequestXSON r: parser.requests){
+            for(RequestXSON r: parser.requests){
                 System.out.println(r.toString());
-            }*//*
+            }
         }*/
         
         /*File userHome = new File(System.getProperty("user.home"));

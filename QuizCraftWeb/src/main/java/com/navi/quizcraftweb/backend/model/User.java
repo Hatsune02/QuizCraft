@@ -22,7 +22,7 @@ public class User {
         this.password = password;
         this.name = name;
         this.institution = institution;
-        this.createDate = stringToDate(createDate);
+        this.createDate = ModelUtils.stringToDate(createDate);
 
     }
     public User(String username, String password, String name, String institution, String updateDate) {
@@ -30,7 +30,7 @@ public class User {
         this.password = password;
         this.name = name;
         this.institution = institution;
-        this.updateDate = stringToDate(updateDate);
+        this.updateDate = ModelUtils.stringToDate(updateDate);
     }
     public User(String username, String password, String name, String institution) {
         this.username = username;
@@ -41,38 +41,20 @@ public class User {
     }
 
     public void setCreateDateString(String d) {
-        createDate = stringToDate(d);
+        createDate = ModelUtils.stringToDate(d);
     }
     public void setUpdateDateString(String d) {
-        updateDate = stringToDate(d);
+        updateDate = ModelUtils.stringToDate(d);
     }
 
 
-    public Date stringToDate(String date) {
-        Date d;
-        SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            d = format.parse(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return d;
-    }
-
-    public String dateToString(Date date) {
-        if (date == null) {
-            return "null";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
-    }
 
     public void setNewUser(HashMap<Integer, Parameter> parameters, boolean hasDate){
         username = (String) parameters.get(Parameter.USER).getParameter();
         password = (String) parameters.get(Parameter.PASSWORD).getParameter();
         name = (String) parameters.get(Parameter.NAME).getParameter();
         institution = (String) parameters.get(Parameter.INSTITUTION).getParameter();
-        if(hasDate) createDate = stringToDate((String) parameters.get(Parameter.CREATE_DATE).getParameter());
+        if(hasDate) createDate = ModelUtils.stringToDate((String) parameters.get(Parameter.CREATE_DATE).getParameter());
         else createDate = new Date();
     }
 
@@ -97,8 +79,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", institution='" + institution + '\'' +
-                ", createDate=" + dateToString(createDate) +
-                ", updateDate=" + dateToString(updateDate) +
+                ", createDate=" + ModelUtils.dateToString(createDate) +
+                ", updateDate=" + ModelUtils.dateToString(updateDate) +
                 '}';
     }
     public String dbString(){
@@ -107,8 +89,8 @@ public class User {
                 "\t\"PASSWORD\":\""+password+"\",\n"+
                 "\t\"NOMBRE\":\""+name+"\",\n" +
                 "\t\"INSTITUCION\":\""+institution+"\",\n" +
-                "\t\"FECHA_CREACION\":\""+dateToString(createDate)+"\",\n" +
-                "\t\"FECHA_MODIFICACION\":\""+dateToString(updateDate)+"\"\n" +
+                "\t\"FECHA_CREACION\":\""+ModelUtils.dateToString(createDate)+"\",\n" +
+                "\t\"FECHA_MODIFICACION\":\""+ModelUtils.dateToString(updateDate)+"\"\n" +
                 "}"
                 ;
 

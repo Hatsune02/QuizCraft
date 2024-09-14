@@ -24,13 +24,37 @@ public class Trivia {
 
     }
 
+    public Trivia(String idTrivia, String name, int questionTime, String createUser , String topic, String date){
+        this.idTrivia = idTrivia;
+        this.name = name;
+        this.questionTime = questionTime;
+        this.createUser = createUser;
+        this.topic = topic;
+        this.createDate = ModelUtils.stringToDate(date);
+    }
+    public Trivia(String idTrivia, String name, int questionTime, String createUser , String topic){
+        this.idTrivia = idTrivia;
+        this.name = name;
+        this.questionTime = questionTime;
+        this.createUser = createUser;
+        this.topic = topic;
+        this.createDate = new Date();
+    }
+    public void setCreateDateString(String d) {
+        createDate = ModelUtils.stringToDate(d);
+    }
+    public String getCreateDateString() {
+        return ModelUtils.dateToString(createDate);
+    }
+
     public void setNewTrivia(HashMap<Integer, Parameter> parameters, boolean hasCreateUser, boolean hasDate){
         idTrivia = (String) parameters.get(Parameter.ID_TRIVIA).getParameter();
         name = (String) parameters.get(Parameter.NAME).getParameter();
         questionTime = (int) parameters.get(Parameter.QUESTION_TIME).getParameter();
         topic = (String) parameters.get(Parameter.TOPIC).getParameter();
         if(hasCreateUser) createUser = (String) parameters.get(Parameter.CREATE_USER).getParameter();
-        if(hasDate) createDate = (Date) parameters.get(Parameter.CREATE_DATE).getParameter();
+        if(hasDate) createDate = ModelUtils.stringToDate((String) parameters.get(Parameter.CREATE_DATE).getParameter());
+        else  createDate = new Date();
     }
 
     public void setUpdateTrivia(HashMap<Integer, Parameter> parameters, boolean hasQuestionTime, boolean hasName, boolean hasTopic){
@@ -48,7 +72,7 @@ public class Trivia {
                 ", questionTime=" + questionTime +
                 ", createUser='" + createUser + '\'' +
                 ", topic='" + topic + '\'' +
-                ", createDate=" + createDate +
+                ", createDate=" + ModelUtils.dateToString(createDate) +
                 ", amountOfComponents=" + amountOfComponents +
                 ", components=" + components +
                 '}';
@@ -57,12 +81,12 @@ public class Trivia {
     public String dbString(){
         return "{\n" +
                 "\t\"ID_TRIVIA\":\"" + idTrivia + "\",\n"+
-                "\t\"NOMBRE\":\"" + idTrivia + "\",\n"+
-                "\t\"TIEMPO_PREGUNTA\":\"" + idTrivia + "\",\n"+
-                "\t\"USUARIO_CREACION\":\"" + idTrivia + "\",\n"+
-                "\t\"TEMA\":\"" + idTrivia + "\",\n"+
-                "\t\"FECHA_CREACION\":\"" + idTrivia + "\",\n"+
-                "\t\"ESTRUCTURA\":(\n" + idTrivia +
+                "\t\"NOMBRE\":\"" + name + "\",\n"+
+                "\t\"TIEMPO_PREGUNTA\":\"" + questionTime + "\",\n"+
+                "\t\"USUARIO_CREACION\":\"" + createUser + "\",\n"+
+                "\t\"TEMA\":\"" + topic + "\",\n"+
+                "\t\"FECHA_CREACION\":\"" + ModelUtils.dateToString(createDate) + "\",\n"+
+                "\t\"ESTRUCTURA\":(\n" + components +
                 "\t)\n" +
                 "\t\"DATOS_RECOPILADOS\":(\n" +
                 "\t)\n" +

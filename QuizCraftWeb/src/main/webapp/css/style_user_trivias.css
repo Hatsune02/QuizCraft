@@ -1,0 +1,68 @@
+.container-trivias{
+    margin-top: 30px;
+    margin-left: 15px;
+}
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 250px;
+    margin: 20px;
+    display: inline-block;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-header {
+    background-color: #00adb5; /* Color Miku */
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+    padding: 1px 15px;
+    color: #86cecb; /* Color suave Miku */
+    background-color: #2e2e2e; /* Fondo oscuro para el cuerpo */
+    font-size: 16px;
+}
+
+/* Pie de la tarjeta */
+.card-footer {
+    background-color: #00adb5; /* Color Miku */
+    padding: 5px;
+    text-align: right;
+}
+.card-footer form{
+    display: inline;
+}
+
+.label_trivia{
+    margin: 20px;
+}
+.card h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.card button {
+    background-color: #005f63; /* Color más oscuro de Miku */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #007c7d;
+}

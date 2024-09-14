@@ -59,6 +59,24 @@ public class Utils {
             ex.printStackTrace();
         }
     }
+    public static void createAdmin(){
+        File userHome = new File(System.getProperty("user.home"));
+        String appFolderName = "QuizCraft";
+        File appFolder = new File(userHome, appFolderName);
 
+        if(!appFolder.exists()) {
+            appFolder.mkdirs();
+        }
 
+        User admin = new User("admin","1234","Admin","CUNOC");
+        String userText = "db.user(\n" + admin.dbString() + "\n)";
+        File file = new File(appFolder, "users.db");
+        if(!file.exists()) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(userText);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

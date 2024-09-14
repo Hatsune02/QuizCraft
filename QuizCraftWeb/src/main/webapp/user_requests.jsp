@@ -1,21 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="es">
 <head>
     <link type="text/css" rel="stylesheet" href="css/style_user_page.css"/>
+    <title>Solicitudes</title>
 </head>
 <body>
-<div class="navbar">
-    <div class="app-name">QuizCraft</div>
-    <div class="user-info">
-        <span class="username">USER</span>
-        <div class="logout-dropdown">
-            <button class="dropdown-btn">Cerrar sesión</button>
-            <div class="dropdown-content">
-                <a href="#">Cerrar sesión</a>
-            </div>
-        </div>
-    </div>
-</div>
+<%@ include file="navbar.jsp" %>
 
 <!-- Contenedor principal -->
 <div class="container">
@@ -36,14 +26,14 @@
         "PARAMETRO_2": ""
     }
     ]}
-<fin_solicitud_realizada!>' rows="15" cols="70" required></textarea><br><br>
+<fin_solicitud_realizada!>' rows="19" cols="110" required></textarea><br><br>
             <input type="submit" value="Enviar Solicitud">
         </form>
     </div>
 
     <div id="response" class="tab-content">
         <h2>Respuestas del Servidor</h2>
-        <textarea readonly rows="15" cols="70">Aquí aparecerán las respuestas del servidor...</textarea>
+        <textarea readonly rows="19" cols="110">Aquí aparecerán las respuestas del servidor...</textarea>
     </div>
 </div>
 
