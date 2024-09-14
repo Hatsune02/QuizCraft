@@ -598,7 +598,7 @@ update_user_request ::= open_request Q MODIFICAR_USUARIO Q GT data_user:d close_
                 User u = new User();
                 String us = "";
                 if(validateUpdateUser()){
-                    u.setUpdateUser(d, hasNewUser, hasNewPassword, hasInstitution);
+                    u.setUpdateUser(d, hasNewUser, hasNewPassword, hasInstitution, hasUpdateDate);
                     us = (String) d.get(Parameter.OLD_USER).getParameter();
                 }
                 else errorsUpdateUser(d);
@@ -899,6 +899,9 @@ institution ::= Q INSTITUCION Q COLON Q string_content:st Q
 
 create_date ::= Q FECHA_CREACION Q COLON Q string_content:st Q
         {:
+        String regex = "\\d{4}-\\d{2}-\\d{2}";
+        if(!st.matches(regex)) addError(st, stleft, stright, "Se esperaba una fecha correcta");
+
         Parameter<String> p = new Parameter<>(st, Parameter.CREATE_DATE, stleft, stright);
         RESULT = p;
         :}
@@ -926,6 +929,9 @@ new_password ::= Q NUEVO_PASSWORD Q COLON Q string_content:st Q
 
 update_date ::= Q FECHA_MODIFICACION Q COLON Q string_content:st Q
         {:
+        String regex = "\\d{4}-\\d{2}-\\d{2}";
+        if(!st.matches(regex)) addError(st, stleft, stright, "Se esperaba una fecha correcta");
+
         Parameter<String> p = new Parameter<>(st, Parameter.UPDATE_DATE, stleft, stright);
         RESULT = p;
         :};

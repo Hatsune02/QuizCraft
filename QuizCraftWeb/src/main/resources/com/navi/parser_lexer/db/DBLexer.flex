@@ -31,25 +31,25 @@ tiempo_pregunta = (\"TIEMPO_PREGUNTA\")
 usuario_creacion = (\"USUARIO_CREACION\")
 tema = (TEMA)
 
-id = (ID)
-trivia = (TRIVIA)
-clase = (CLASE)
-indice = (INDICE)
-texto_visible = (TEXTO_VISIBLE)
-opciones = (OPCIONES)
-filas = (FILAS)
-columnas = (COLUMNAS)
-respuesta = (RESPUESTA)
+id = (\"ID\")
+trivia = (\"TRIVIA\")
+clase = (\"CLASE\")
+indice = (\"INDICE\")
+texto_visible = (\"TEXTO_VISIBLE\")
+opciones = (\"OPCIONES\")
+filas = (\"FILAS\")
+columnas = (\"COLUMNAS\")
+respuesta = (\"RESPUESTA\")
 
-campo_texto = (CAMPO_TEXTO)
-area_texto = (AREA_TEXTO)
-checkbox = (CHECKBOX)
-radio = (RADIO)
-fichero = (FICHERO)
-combo = (COMBO)
+campo_texto = (\"CAMPO_TEXTO\")
+area_texto = (\"AREA_TEXTO\")
+checkbox = (\"CHECKBOX\")
+radio = (\"RADIO\")
+fichero = (\"FICHERO\")
+combo = (\"COMBO\")
 
-eliminar_componente = (ELIMINAR_COMPONENTE)
-modificar_componenente = (MODIFICAR_COMPONENTE)
+estructura = (\"ESTRUCTURA\")
+datos_recopilados = (\"DATOS_RECOPILADOS\")
 
 /* Structures */
 
@@ -146,6 +146,12 @@ Integer = [0-9]+
 {return symbol(FICHERO, yytext());}
 {combo}
 {return symbol(COMBO, yytext());}
+
+{estructura}
+{return symbol(ESTRUCTURA, yytext());}
+{datos_recopilados}
+{return symbol(DATOS_RECOPILADOS, yytext());}
+
 
 {LBrace}
 {return symbol(LBRACE, yytext());}

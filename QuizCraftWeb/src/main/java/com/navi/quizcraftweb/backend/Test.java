@@ -28,18 +28,13 @@ public class Test {
                 <fin_solicitud_realizada!>
                 """;
 
-        User user = null;
+        User user = new User("jojo","1233","JOJO","JOJO");
         UserDAO userDAO = new UserDAO();
-        CompileRequest.Compile(login);
-        var requests = CompileRequest.requests;
-        if(requests.size() == 1){
-            if(requests.get(0).getType() == RequestXSON.LOGIN_USUARIO){
-                User u = (User) requests.get(0).getData();
-                user = userDAO.login(u.getUsername(), u.getPassword());
-            }
-        }
-        if(user == null) System.out.println("No hay");
-        else System.out.println("si hay");
+
+        //userDAO.insertUser(user);
+        //userDAO.deleteUser("jhon");
+        //userDAO.updateUser(user, "juan");
+
 
         /*try{
             String text = """
@@ -165,23 +160,6 @@ public class Test {
                 System.out.println(r.toString());
             }
         }*/
-        
-        /*File userHome = new File(System.getProperty("user.home"));
-        String appFolderName = "QuizCraft";
-        File appFolder = new File(userHome, appFolderName);
 
-        if(!appFolder.exists()) {
-            appFolder.mkdirs();
-        }
-
-        User admin = new User("admin","1234","Admin","CUNOC");
-        String userText = "db.user(\n" + admin.dbString() +
-                "\n)";
-        File file = new File(appFolder, "users.db");
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(userText);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

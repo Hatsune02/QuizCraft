@@ -4,11 +4,19 @@ import java.util.*;
 import java.text.DecimalFormat;
 import com.navi.quizcraftweb.backend.parser_lexer.*;
 import com.navi.quizcraftweb.backend.model.*;
+import com.navi.quizcraftweb.backend.parser_lexer.db.objs.Position;
 
 parser code
 {:
-    public ArrayList<String> idUsers = new ArrayList<>();
+    public ArrayList<Position> positions = new ArrayList<>();
+    public Position finalPos = new Position();
+
+    public ArrayList<String> idsUser = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
+
+    public ArrayList<String> idsTrivia = new ArrayList<>();
+    public ArrayList<Trivia> trivias = new ArrayList<>();
+
     public DBParser(DBLexer lex) {
         super(lex);
     }
@@ -53,12 +61,14 @@ parser code
 
 terminal
         DB_USER, DB_TRIVIA,
-        ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA, ELIMINAR_TRIVIA, MODIFICAR_TRIVIA,
-        AGREGAR_COMPONENTE, PARAMETROS_COMPONENTE, ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
-        CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO, ELIMINAR_COMPONENTE, MODIFICAR_COMPONENTE, VERTICAL_BAR,
-        LPAREN, RPAREN, LBRACE, RBRACE;
+        ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA,
+        ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
+        CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO,
+        LPAREN, RPAREN, LBRACE, RBRACE,
+        ESTRUCTURA, DATOS_RECOPILADOS, TIEMPO_TOTAL, PUNTEO
+        ;
 
-terminal String STRING, IDENTIFIER;
+terminal String STRING;
 
 terminal String USUARIO, PASSWORD, INSTITUCION, NOMBRE, FECHA_CREACION, FECHA_MODIFICACION,
                 COLON, COMMA;
@@ -74,18 +84,49 @@ non terminal ArrayList<User> users;
 
 non terminal String username, password, name, institution, creation_date, update_date;
 
+non terminal Trivia trivia;
+
+non terminal ArrayList<Trivia> trivias;
+
+non terminal String id_triva, topic, creation_user;
+
+non terminal Integer question_time;
+
+non terminal Component component;
+
+non terminal ArrayList<Component> components, structure;
+
+non terminal String id_component, param_trivia, index, visible_text;
+
+non terminal ArrayList<String> options, answer;
+
+non terminal Integer clase, lines, columns, class_type;
+
+non terminal CollectedData data;
+
+non terminal ArrayList<CollectedData> collected_data, datas;
+
+non terminal String total_time, score;
+
+
 start with s;
 
 s ::=  db_user
-
     | db_trivia
-
     ;
 
-db_user ::= DB_USER LPAREN users:us RPAREN
+db_user ::= DB_USER LPAREN users:us RPAREN:f
         {:
+        finalPos = new Position(fleft, fright);
         users = us;
-        :};
+        :}
+        | DB_USER LPAREN RPAREN:f
+        {:
+        finalPos = new Position(fleft, fright);
+        users = new ArrayList<>();
+        :}
+        ;
+
 
 users ::= user:u
         {:
@@ -100,8 +141,10 @@ users ::= user:u
         :}
         ;
 
-user ::= LBRACE username:u password:p name:n institution:i creation_date:c update_date:e RBRACE
+user ::= LBRACE:b1 username:u password:p name:n institution:i creation_date:c update_date:e RBRACE:b2
         {:
+        positions.add(new Position(b1left, b1right, b2left, b2right));
+
         User usr = new User(u,p,n,i);
         if(c.equals("null")) usr.setCreateDate(null);
         else usr.setCreateDateString(c);
@@ -109,7 +152,7 @@ user ::= LBRACE username:u password:p name:n institution:i creation_date:c updat
         if(e.equals("null")) usr.setUpdateDate(null);
         else usr.setUpdateDateString(e);
         System.out.println(usr);
-        idUsers.add(u);
+        idsUser.add(u);
         RESULT = usr;
         :}
         ;
@@ -131,4 +174,127 @@ creation_date ::= FECHA_CREACION COLON STRING:s COMMA
 
 update_date ::= FECHA_MODIFICACION COLON STRING:s
                 {: RESULT = s.replaceAll("\"", ""); :};
+
+
+db_trivia ::= DB_TRIVIA LPAREN trivias:ts RPAREN
+            {:
+            finalPos = new Position(fleft, fright);
+            trivias = ts;
+            :}
+            | DB_TRIVIA LPAREN RPAREN
+            {:
+            finalPos = new Position(fleft, fright);
+            trivias = new ArrayList<>();
+            :}
+            ;
+
+trivias ::= trivia:t
+            {:
+            ArrayList<Trivia> trivias = new ArrayList<>();
+            trivias.add(t);
+            RESULT = trivias;
+            :}
+            | trivias:ts COMMA trivia:t
+            {:
+            ts.add(t);
+            RESULT = ts;
+            :}
+            ;
+
+trivia ::= LBRACE id_triva:i name:n topic:t question_time:q creation_user:c creation_date:cd structure:s datas:d RBRACE
+            {:
+            RESULT = new Trivia(i, n, t, q, c, cd, s, d);
+            :}
+            ;
+
+id_triva ::= ID_TRIVIA COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+topic ::= TEMA COLON STRING:s COMMA
+        {: RESULT = s.replaceAll("\"", ""); :};
+
+question_time ::= TIEMPO_PREGUNTA COLON DIGIT:d COMMA
+                {: RESULT = d; :};
+
+creation_user ::= USUARIO_CREACION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+structure ::= ESTRUCTURA COLON LPAREN components RPAREN COMMA
+            | ESTRUCTURA COLON LPAREN RPAREN;
+
+components ::= component
+            | components COMMA component
+            ;
+
+component ::= LBRACE id_component:i param_trivia:t clase:c index:in visible_text:v options:o lines:l columns:col answer:a RBRACE
+            {:
+
+            :}
+            ;
+
+id_component ::= ID COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+param_trivia ::= TRIVIA COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+clase ::= CLASE COLON class_type:c COMMA
+            {: RESULT = c; :};
+
+index ::= INDICE COLON DIGIT:d COMMA
+            {: RESULT = d; :};
+
+visible_text ::= TEXTO_VISIBLE COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+options ::= OPCIONES COLON STRING:s COMMA
+            {:
+            String op =  s.replaceAll("\"", "");
+            String[] parts = os.split("|");
+            RESULT = new ArrayList<String>(Arrays.asList(parts));
+            :};
+
+lines ::= FILAS COLON DIGIT:d COMMA
+        {: RESULT = d; :};
+
+columns ::= COLUMNAS COLON DIGIT:d COMMA
+        {: RESULT = d; :};
+
+answer ::= RESPUESTA COLON STRING:s
+            {:
+            String op =  s.replaceAll("\"", "");
+            String[] parts = os.split("|");
+            RESULT = new ArrayList<String>(Arrays.asList(parts));
+            :};
+
+class_type ::= CAMPO_TEXTO      {: RESULT = Component.CAMPO_TEXTO; :}
+                | AREA_TEXTO    {: RESULT = Component.AREA_TEXTO; :}
+                | CHECKBOX      {: RESULT = Component.CHECKBOX; :}
+                | RADIO         {: RESULT = Component.RADIO; :}
+                | FICHERO       {: RESULT = Component.FICHERO; :}
+                | COMBO         {: RESULT = Component.COMBO; :}
+                ;
+
+datas ::= DATOS_RECOPILADOS COLON LPAREN RPAREN
+        | DATOS_RECOPILADOS COLON LPAREN collected_data RPAREN
+        ;
+
+collected_data ::= data
+                {:
+
+                :}
+                | collected_data COMMA data
+                {:
+
+                :}
+                ;
+
+data ::= LBRACE username param_trivia total_time score RBRACE
+         ;
+
+total_time ::= TIEMPO_TOTAL COLON DIGIT:d COMMA
+                {: RESULT = d; :};
+
+score ::= PUNTEO COLON DIGIT:d
+        {: RESULT = d; :};
 

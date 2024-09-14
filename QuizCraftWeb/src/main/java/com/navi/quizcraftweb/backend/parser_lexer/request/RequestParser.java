@@ -1232,7 +1232,7 @@ class CUP$RequestParser$actions {
                 User u = new User();
                 String us = "";
                 if(validateUpdateUser()){
-                    u.setUpdateUser(d, hasNewUser, hasNewPassword, hasInstitution);
+                    u.setUpdateUser(d, hasNewUser, hasNewPassword, hasInstitution, hasUpdateDate);
                     us = (String) d.get(Parameter.OLD_USER).getParameter();
                 }
                 else errorsUpdateUser(d);

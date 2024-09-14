@@ -65,4 +65,19 @@ public class Component {
                 ", answer=" + answer +
                 '}';
     }
+
+    public String dbString(){
+        return "\t{\n" +
+                "\t\t\"ID\":\"" + id + "\",\n"+
+                "\t\t\"TRIVIA\":\"" + trivia + "\",\n"+
+                "\t\t\"CLASE\":\"" + clase + "\",\n"+
+                "\t\t\"INDICE\":" + index + ",\n"+
+                "\t\t\"TEXTO_VISIBLE\":\"" + visibleText + "\",\n"+
+                "\t\t\"OPCIONES\":\"" + options + "\",\n"+
+                "\t\t\"FILAS\":" + line + ",\n"+
+                "\t\t\"COLUMNAS\":" + columns + ",\n"+
+                "\t\t\"RESPUESTA\":\"" + answer + "\n"+
+                "\t}"
+                ;
+    }
 }

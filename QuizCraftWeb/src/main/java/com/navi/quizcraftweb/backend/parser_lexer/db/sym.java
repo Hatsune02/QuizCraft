@@ -9,50 +9,46 @@ package com.navi.quizcraftweb.backend.parser_lexer.db;
 public class sym {
   /* terminals */
   public static final int ID_TRIVIA = 4;
-  public static final int NOMBRE = 39;
-  public static final int ELIMINAR_TRIVIA = 8;
-  public static final int CHECKBOX = 23;
+  public static final int NOMBRE = 35;
+  public static final int CHECKBOX = 19;
   public static final int DB_USER = 2;
-  public static final int LPAREN = 30;
-  public static final int RESPUESTA = 20;
-  public static final int VERTICAL_BAR = 29;
-  public static final int INDICE = 15;
-  public static final int RPAREN = 31;
-  public static final int USUARIO = 36;
-  public static final int MODIFICAR_TRIVIA = 9;
-  public static final int COMMA = 43;
-  public static final int TRIVIA = 13;
-  public static final int DIGIT = 44;
-  public static final int ID = 12;
-  public static final int FICHERO = 25;
+  public static final int LPAREN = 23;
+  public static final int RESPUESTA = 16;
+  public static final int ESTRUCTURA = 27;
+  public static final int INDICE = 11;
+  public static final int RPAREN = 24;
+  public static final int USUARIO = 32;
+  public static final int COMMA = 39;
+  public static final int TRIVIA = 9;
+  public static final int DIGIT = 40;
+  public static final int TIEMPO_TOTAL = 29;
+  public static final int ID = 8;
+  public static final int FICHERO = 21;
   public static final int EOF = 0;
-  public static final int CLASE = 14;
+  public static final int CLASE = 10;
   public static final int error = 1;
-  public static final int FECHA_MODIFICACION = 41;
-  public static final int PASSWORD = 37;
-  public static final int FECHA_CREACION = 40;
+  public static final int DATOS_RECOPILADOS = 28;
+  public static final int FECHA_MODIFICACION = 37;
+  public static final int PASSWORD = 33;
+  public static final int FECHA_CREACION = 36;
   public static final int USUARIO_CREACION = 6;
   public static final int TEMA = 7;
-  public static final int COLON = 42;
+  public static final int COLON = 38;
   public static final int TIEMPO_PREGUNTA = 5;
-  public static final int LBRACE = 32;
-  public static final int RADIO = 24;
-  public static final int INSTITUCION = 38;
-  public static final int PARAMETROS_COMPONENTE = 11;
-  public static final int MODIFICAR_COMPONENTE = 28;
+  public static final int LBRACE = 25;
+  public static final int RADIO = 20;
+  public static final int INSTITUCION = 34;
   public static final int DB_TRIVIA = 3;
-  public static final int ELIMINAR_COMPONENTE = 27;
-  public static final int COMBO = 26;
-  public static final int RBRACE = 33;
-  public static final int AGREGAR_COMPONENTE = 10;
-  public static final int STRING = 34;
-  public static final int COLUMNAS = 19;
-  public static final int FILAS = 18;
-  public static final int AREA_TEXTO = 22;
-  public static final int CAMPO_TEXTO = 21;
-  public static final int TEXTO_VISIBLE = 16;
-  public static final int IDENTIFIER = 35;
-  public static final int OPCIONES = 17;
+  public static final int COMBO = 22;
+  public static final int RBRACE = 26;
+  public static final int STRING = 31;
+  public static final int COLUMNAS = 15;
+  public static final int FILAS = 14;
+  public static final int AREA_TEXTO = 18;
+  public static final int CAMPO_TEXTO = 17;
+  public static final int PUNTEO = 30;
+  public static final int TEXTO_VISIBLE = 12;
+  public static final int OPCIONES = 13;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -62,10 +58,6 @@ public class sym {
   "TIEMPO_PREGUNTA",
   "USUARIO_CREACION",
   "TEMA",
-  "ELIMINAR_TRIVIA",
-  "MODIFICAR_TRIVIA",
-  "AGREGAR_COMPONENTE",
-  "PARAMETROS_COMPONENTE",
   "ID",
   "TRIVIA",
   "CLASE",
@@ -81,15 +73,15 @@ public class sym {
   "RADIO",
   "FICHERO",
   "COMBO",
-  "ELIMINAR_COMPONENTE",
-  "MODIFICAR_COMPONENTE",
-  "VERTICAL_BAR",
   "LPAREN",
   "RPAREN",
   "LBRACE",
   "RBRACE",
+  "ESTRUCTURA",
+  "DATOS_RECOPILADOS",
+  "TIEMPO_TOTAL",
+  "PUNTEO",
   "STRING",
-  "IDENTIFIER",
   "USUARIO",
   "PASSWORD",
   "INSTITUCION",

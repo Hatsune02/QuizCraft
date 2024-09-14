@@ -10,21 +10,23 @@ import java.util.HashMap;
 public class Trivia {
     private String idTrivia;
     private String name;
+    private String topic;
     private int questionTime;
     private String createUser;
-    private String topic;
     private Date createDate;
     //private Date updateDate;
 
     private int amountOfComponents;
-    private HashMap<String, Component> components;
-    //private ArrayList<Component> components;
+    //private HashMap<String, Component> components;
+    private ArrayList<Component> components;
+    private ArrayList<CollectedData> collectedData;
+    private ArrayList<String> answers;
 
     public Trivia(){
 
     }
 
-    public Trivia(String idTrivia, String name, int questionTime, String createUser , String topic, String date){
+    public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser ,String date){
         this.idTrivia = idTrivia;
         this.name = name;
         this.questionTime = questionTime;
@@ -32,7 +34,17 @@ public class Trivia {
         this.topic = topic;
         this.createDate = ModelUtils.stringToDate(date);
     }
-    public Trivia(String idTrivia, String name, int questionTime, String createUser , String topic){
+    public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser ,String date, ArrayList<Component> components, ArrayList<CollectedData> collectedData){
+        this.idTrivia = idTrivia;
+        this.name = name;
+        this.questionTime = questionTime;
+        this.createUser = createUser;
+        this.topic = topic;
+        this.createDate = ModelUtils.stringToDate(date);
+        this.components = components;
+        this.collectedData = collectedData;
+    }
+    public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser){
         this.idTrivia = idTrivia;
         this.name = name;
         this.questionTime = questionTime;
@@ -88,7 +100,7 @@ public class Trivia {
                 "\t\"FECHA_CREACION\":\"" + ModelUtils.dateToString(createDate) + "\",\n"+
                 "\t\"ESTRUCTURA\":(\n" + components +
                 "\t)\n" +
-                "\t\"DATOS_RECOPILADOS\":(\n" +
+                "\t\"DATOS_RECOPILADOS\":(\n" + collectedData +
                 "\t)\n" +
                 "}"
                 ;

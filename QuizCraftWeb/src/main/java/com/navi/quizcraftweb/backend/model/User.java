@@ -48,7 +48,6 @@ public class User {
     }
 
 
-
     public void setNewUser(HashMap<Integer, Parameter> parameters, boolean hasDate){
         username = (String) parameters.get(Parameter.USER).getParameter();
         password = (String) parameters.get(Parameter.PASSWORD).getParameter();
@@ -58,11 +57,12 @@ public class User {
         else createDate = new Date();
     }
 
-    public void setUpdateUser(HashMap<Integer, Parameter> parameters, boolean hasNewUser, boolean hasNewPassword, boolean hasInstitution){
+    public void setUpdateUser(HashMap<Integer, Parameter> parameters, boolean hasNewUser, boolean hasNewPassword, boolean hasInstitution, boolean hasUpdateDate){
         if(hasNewUser) username = (String) parameters.get(Parameter.NEW_USER).getParameter();
         if(hasNewPassword) password = (String) parameters.get(Parameter.NEW_PASSWORD).getParameter();
         if(hasInstitution) institution = (String) parameters.get(Parameter.INSTITUTION).getParameter();
-        updateDate = new Date();
+        if(hasUpdateDate) updateDate = ModelUtils.stringToDate((String) parameters.get(Parameter.UPDATE_DATE).getParameter());
+        else updateDate = new Date();
 
     }
     public void setLogin(HashMap<Integer, Parameter> parameters){
