@@ -2,7 +2,7 @@ package com.navi.quizcraftweb.backend.controller;
 import java.io.*;
 
 import com.navi.quizcraftweb.backend.dao.UserDAO;
-import com.navi.quizcraftweb.backend.dao.Utils;
+import com.navi.quizcraftweb.backend.dao.Connection;
 import com.navi.quizcraftweb.backend.model.User;
 import com.navi.quizcraftweb.backend.parser_lexer.request.CompileRequest;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
@@ -16,7 +16,7 @@ public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String solicitude = request.getParameter("request");
-        Utils.createAdmin();
+        Connection.createAdmin();
         User user = null;
         CompileRequest.Compile(solicitude);
         var requests = CompileRequest.requests;

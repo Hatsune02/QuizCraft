@@ -29,7 +29,7 @@ fecha_modificacion = (\"FECHA_MODIFICACION\")
 id_trivia = (\"ID_TRIVIA\")
 tiempo_pregunta = (\"TIEMPO_PREGUNTA\")
 usuario_creacion = (\"USUARIO_CREACION\")
-tema = (TEMA)
+tema = (\"TEMA\")
 
 id = (\"ID\")
 trivia = (\"TRIVIA\")
@@ -47,9 +47,14 @@ checkbox = (\"CHECKBOX\")
 radio = (\"RADIO\")
 fichero = (\"FICHERO\")
 combo = (\"COMBO\")
+combo = (\"NONE\")
 
 estructura = (\"ESTRUCTURA\")
 datos_recopilados = (\"DATOS_RECOPILADOS\")
+
+tiempo_total = (\"TIEMPO_TOTAL\")
+punteo = (\"PUNTEO\")
+estado = (\"ESTADO\")
 
 /* Structures */
 
@@ -59,7 +64,6 @@ LParen = [\(]
 RParen = [\)]
 Colon = [:]
 Comma = [,]
-VerticalBar = [|]
 
 /* Strings */
 
@@ -68,8 +72,6 @@ StringContent = [^\"]+
 String = {Q}{StringContent}{Q}
 
 /* Others */
-
-Identifier = [-_$][-_$a-zA-Z0-9]+
 Integer = [0-9]+
 
 
@@ -151,6 +153,12 @@ Integer = [0-9]+
 {return symbol(ESTRUCTURA, yytext());}
 {datos_recopilados}
 {return symbol(DATOS_RECOPILADOS, yytext());}
+{tiempo_total}
+{return symbol(TIEMPO_TOTAL, yytext());}
+{estado}
+{return symbol(ESTADO, yytext());}
+{punteo}
+{return symbol(PUNTEO, yytext());}
 
 
 {LBrace}
@@ -165,14 +173,10 @@ Integer = [0-9]+
 {return symbol(COLON, yytext());}
 {Comma}
 {return symbol(COMMA, yytext());}
-{VerticalBar}
-{return symbol(VERTICAL_BAR, yytext());}
 
 
 {Integer}
 {return symbol(DIGIT, Integer.parseInt(yytext()));}
-{Identifier}
-{return symbol(IDENTIFIER, yytext());}
 {String}
 {return symbol(STRING, yytext());}
 

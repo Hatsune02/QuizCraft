@@ -8,7 +8,8 @@ import java.io.*;
 import java.nio.file.*;
 
 
-public class Utils {
+public class Connection {
+    private static boolean create = false;
     private static Reader reader;
     private static DBLexer lexer;
     private static DBParser parser;
@@ -51,7 +52,27 @@ public class Utils {
         }
         return parser;
     }
+    public static DBParser connectTriviaDB() {
+        File userHome = new File(System.getProperty("user.home"));
+        String appFolderName = "QuizCraft/trivias.db";
+        File appFolder = new File(userHome, appFolderName);
+
+        text = readFileAsString(appFolder);
+        if(text == null) text = "";
+
+        reader = new StringReader(text);
+        lexer = new DBLexer(reader);
+        parser = new DBParser(lexer);
+        try{
+            parser.parse();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return parser;
+    }
     public static void createAdmin(){
+        if(create) return;
         File userHome = new File(System.getProperty("user.home"));
         String appFolderName = "QuizCraft";
         File appFolder = new File(userHome, appFolderName);
@@ -70,6 +91,17 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+        String triviaText = "db.trivia(\n)";
+        File fileTrivia = new File(appFolder, "trivias.db");
+        if(!fileTrivia.exists()) {
+            try (FileWriter writer = new FileWriter(fileTrivia)) {
+                writer.write(triviaText);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        create = true;
+
     }
     public static int calculatePosition(String text, int line, int column) {
         int position = 0;
@@ -109,6 +141,38 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static void insertTextTrivia(int position, String textToInsert){
+        File userHome = new File(System.getProperty("user.home"));
+        String appFolderName = "QuizCraft/trivias.db";
+        File appFolder = new File(userHome, appFolderName);
+        try {
+            insertTextAtPosition(appFolder, position, textToInsert);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void updateTextTrivia(int startPosition, int endPosition, String textToInsert){
+        File userHome = new File(System.getProperty("user.home"));
+        String appFolderName = "QuizCraft/trivias.db";
+        File appFolder = new File(userHome, appFolderName);
+        try {
+            replaceTextBetweenPositions(appFolder, startPosition, endPosition, textToInsert);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void deleteTextTrivia(int startPosition, int endPosition){
+        File userHome = new File(System.getProperty("user.home"));
+        String appFolderName = "QuizCraft/trivias.db";
+        File appFolder = new File(userHome, appFolderName);
+        try {
+            removeTextBetweenPositions(appFolder, startPosition, endPosition);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static void insertTextAtPosition(File file, int position, String textToInsert) throws IOException {
         // Leer el contenido del archivo

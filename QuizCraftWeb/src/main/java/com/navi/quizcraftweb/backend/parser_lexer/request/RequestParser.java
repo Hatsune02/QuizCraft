@@ -746,13 +746,20 @@ public class RequestParser extends java_cup.runtime.lr_parser {
     }
 
     public boolean validateUpdateComponent(){
-        boolean requiredCondition = hasId && hasTrivia && hasIndex;
-        boolean possibleCondition = hasClass || hasVisibleText || hasAnswer;
+        boolean requiredCondition = hasId && hasTrivia;
+        boolean possibleCondition = hasIndex || hasClass || hasVisibleText || hasAnswer;
         boolean other = !(hasUser || hasPassword || hasName || hasInstitution || hasCreateDate ||
                 hasOldUser || hasNewUser || hasNewPassword  || hasUpdateDate ||
-                hasIdTrivia || hasQuestionTime || hasCreateUser || hasTopic ||
-                hasClass || hasVisibleText || hasOptions ||
-                hasLine || hasColumns);
+                hasIdTrivia || hasQuestionTime || hasCreateUser || hasTopic);
+        if(hasCheckbox || hasRadius || hasCombo){
+            if(requiredCondition) requiredCondition = hasOptions;
+        }
+        else if(hasAreaText){
+            if(requiredCondition) requiredCondition = hasLine && hasColumns;
+        }
+        else{
+            if(other) other = !(hasOptions || hasLine || hasColumns);
+        }
         return requiredCondition && possibleCondition && other;
     }
     public void errorsUpdateComponent(HashMap<Integer, Parameter> parameters){

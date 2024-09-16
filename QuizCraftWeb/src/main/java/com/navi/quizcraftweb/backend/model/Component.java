@@ -21,11 +21,20 @@ public class Component {
     private int clase;
     private int index;
     private String visibleText;
-    private ArrayList<String> options;
+    private ArrayList<String> options = new ArrayList<>();
     private int line, columns;
-    private ArrayList<String> answer;
+    private ArrayList<String> answer = new ArrayList<>();
 
     public Component() {}
+
+    public Component(String id, String trivia, int clase, int index, String visibleText, ArrayList<String> answer) {
+        this.id = id;
+        this.trivia = trivia;
+        this.clase = clase;
+        this.index = index;
+        this.visibleText = visibleText;
+        this.answer = answer;
+    }
 
     public void setNewComponent(HashMap<Integer, Parameter> parameters, boolean hasOptions, boolean  hasLine, boolean hasColumns){
         id = (String) parameters.get(Parameter.ID).getParameter();
@@ -70,14 +79,40 @@ public class Component {
         return "\t{\n" +
                 "\t\t\"ID\":\"" + id + "\",\n"+
                 "\t\t\"TRIVIA\":\"" + trivia + "\",\n"+
-                "\t\t\"CLASE\":\"" + clase + "\",\n"+
+                "\t\t\"CLASE\":\"" + dbClass() + "\",\n"+
                 "\t\t\"INDICE\":" + index + ",\n"+
                 "\t\t\"TEXTO_VISIBLE\":\"" + visibleText + "\",\n"+
-                "\t\t\"OPCIONES\":\"" + options + "\",\n"+
+                "\t\t\"OPCIONES\":\"" + dbOptions() + "\",\n"+
                 "\t\t\"FILAS\":" + line + ",\n"+
                 "\t\t\"COLUMNAS\":" + columns + ",\n"+
-                "\t\t\"RESPUESTA\":\"" + answer + "\n"+
+                "\t\t\"RESPUESTA\":\"" + dbAnswer() + "\"\n"+
                 "\t}"
                 ;
+    }
+    public String dbOptions(){
+        if(options.isEmpty()) return "null";
+
+        StringBuilder text = new StringBuilder();
+        for (String option : options) {
+            text.append(option).append("|");
+        }
+
+        return text.substring(0, text.length() - 1);
+    }
+    public String dbAnswer(){
+        if(answer.isEmpty()) return "null";
+
+        StringBuilder text = new StringBuilder();
+        for (String answer : answer) {
+            text.append(answer).append("|");
+        }
+
+        return text.substring(0, text.length() - 1);
+    }
+    public String dbClass(){
+        if(clase!=0){
+            return CLASS_CONTENT[clase-1];
+        }
+        return "NONE";
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDAO {
     public List<User> select(){
-        return Utils.connectUsersDB().users;
+        return Connection.connectUsersDB().users;
     }
     public User viewUser(String username){
         for(User user : select()){
@@ -26,7 +26,7 @@ public class UserDAO {
 
     public void insertUser(User user){
         boolean valid = true;
-        DBParser parser = Utils.connectUsersDB();
+        DBParser parser = Connection.connectUsersDB();
         ArrayList<String> usernames = parser.idsUser;
         Position finalPos = parser.finalPos;
 
@@ -37,11 +37,11 @@ public class UserDAO {
             }
         }
         if(valid){
-            int position = Utils.calculatePosition(Utils.text, finalPos.getLine1(), finalPos.getCol1());
+            int position = Connection.calculatePosition(Connection.text, finalPos.getLine1(), finalPos.getCol1());
             String insertText = user.dbString() + "\n";
             if(!usernames.isEmpty()) insertText = ",\n"+insertText;
 
-            Utils.insertTextUser(position, insertText);
+            Connection.insertTextUser(position, insertText);
         }
         else{
             System.out.println("Usuario ya existente");
@@ -50,7 +50,7 @@ public class UserDAO {
     public void updateUser(User user, String oldUsername){
         boolean valid = false;
         User actualUser = new User();
-        DBParser parser = Utils.connectUsersDB();
+        DBParser parser = Connection.connectUsersDB();
         ArrayList<Position> positions = parser.positions;
         int pos = 0;
 
@@ -65,15 +65,18 @@ public class UserDAO {
 
         if(valid){
             Position position = positions.get(pos);
-            int startPosition = Utils.calculatePosition(Utils.text, position.getLine1(), position.getCol1());
-            int endPosition = Utils.calculatePosition(Utils.text, position.getLine2(), position.getCol2());
+            int startPosition = Connection.calculatePosition(Connection.text, position.getLine1(), position.getCol1());
+            int endPosition = Connection.calculatePosition(Connection.text, position.getLine2(), position.getCol2());
 
             if(user.getUsername()!=null) actualUser.setUsername(user.getUsername());
             if(user.getPassword()!=null) actualUser.setPassword(user.getPassword());
             if(user.getInstitution()!=null) actualUser.setInstitution(user.getInstitution());
             actualUser.setUpdateDate(user.getUpdateDate());
 
-            Utils.updateTextUser(startPosition, endPosition+1, actualUser.dbString());
+            Connection.updateTextUser(startPosition, endPosition+1, actualUser.dbString());
+        }
+        else{
+            System.out.println("Usuario no encontrado");
         }
     }
     public void deleteUser(String username){
@@ -83,7 +86,7 @@ public class UserDAO {
         }
 
         boolean valid = false;
-        DBParser parser = Utils.connectUsersDB();
+        DBParser parser = Connection.connectUsersDB();
         ArrayList<String> usernames = parser.idsUser;
         ArrayList<Position> positions = parser.positions;
         int pos = 0;
@@ -97,17 +100,17 @@ public class UserDAO {
         }
         if(valid){
             Position position = positions.get(pos);
-            int startPosition = Utils.calculatePosition(Utils.text, position.getLine1(), position.getCol1());
-            int endPosition = Utils.calculatePosition(Utils.text, position.getLine2(), position.getCol2());
-            if(Utils.text.charAt(startPosition-2) == ','){
-                Utils.deleteTextUser(startPosition-3, endPosition+1);
+            int startPosition = Connection.calculatePosition(Connection.text, position.getLine1(), position.getCol1());
+            int endPosition = Connection.calculatePosition(Connection.text, position.getLine2(), position.getCol2());
+            if(Connection.text.charAt(startPosition-2) == ','){
+                Connection.deleteTextUser(startPosition-3, endPosition+1);
             }
             else {
-                if(Utils.text.charAt(endPosition+2) == ','){
-                    Utils.deleteTextUser(startPosition-1, endPosition+3);
+                if(Connection.text.charAt(endPosition+2) == ','){
+                    Connection.deleteTextUser(startPosition-1, endPosition+3);
                 }
                 else{
-                    Utils.deleteTextUser(startPosition-1, endPosition+1);
+                    Connection.deleteTextUser(startPosition-1, endPosition+1);
                 }
             }
         }

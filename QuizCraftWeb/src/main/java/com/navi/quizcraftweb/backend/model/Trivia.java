@@ -23,7 +23,8 @@ public class Trivia {
     private ArrayList<String> answers;
 
     public Trivia(){
-
+        components = new ArrayList<>();
+        collectedData = new ArrayList<>();
     }
 
     public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser ,String date){
@@ -33,6 +34,8 @@ public class Trivia {
         this.createUser = createUser;
         this.topic = topic;
         this.createDate = ModelUtils.stringToDate(date);
+        components = new ArrayList<>();
+        collectedData = new ArrayList<>();
     }
     public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser ,String date, ArrayList<Component> components, ArrayList<CollectedData> collectedData){
         this.idTrivia = idTrivia;
@@ -51,6 +54,8 @@ public class Trivia {
         this.createUser = createUser;
         this.topic = topic;
         this.createDate = new Date();
+        components = new ArrayList<>();
+        collectedData = new ArrayList<>();
     }
     public void setCreateDateString(String d) {
         createDate = ModelUtils.stringToDate(d);
@@ -76,6 +81,33 @@ public class Trivia {
         if(hasTopic) topic = (String) parameters.get(Parameter.TOPIC).getParameter();
     }
 
+    public void addComponent(Component component){
+        component.setIndex(components.size()+1);
+        components.add(component);
+    }
+
+    public void addData(CollectedData data){
+        collectedData.add(data);
+    }
+
+    public void resetIndexes(){
+        for (int i = 0; i < components.size(); i++) {
+            components.get(i).setIndex(i+1);
+        }
+    }
+
+    public void reOrderComponents(int actualPosition, int newPosition){
+        if(newPosition >= components.size()) newPosition = components.size()-1;
+        Component component = components.remove(actualPosition-1);
+        components.add(newPosition-1, component);
+        resetIndexes();
+    }
+
+    public void removeComponent(int index){
+        components.remove(index);
+        resetIndexes();
+    }
+
     @Override
     public String toString() {
         return "Trivia{" +
@@ -94,15 +126,38 @@ public class Trivia {
         return "{\n" +
                 "\t\"ID_TRIVIA\":\"" + idTrivia + "\",\n"+
                 "\t\"NOMBRE\":\"" + name + "\",\n"+
-                "\t\"TIEMPO_PREGUNTA\":\"" + questionTime + "\",\n"+
-                "\t\"USUARIO_CREACION\":\"" + createUser + "\",\n"+
                 "\t\"TEMA\":\"" + topic + "\",\n"+
+                "\t\"TIEMPO_PREGUNTA\":" + questionTime + ",\n"+
+                "\t\"USUARIO_CREACION\":\"" + createUser + "\",\n"+
                 "\t\"FECHA_CREACION\":\"" + ModelUtils.dateToString(createDate) + "\",\n"+
-                "\t\"ESTRUCTURA\":(\n" + components +
-                "\t)\n" +
-                "\t\"DATOS_RECOPILADOS\":(\n" + collectedData +
+                "\t\"ESTRUCTURA\":(\n" + dbComponents() +
+                "\t),\n" +
+                "\t\"DATOS_RECOPILADOS\":(\n" + dbCollectedData() +
                 "\t)\n" +
                 "}"
                 ;
+    }
+
+    public String dbComponents(){
+        if(components.isEmpty()){
+            return "";
+        }
+        StringBuilder text = new StringBuilder();
+
+        for (Component component : components) {
+            text.append(component.dbString()).append("\n\t,\n");
+        }
+        return text.substring(0, text.length() - 3);
+    }
+    public String dbCollectedData(){
+        if(collectedData.isEmpty()){
+            return "";
+        }
+        StringBuilder text = new StringBuilder();
+
+        for (CollectedData data : collectedData) {
+            text.append(data.dbString()).append("\n\t,\n");
+        }
+        return text.substring(0, text.length() - 3);
     }
 }
