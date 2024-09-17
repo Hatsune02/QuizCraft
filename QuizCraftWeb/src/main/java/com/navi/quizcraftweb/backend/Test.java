@@ -17,6 +17,8 @@ import com.navi.quizcraftweb.backend.parser_lexer.request.RequestParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Test {
@@ -35,7 +37,49 @@ public class Test {
                 <fin_solicitud_realizada!>
                 """;
 
-        Connection.createAdmin();
+        int port = 5000;
+
+        try {
+            // Crear un ServerSocket que escuche en el puerto especificado
+            ServerSocket serverSocket = new ServerSocket(port);
+            System.out.println("Servidor escuchando en el puerto " + port);
+
+            while (true) {
+                // Esperar a que un cliente se conecte
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Cliente conectado desde " + clientSocket.getInetAddress());
+
+                // Streams para leer y escribir datos al cliente
+                BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter output = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
+
+                // Leer el mensaje del cliente
+                String clientMessage = input.readLine();
+                System.out.println("Mensaje recibido del cliente: " + clientMessage);
+
+                // Enviar una respuesta al cliente
+                String serverResponse = "Mensaje recibido: " + clientMessage;
+                output.println(serverResponse);
+
+                // Cerrar conexiones
+                input.close();
+                output.close();
+                clientSocket.close();
+                File userHome = new File(System.getProperty("user.home"));
+                String appFolderName = "QuizCraft/trivias.db";
+                File appFolder = new File(userHome, appFolderName);
+
+
+
+                System.out.println(appFolder.getAbsolutePath());
+                System.out.println("Conexión cerrada con el cliente");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+       /* Connection.createAdmin();
         User user = new User("jojo","1233","JOJO","JOJO");
         UserDAO userDAO = new UserDAO();
         TriviaDAO triviaDAO = new TriviaDAO();
@@ -67,25 +111,25 @@ public class Test {
         trivia.addComponent(component2);
         trivia.addData(data);
 
-        /*triviaDAO.insertTrivia(trivia);
+        triviaDAO.insertTrivia(trivia);
         triviaDAO.insertTrivia(trivia2);
-        triviaDAO.insertTrivia(trivia3);*/
-        //triviaDAO.updateTrivia(trivia4);
-        //triviaDAO.deleteTrivia("trivia1");
+        triviaDAO.insertTrivia(trivia3);
+        triviaDAO.updateTrivia(trivia4);
+        triviaDAO.deleteTrivia("trivia1");
         Component component3 = new Component();
         component3.setId("comp1");
         component3.setTrivia("triv2");
-/*
+
         component3.setVisibleText("texto nuevo xd");
         component3.setClase(3);
         component3.setOptions(options);
-*/
+
         component3.setIndex(2);
 
         Component component4 = new Component("comp2", "triv2",3,0,"texto visible 2 xd", respuesta2);
         component4.setOptions(options);
 
-        triviaDAO.deleteComponent("triv2", "comp1");
+        triviaDAO.deleteComponent("triv2", "comp1");*/
         //userDAO.insertUser(user);
         //userDAO.deleteUser("jhon");
         //userDAO.updateUser(user, "juan");

@@ -435,6 +435,12 @@ public class RequestParser extends java_cup.runtime.lr_parser {
 
     public ArrayList<RequestXSON> requests;
 
+    public ArrayList<String> usernames = new ArrayList<>();
+    public ArrayList<String> oldUsers = new ArrayList<>();
+    public ArrayList<String> idsTrivia = new ArrayList<>();
+    public ArrayList<String> idsComponent = new ArrayList<>();
+    public ArrayList<String> idsTriviaC = new ArrayList<>();
+
     boolean hasUser, hasPassword , hasName, hasInstitution, hasCreateDate, hasOldUser,
     hasNewUser, hasNewPassword, hasUpdateDate, hasIdTrivia, hasQuestionTime, hasCreateUser,
     hasTopic, hasId, hasTrivia, hasClass, hasIndex, hasVisibleText, hasOptions, hasLine, hasColumns, hasAnswer;
@@ -1856,6 +1862,7 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        usernames.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.USER, stleft, stright);
         RESULT = p;
         
@@ -1916,6 +1923,9 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        String regex = "\\d{4}-\\d{2}-\\d{2}";
+        if(!st.matches(regex)) addError(st, stleft, stright, "Se esperaba una fecha correcta");
+
         Parameter<String> p = new Parameter<>(st, Parameter.CREATE_DATE, stleft, stright);
         RESULT = p;
         
@@ -1931,6 +1941,7 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        oldUsers.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.OLD_USER, stleft, stright);
         RESULT = p;
         
@@ -1976,6 +1987,9 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        String regex = "\\d{4}-\\d{2}-\\d{2}";
+        if(!st.matches(regex)) addError(st, stleft, stright, "Se esperaba una fecha correcta");
+
         Parameter<String> p = new Parameter<>(st, Parameter.UPDATE_DATE, stleft, stright);
         RESULT = p;
         
@@ -1991,6 +2005,7 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        idsTrivia.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.ID_TRIVIA, stleft, stright);
         RESULT = p;
         
@@ -2051,6 +2066,7 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        idsComponent.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.ID, stleft, stright);
         RESULT = p;
         
@@ -2066,6 +2082,7 @@ class CUP$RequestParser$actions {
 		int stright = ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).right;
 		String st = (String)((java_cup.runtime.Symbol) CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-1)).value;
 		
+        idsTriviaC.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.TRIVIA, stleft, stright);
         RESULT = p;
         

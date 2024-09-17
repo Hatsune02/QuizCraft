@@ -10,6 +10,12 @@ parser code
 {:
     public ArrayList<RequestXSON> requests;
 
+    public ArrayList<String> usernames = new ArrayList<>();
+    public ArrayList<String> oldUsers = new ArrayList<>();
+    public ArrayList<String> idsTrivia = new ArrayList<>();
+    public ArrayList<String> idsComponent = new ArrayList<>();
+    public ArrayList<String> idsTriviaC = new ArrayList<>();
+
     boolean hasUser, hasPassword , hasName, hasInstitution, hasCreateDate, hasOldUser,
     hasNewUser, hasNewPassword, hasUpdateDate, hasIdTrivia, hasQuestionTime, hasCreateUser,
     hasTopic, hasId, hasTrivia, hasClass, hasIndex, hasVisibleText, hasOptions, hasLine, hasColumns, hasAnswer;
@@ -502,7 +508,7 @@ non terminal Parameter<?> parameter;
 non terminal Parameter<String>  user, password, name, institution, create_date, old_user,
                                 new_user, new_password, update_date,
                                 id_trivia, create_user, topic,
-z                                id, trivia, visible_text;
+                                id, trivia, visible_text;
 
 non terminal Parameter<?> options, answer;
 
@@ -878,6 +884,7 @@ parameter ::= user:p
 
 user ::= Q USUARIO Q COLON Q string_content:st Q
         {:
+        usernames.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.USER, stleft, stright);
         RESULT = p;
         :}
@@ -916,6 +923,7 @@ create_date ::= Q FECHA_CREACION Q COLON Q string_content:st Q
 
 old_user ::= Q USUARIO_ANTIGUO Q COLON Q string_content:st Q
         {:
+        oldUsers.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.OLD_USER, stleft, stright);
         RESULT = p;
         :}
@@ -946,6 +954,7 @@ update_date ::= Q FECHA_MODIFICACION Q COLON Q string_content:st Q
 
 id_trivia ::= Q ID_TRIVIA Q COLON Q IDENTIFIER:st Q
         {:
+        idsTrivia.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.ID_TRIVIA, stleft, stright);
         RESULT = p;
         :};
@@ -971,12 +980,14 @@ topic ::= Q TEMA Q COLON Q string_content:st Q
 
 id ::= Q ID Q COLON Q IDENTIFIER:st Q
         {:
+        idsComponent.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.ID, stleft, stright);
         RESULT = p;
         :};
 
 trivia ::= Q TRIVIA Q COLON Q IDENTIFIER:st Q
         {:
+        idsTriviaC.add(st);
         Parameter<String> p = new Parameter<>(st, Parameter.TRIVIA, stleft, stright);
         RESULT = p;
         :};
