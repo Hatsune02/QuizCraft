@@ -20,6 +20,7 @@ public class RequestXSON <T> {
     private String id, id2;
     private T data;
     private int type;
+    private int line, col;
 
     public RequestXSON(String id, int type){
         this.id = id;
@@ -38,6 +39,10 @@ public class RequestXSON <T> {
         this.id = id;
         this.id2 = id2;
         this.type = type;
+    }
+    public void setLineCol(int line, int col){
+        this.line = line;
+        this.col = col;
     }
 
 
