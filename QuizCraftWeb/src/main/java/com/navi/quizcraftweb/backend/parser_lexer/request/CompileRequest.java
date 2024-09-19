@@ -232,4 +232,17 @@ public class CompileRequest {
             }
         }
     }
+    public static String viewTrivias(String text){
+        Compile(text);
+        var trivias = triviaDAO.select();
+        if(trivias.isEmpty()){
+            return "";
+        }
+        StringBuilder body = new StringBuilder();
+
+        for (Trivia t : trivias) {
+            body.append(t.dbString()).append("\n,\n");
+        }
+        return body.substring(0, body.length() - 2);
+    }
 }

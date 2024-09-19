@@ -1198,6 +1198,7 @@ class CUP$RequestParser$actions {
                 }
                 else errorsNewUser(d);
                 RequestXSON<User> r = new RequestXSON<>(u, RequestXSON.USUARIO_NUEVO);
+                r.setLineCol(dleft, dright);
                 RESULT = r;
                 
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("new_user_request",37, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1251,6 +1252,7 @@ class CUP$RequestParser$actions {
                 else errorsUpdateUser(d);
 
                 RequestXSON<User> r = new RequestXSON<>(us, u, RequestXSON.MODIFICAR_USUARIO);
+                r.setLineCol(dleft, dright);
                 RESULT = r;
                 
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("update_user_request",38, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1270,6 +1272,7 @@ class CUP$RequestParser$actions {
                 else errorsDeleteUser(d);
 
                 RequestXSON<User> r = new RequestXSON<>(u, RequestXSON.ELIMINAR_USUARIO);
+                r.setLineCol(dleft, dright);
                 RESULT = r;
                 
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("delete_user_request",39, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1291,6 +1294,7 @@ class CUP$RequestParser$actions {
                 else errorsLogin(d);
 
                 RequestXSON<User> r = new RequestXSON<>(u, RequestXSON.LOGIN_USUARIO);
+                r.setLineCol(dleft, dright);
                 RESULT = r;
                 
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("login_request",40, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1321,6 +1325,7 @@ class CUP$RequestParser$actions {
                     else errorsNewTrivia(d);
 
                     RequestXSON<Trivia> r = new RequestXSON<>(t, RequestXSON.NUEVA_TRIVIA);
+                    r.setLineCol(dleft, dright);
                     RESULT = r;
                     
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("new_trivia_request",41, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1354,6 +1359,7 @@ class CUP$RequestParser$actions {
                         else errorsUpdateTrivia(d);
 
                         RequestXSON<Trivia> r = new RequestXSON<>(t, RequestXSON.MODIFICAR_TRIVIA);
+                        r.setLineCol(dleft, dright);
                         RESULT = r;
                         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("update_trivia_request",42, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1374,6 +1380,7 @@ class CUP$RequestParser$actions {
                         else errorsDeleteTrivia(d);
 
                         RequestXSON<Trivia> r = new RequestXSON<>(s, RequestXSON.ELIMINAR_TRIVIA);
+                        r.setLineCol(dleft, dright);
                         RESULT = r;
                         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("delete_trivia_request",43, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1404,6 +1411,7 @@ class CUP$RequestParser$actions {
                         else errorsNewComponent(d);
 
                         RequestXSON<Component> r = new RequestXSON<>(c, RequestXSON.AGREGAR_COMPONENTE);
+                        r.setLineCol(dleft, dright);
                         RESULT = r;
                         
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("new_component_request",44, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1437,6 +1445,7 @@ class CUP$RequestParser$actions {
                             else errorsUpdateComponent(d);
 
                             RequestXSON<Component> r = new RequestXSON<>(c, RequestXSON.MODIFICAR_COMPONENTE);
+                            r.setLineCol(dleft, dright);
                             RESULT = r;
                             
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("update_component_request",45, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
@@ -1462,6 +1471,7 @@ class CUP$RequestParser$actions {
                             else errorsDeleteComponent(d);
 
                             RequestXSON<Component> r = new RequestXSON<>(s, s2, RequestXSON.ELIMINAR_COMPONENTE);
+                            r.setLineCol(dleft, dright);
                             RESULT = r;
                             
               CUP$RequestParser$result = parser.getSymbolFactory().newSymbol("delete_component_request",46, ((java_cup.runtime.Symbol)CUP$RequestParser$stack.elementAt(CUP$RequestParser$top-6)), ((java_cup.runtime.Symbol)CUP$RequestParser$stack.peek()), RESULT);
