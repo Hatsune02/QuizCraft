@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#39c5bb</color> <!-- Aqua -->
+    <color name="colorBackground">#1c1c1c</color> <!-- Fondo oscuro -->
+    <color name="colorTextLight">#e0e0e0</color> <!-- Texto claro -->
+    <color name="colorAccentDark">#276f6b</color> <!-- Aqua oscuro -->
+
+    <color name="background_app">#0e0b20</color>
+
 </resources>

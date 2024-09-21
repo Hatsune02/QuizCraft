@@ -1,82 +1,59 @@
-package com.navi.quizcraftapp
+package com.navi.quizcraftapp.views
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
-import com.navi.quizcraftapp.views.LoginActivity
-import com.navi.quizcraftapp.views.ProfileActivity
-import com.navi.quizcraftapp.views.TriviaActivity
+import com.navi.quizcraftapp.R
+import com.navi.quizcraftapp.socket.SocketManager
+import kotlinx.coroutines.*
+import java.io.IOException
 
-class MainActivity : AppCompatActivity() {
-
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
-        initUI()
-        checkUser()
-    }
-
-    private fun initUI(){
+        setContentView(R.layout.activity_login)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val submitButton = findViewById<Button>(R.id.submit_button)
+        val editText = findViewById<EditText>(R.id.request_field);
+        submitButton.setOnClickListener { loginRequest(editText) }
+
     }
 
-    private fun checkUser(){
-        val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
-        //val isLoggedIn = false;
-        if (isLoggedIn) {
-            navigateLogin()
-        } else {
-            // Si está logueado, continuar con la pantalla principal
-            setContentView(R.layout.activity_main)
+    private fun loginRequest(editText: EditText){
+        val loginData = editText.text.toString();
+        println(loginData)
+        // Iniciar la comunicación en un hilo separado para no bloquear la UI
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val socketManager = SocketManager(this@LoginActivity, 5000)
+                socketManager.connect()
+                socketManager.sendData(loginData)
 
-            val btnProfile = findViewById<CardView>(R.id.btnProfile)
-            val btnTrivias = findViewById<CardView>(R.id.btnTrivias)
-
-            btnProfile.setOnClickListener { navigateProfile() }
-            btnTrivias.setOnClickListener { navigateTrivias() }
-
-            // Obtener información del usuario
-            /*val username = sharedPreferences.getString("username", "Usuario desconocido")
-            val email = sharedPreferences.getString("email", "Sin correo electrónico")
-
-            */
-
+                val response = socketManager.receiveData()
+                println(response)
+                // Manejar la respuesta del servidor
+                socketManager.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
     }
-
-    private fun navigateLogin(){
-        val loginIntent = Intent(this, LoginActivity::class.java)
-        startActivity(loginIntent)
-        //finish ()
-    }
-
-    private fun navigateProfile(){
-        val intent = Intent(this, ProfileActivity::class.java)
-        startActivity(intent)
-    }
-    private fun navigateTrivias(){
-        val intent = Intent(this, TriviaActivity::class.java)
-        startActivity(intent)
-    }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_set_ip -> {
@@ -86,10 +63,9 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
     private fun showSetIpDialog() {
         val editText = EditText(this)
-        editText.hint = "Enter IP Address"
+        editText.hint = "IP Address"
 
         // Mostrar un AlertDialog para que el usuario ingrese la IP
         AlertDialog.Builder(this)

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">QuizCraftApp</string>
+    <string name="quizcraft">QuizCraft</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="data_login"><![CDATA[<?xson version=\"1.0\" ?>\n<!realizar_solicitud: \"LOGIN_USUARIO\" >\n    { \"DATOS_USUARIO\":[{\n        \"USUARIO\": \"\",\n        \"PASSWORD\": \"\"\n    }\n    ]}\n<fin_solicitud_realizada!>]]></string>
+    <string name="send">Enviar</string>
+    <string name="trivias">Trivias</string>
+    <string name="logout">Cerrar Sesion</string>
+    <string name="profile">Mi Perfil</string>
 </resources>

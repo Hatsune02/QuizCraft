@@ -5,6 +5,92 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="40dp"
+    android:background="@color/background_app"
     tools:context=".MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnProfile"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/btnTrivias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:tint="@color/white"
+                android:src="@drawable/ic_account"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnTrivias"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/btnProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_question_mark"
+                app:tint="@color/white"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trivias"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
