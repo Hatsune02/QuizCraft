@@ -1,0 +1,310 @@
+package com.navi.quizcraftapp.parser_lexer;
+
+import java_cup.runtime.*;
+import java.util.*;
+import com.navi.quizcraftapp.model.*;
+import java_cup.runtime.XMLElement;
+
+parser code
+{:
+
+    public User user = new User();
+    public ArrayList<Trivia> trivias = new ArrayList<>();
+
+
+    public Parser(Lexer lex) {
+        super(lex);
+    }
+    //Metodo al que se llama ante algun error sintactico
+    public void syntax_error(Symbol s){
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTÁCTICO RECUPERADO");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        //addError(lexeme, line, col, " ");
+    }
+
+    //Metodo que se llama en el momento en que ya no es posible una recuperacion
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        String lexeme = s.value.toString();
+        int line = s.left;
+        int col = s.right;
+        System.out.println("ERROR SINTACTICO NO RECUPERABLE");
+        System.out.println("\tLexeme: " + lexeme);
+        System.out.println("\trow: " + line);
+        System.out.println("\tcol: " + col);
+        //addError(lexeme, line, col, " ");
+    }
+
+    protected int error_sync_size() {
+            return 1;
+    }
+:}
+
+terminal
+        ENVIO_RESPUESTA, FIN_ENVIO_RESPUESTA,
+        ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA,
+        ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
+        CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO, NONE,
+        LPAREN, RPAREN, LBRACE, RBRACE, LT, GT, EX,
+        ESTRUCTURA, DATOS_RECOPILADOS, TIEMPO_TOTAL, PUNTEO, ESTADO
+        ;
+
+terminal String STRING;
+
+terminal String USUARIO, PASSWORD, INSTITUCION, NOMBRE, FECHA_CREACION, FECHA_MODIFICACION,
+                COLON, COMMA;
+
+terminal Integer DIGIT;
+
+
+non terminal s, db_user, db_trivia, open_response, close_response, login_response, trivias_response;
+
+non terminal User user;
+
+non terminal String username, password, name, institution, creation_date, update_date;
+
+non terminal Trivia trivia;
+
+non terminal ArrayList<Trivia> trivias;
+
+non terminal String id_triva, topic, creation_user;
+
+non terminal Integer question_time;
+
+non terminal Component component;
+
+non terminal ArrayList<Component> components, structure;
+
+non terminal String id_component, param_trivia, visible_text;
+
+non terminal ArrayList<String> options, answer;
+
+non terminal Integer clase, class_type, lines, columns;
+
+non terminal CollectedData data;
+
+non terminal ArrayList<CollectedData> collected_data, datas;
+
+non terminal Integer total_time, score, index;
+
+non terminal String done;
+
+
+start with s;
+
+s ::=  db_user
+    | db_trivia
+    ;
+
+db_user ::= login_response
+        ;
+
+open_response ::= LT EX ENVIO_RESPUESTA COLON;
+
+close_response ::= LT FIN_ENVIO_RESPUESTA EX GT;
+
+login_response ::= open_response USUARIO GT user:u close_response
+                {: user = u; :}
+                | open_response USUARIO GT close_response
+                {: user = null; :}
+                ;
+
+
+user ::= LBRACE username:u password:p name:n institution:i creation_date:c update_date:e RBRACE
+        {:
+        User usr = new User(u,p,n,i);
+        if(c.equals("null")) usr.setCreateDate(null);
+        else usr.setCreateDateString(c);
+
+        if(e.equals("null")) usr.setUpdateDate(null);
+        else usr.setUpdateDateString(e);
+        RESULT = usr;
+        :}
+        ;
+
+username ::= USUARIO COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+password ::= PASSWORD COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+name ::= NOMBRE COLON STRING:s COMMA
+        {: RESULT = s.replaceAll("\"", ""); :};
+
+institution ::= INSTITUCION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+creation_date ::= FECHA_CREACION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+update_date ::= FECHA_MODIFICACION COLON STRING:s
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+
+db_trivia ::= trivias_response
+            ;
+
+trivias_response ::= open_response TRIVIA GT trivias:ts close_response
+                    {:
+                    trivias = ts;
+                    :}
+                    | open_response TRIVIA GT close_response
+                    {:
+                    trivias = new ArrayList<>();
+                    :};
+
+trivias ::= trivia:t
+            {:
+            ArrayList<Trivia> trivias = new ArrayList<>();
+            trivias.add(t);
+            RESULT = trivias;
+            :}
+            | trivias:ts COMMA trivia:t
+            {:
+            ts.add(t);
+            RESULT = ts;
+            :}
+            ;
+
+trivia ::= LBRACE id_triva:i name:n topic:t question_time:q creation_user:c creation_date:cd structure:s datas:d RBRACE
+            {:
+            RESULT = new Trivia(i, n, t, q, c, cd, s, d);
+            :}
+            ;
+
+id_triva ::= ID_TRIVIA COLON STRING:s COMMA
+            {:
+            RESULT = s.replaceAll("\"", "");
+            :};
+
+topic ::= TEMA COLON STRING:s COMMA
+        {: RESULT = s.replaceAll("\"", ""); :};
+
+question_time ::= TIEMPO_PREGUNTA COLON DIGIT:d COMMA
+                {: RESULT = d; :};
+
+creation_user ::= USUARIO_CREACION COLON STRING:s COMMA
+                {: RESULT = s.replaceAll("\"", ""); :};
+
+structure ::= ESTRUCTURA COLON LPAREN:i components:c RPAREN:f COMMA
+            {:
+            RESULT = c;
+            :}
+            | ESTRUCTURA COLON LPAREN:i RPAREN:f COMMA
+            {:
+            RESULT = new ArrayList<Component>();
+            :}
+            ;
+
+components ::= component:c
+            {:
+            ArrayList<Component> components = new ArrayList<>();
+            components.add(c);
+            RESULT = components;
+            :}
+            | components:cs COMMA component:c
+            {:
+            cs.add(c);
+            RESULT = cs;
+            :}
+            ;
+
+component ::= LBRACE id_component:i param_trivia:t clase:c index:in visible_text:v options:o lines:l columns:col answer:a RBRACE
+            {:
+            Component component = new Component(i, t, c, in, v, a);
+            component.setOptions(o);
+
+            RESULT = component;
+            :}
+            ;
+
+id_component ::= ID COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+param_trivia ::= TRIVIA COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+clase ::= CLASE COLON class_type:c COMMA
+            {: RESULT = c; :};
+
+index ::= INDICE COLON DIGIT:d COMMA
+            {: RESULT = d; :};
+
+visible_text ::= TEXTO_VISIBLE COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+options ::= OPCIONES COLON STRING:s COMMA
+            {:
+            String op =  s.replaceAll("\"", "");
+            String[] parts = op.split("\\|");
+            RESULT = new ArrayList<String>(Arrays.asList(parts));
+            :};
+
+lines ::= FILAS COLON DIGIT:d COMMA
+        {: RESULT = d; :};
+
+columns ::= COLUMNAS COLON DIGIT:d COMMA
+        {: RESULT = d; :};
+
+answer ::= RESPUESTA COLON STRING:s
+            {:
+            String op =  s.replaceAll("\"", "");
+            String[] parts = op.split("\\|");
+            RESULT = new ArrayList<String>(Arrays.asList(parts));
+            :};
+
+class_type ::= CAMPO_TEXTO      {: RESULT = Component.CAMPO_TEXTO; :}
+                | AREA_TEXTO    {: RESULT = Component.AREA_TEXTO; :}
+                | CHECKBOX      {: RESULT = Component.CHECKBOX; :}
+                | RADIO         {: RESULT = Component.RADIO; :}
+                | FICHERO       {: RESULT = Component.FICHERO; :}
+                | COMBO         {: RESULT = Component.COMBO; :}
+                | NONE          {: RESULT = 0; :}
+                ;
+
+datas ::= DATOS_RECOPILADOS COLON LPAREN RPAREN
+        {:
+        RESULT = new ArrayList<CollectedData>();
+        :}
+        | DATOS_RECOPILADOS COLON LPAREN collected_data:cd RPAREN
+        {:
+        RESULT = cd;
+        :}
+        ;
+
+collected_data ::= data:d
+                {:
+                ArrayList<CollectedData> collectedDataList = new ArrayList<>();
+                collectedDataList.add(d);
+                RESULT = collectedDataList;
+                :}
+                | collected_data:cd COMMA data:d
+                {:
+                cd.add(d);
+                RESULT = cd;
+                :}
+                ;
+
+data ::= LBRACE username:u param_trivia:t total_time:ti done:d score:s RBRACE
+        {:
+        boolean b = false;
+        if(d.equals("Completado")) b = true;
+        if(d.equals("Fallo")) b = false;
+        RESULT = new CollectedData(u, t, ti, s, b);
+        :}
+         ;
+
+total_time ::= TIEMPO_TOTAL COLON DIGIT:d COMMA
+                {: RESULT = d; :};
+
+
+done ::= ESTADO COLON STRING:s COMMA
+            {: RESULT = s.replaceAll("\"", ""); :};
+
+
+score ::= PUNTEO COLON DIGIT:d
+        {: RESULT = d; :};

@@ -10,6 +10,12 @@ import com.navi.quizcraftapp.model.CollectedData
 import com.navi.quizcraftapp.model.Component
 import com.navi.quizcraftapp.model.TestTrivias
 import com.navi.quizcraftapp.model.Trivia
+import com.navi.quizcraftapp.parser_lexer.Compile
+import com.navi.quizcraftapp.socket.SocketManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 
 class TriviaActivity : AppCompatActivity() {
@@ -26,6 +32,7 @@ class TriviaActivity : AppCompatActivity() {
 
         TestTrivias.initializateTrivias()
         triviaList = TestTrivias.trivias
+        //triviaList = obtainTrivias()
 
         triviaAdapter = TriviaAdapter(triviaList) { trivia ->
             // Manejar el clic en la trivia
@@ -35,5 +42,25 @@ class TriviaActivity : AppCompatActivity() {
         }
 
         recyclerView.adapter = triviaAdapter
+    }
+    private fun obtainTrivias(): ArrayList<Trivia> {
+        val text = "";
+        var trivias = ArrayList<Trivia>()
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val socketManager = SocketManager(this@TriviaActivity, 5000)
+                socketManager.connect()
+                socketManager.sendData(text)
+
+                val response = socketManager.receiveData()
+                println(response)
+                trivias = Compile.getTrivias(response)
+
+                socketManager.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return trivias
     }
 }

@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.navi.quizcraftapp.R
+import com.navi.quizcraftapp.model.User
+import com.navi.quizcraftapp.parser_lexer.Compile
 import com.navi.quizcraftapp.socket.SocketManager
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -19,6 +21,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        initUI()
+    }
+
+    private fun initUI(){
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -28,7 +35,6 @@ class LoginActivity : AppCompatActivity() {
         submitButton.setOnClickListener { loginRequest(editText) }
 
     }
-
     private fun loginRequest(editText: EditText){
         val loginData = editText.text.toString();
         println(loginData)
@@ -41,7 +47,13 @@ class LoginActivity : AppCompatActivity() {
 
                 val response = socketManager.receiveData()
                 println(response)
-                // Manejar la respuesta del servidor
+                val user = Compile.getUser(response)
+                if(user != null){
+
+                }
+                else{
+
+                }
                 socketManager.close()
             } catch (e: IOException) {
                 e.printStackTrace()

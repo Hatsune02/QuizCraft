@@ -24,6 +24,7 @@ class TriviaPlayActivity : AppCompatActivity() {
     private lateinit var trivia: Trivia
     private var currentIndex = 0
     private var userAnswers: HashMap<Int, List<String>> = HashMap()
+    private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +71,14 @@ class TriviaPlayActivity : AppCompatActivity() {
     }
 
     private fun showComponentText(component: Component, container: LinearLayout){
+        startTime = System.currentTimeMillis()
         val view = layoutInflater.inflate(R.layout.component_text, container, false)
         val visibleText = view.findViewById<TextView>(R.id.tvVisibleText)
         visibleText.text = component.visibleText
         container.addView(view)
     }
     private fun showComponentTextArea(component: Component, container: LinearLayout){
+        startTime = System.currentTimeMillis()
         val view = layoutInflater.inflate(R.layout.component_text_area, container, false)
         val visibleText = view.findViewById<TextView>(R.id.tvVisibleText)
         visibleText.text = component.visibleText
@@ -88,6 +91,7 @@ class TriviaPlayActivity : AppCompatActivity() {
         container.addView(view)
     }
     private fun showComponentCheckBox(component: Component, container: LinearLayout){
+        startTime = System.currentTimeMillis()
         val view = layoutInflater.inflate(R.layout.component_checkbox, container, false)
         val visibleText = view.findViewById<TextView>(R.id.tvVisibleText)
         visibleText.text = component.visibleText
@@ -102,6 +106,7 @@ class TriviaPlayActivity : AppCompatActivity() {
         container.addView(view)
     }
     private fun showComponentRadio(component: Component, container: LinearLayout){
+        startTime = System.currentTimeMillis()
         val view = layoutInflater.inflate(R.layout.component_radio, container, false)
         val visibleText = view.findViewById<TextView>(R.id.tvVisibleText)
         visibleText.text = component.visibleText
@@ -117,6 +122,7 @@ class TriviaPlayActivity : AppCompatActivity() {
         container.addView(view)
     }
     private fun showComponentCombo(component: Component, container: LinearLayout){
+        startTime = System.currentTimeMillis()
         val view = layoutInflater.inflate(R.layout.component_combo, container, false)
         val visibleText = view.findViewById<TextView>(R.id.tvVisibleText)
         visibleText.text = component.visibleText
@@ -143,9 +149,16 @@ class TriviaPlayActivity : AppCompatActivity() {
     }
 
     private fun saveTextAnswer(){
+        val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val editText = findViewById<EditText>(R.id.etAnswer)
         val userInput = editText.text.toString().trim()
-        userAnswers[currentIndex] = listOf(userInput)
+        if(elapsedTime <= trivia.questionTime){
+            userAnswers[currentIndex] = listOf(userInput)
+        }
+        else{
+            userAnswers[currentIndex] = listOf()
+        }
+
     }
     private fun saveTextAreaAnswer(){
         val editText = findViewById<EditText>(R.id.etAnswerArea)

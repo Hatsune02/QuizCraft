@@ -34,6 +34,14 @@ public class Component implements Serializable {
         this.columns = columns;
         this.answer = answer;
     }
+    public Component(String id, String trivia, int clase, int index, String visibleText, ArrayList<String> answer) {
+        this.id = id;
+        this.trivia = trivia;
+        this.clase = clase;
+        this.index = index;
+        this.visibleText = visibleText;
+        this.answer = answer;
+    }
 
     public String getId() {
         return id;
