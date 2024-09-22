@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUser(){
-        val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
-        //val isLoggedIn = false;
         if (isLoggedIn) {
             navigateLogin()
         } else {
@@ -42,10 +41,11 @@ class MainActivity : AppCompatActivity() {
 
             val btnProfile = findViewById<CardView>(R.id.btnProfile)
             val btnTrivias = findViewById<CardView>(R.id.btnTrivias)
+            val btnLogout = findViewById<Button>(R.id.btnLogout)
 
             btnProfile.setOnClickListener { navigateProfile() }
             btnTrivias.setOnClickListener { navigateTrivias() }
-
+            btnLogout.setOnClickListener { logout() }
             // Obtener información del usuario
             /*val username = sharedPreferences.getString("username", "Usuario desconocido")
             val email = sharedPreferences.getString("email", "Sin correo electrónico")
@@ -54,11 +54,18 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+    private fun logout(){
+        val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
 
+        navigateLogin()
+    }
     private fun navigateLogin(){
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)
-        //finish ()
+        finish ()
     }
 
     private fun navigateProfile(){

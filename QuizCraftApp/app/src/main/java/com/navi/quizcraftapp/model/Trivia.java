@@ -1,9 +1,10 @@
 package com.navi.quizcraftapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Trivia {
+public class Trivia implements Serializable {
     private String idTrivia;
     private String name;
     private String topic;
@@ -11,11 +12,8 @@ public class Trivia {
     private String createUser;
     private Date createDate;
     //private Date updateDate;
-
-    private int amountOfComponents;
     private ArrayList<Component> components;
     private ArrayList<CollectedData> collectedData;
-    private ArrayList<String> answers;
 
     public Trivia(String idTrivia, String name, String topic, int questionTime, String createUser ,String date){
         this.idTrivia = idTrivia;
@@ -63,11 +61,52 @@ public class Trivia {
         return createDate;
     }
 
-    public int getAmountOfComponents() {
-        return amountOfComponents;
+    public ArrayList<Component> getComponents() {
+        return components;
     }
 
-    public ArrayList<String> getAnswers() {
-        return answers;
+    public ArrayList<CollectedData> getCollectedData() {
+        return collectedData;
+    }
+
+
+    public String getDate(){
+        return ModelUtils.dateToString(createDate);
+    }
+
+    public void setIdTrivia(String idTrivia) {
+        this.idTrivia = idTrivia;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void setQuestionTime(int questionTime) {
+        this.questionTime = questionTime;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setComponents(ArrayList<Component> components) {
+        this.components = components;
+    }
+
+    public void addComponent(Component component){
+        this.components.add(component);
+    }
+
+    public void setCollectedData(ArrayList<CollectedData> collectedData) {
+        this.collectedData = collectedData;
     }
 }

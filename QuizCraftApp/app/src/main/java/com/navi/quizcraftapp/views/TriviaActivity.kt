@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.navi.quizcraftapp.R
 import com.navi.quizcraftapp.model.CollectedData
 import com.navi.quizcraftapp.model.Component
+import com.navi.quizcraftapp.model.TestTrivias
 import com.navi.quizcraftapp.model.Trivia
 
 
@@ -23,16 +24,13 @@ class TriviaActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val trivia = Trivia("trivia1", "nombre Trivia", "Topic1", 10, "yo", "2004-08-08")
-        val trivia2 = Trivia("trivia2", "nombre Trivia2", "Topic2", 100, "yo", "2004-08-08")
-
-        triviaList.add(trivia)
-        triviaList.add(trivia2)
+        TestTrivias.initializateTrivias()
+        triviaList = TestTrivias.trivias
 
         triviaAdapter = TriviaAdapter(triviaList) { trivia ->
             // Manejar el clic en la trivia
             val intent = Intent(this, TriviaDetailActivity::class.java)
-            intent.putExtra("triviaId", trivia.idTrivia) // O pasa el objeto completo si prefieres
+            intent.putExtra("triviaObj", trivia) // O pasa el objeto completo si prefieres
             startActivity(intent)
         }
 
