@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser(){
         val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
-        if (isLoggedIn) {
+        if (!isLoggedIn) {
             navigateLogin()
         } else {
             // Si está logueado, continuar con la pantalla principal
@@ -45,12 +45,6 @@ class MainActivity : AppCompatActivity() {
             btnProfile.setOnClickListener { navigateProfile() }
             btnTrivias.setOnClickListener { navigateTrivias() }
             btnLogout.setOnClickListener { logout() }
-            // Obtener información del usuario
-            /*val username = sharedPreferences.getString("username", "Usuario desconocido")
-            val email = sharedPreferences.getString("email", "Sin correo electrónico")
-
-            */
-
         }
     }
     private fun logout(){

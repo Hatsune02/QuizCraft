@@ -1,15 +1,19 @@
 package com.navi.quizcraftapp.views
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.navi.quizcraftapp.MainActivity
 import com.navi.quizcraftapp.R
 import com.navi.quizcraftapp.model.User
 import com.navi.quizcraftapp.parser_lexer.Compile
@@ -48,11 +52,26 @@ class LoginActivity : AppCompatActivity() {
                 val response = socketManager.receiveData()
                 println(response)
                 val user = Compile.getUser(response)
+                println(user)
                 if(user != null){
-
+                    val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
+                    with(sharedPreferences.edit()) {
+                        putBoolean("isLoggedIn", true)
+                        putString("username", user.username)
+                        putString("password", user.password)
+                        putString("name", user.name)
+                        putString("institution", user.institution)
+                        putString("creationDate", user.createDate)
+                        putString("updateDate", user.updateDate)
+                        apply()
+                    }
+                    navigateMain()
                 }
                 else{
-
+                    withContext(Dispatchers.Main) {
+                        val textError = findViewById<TextView>(R.id.textError)
+                        textError.text = "Credenciales o error sintáctico detectado"
+                    }
                 }
                 socketManager.close()
             } catch (e: IOException) {
@@ -61,6 +80,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true

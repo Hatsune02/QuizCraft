@@ -64,10 +64,10 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\006\013\014\047\013\001\002\000\004\002\000\001\002" +
     "\000\004\037\231\001\002\000\004\037\015\001\002\000" +
     "\006\034\016\036\020\001\002\000\004\006\032\001\002" +
-    "\000\004\002\ufff0\001\002\000\004\005\026\001\002\000" +
+    "\000\004\002\ufff0\001\002\000\004\040\026\001\002\000" +
     "\006\036\uffef\056\uffef\001\002\000\006\036\020\056\023" +
     "\001\002\000\004\034\016\001\002\000\004\002\ufff1\001" +
-    "\002\000\006\036\uffee\056\uffee\001\002\000\004\040\027" +
+    "\002\000\006\036\uffee\056\uffee\001\002\000\004\005\027" +
     "\001\002\000\004\037\030\001\002\000\004\002\ufffc\001" +
     "\002\000\004\052\037\001\002\000\004\055\033\001\002" +
     "\000\004\046\034\001\002\000\004\056\035\001\002\000" +
@@ -254,7 +254,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-    public User user = new User();
+    public User user = null;
     public ArrayList<Trivia> trivias = new ArrayList<>();
 
 
@@ -365,7 +365,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // close_response ::= LT FIN_ENVIO_RESPUESTA EX GT 
+          case 5: // close_response ::= LT EX FIN_ENVIO_RESPUESTA GT 
             {
               Object RESULT =null;
 

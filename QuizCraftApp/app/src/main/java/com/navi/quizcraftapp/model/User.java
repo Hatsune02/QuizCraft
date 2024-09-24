@@ -49,12 +49,12 @@ public class User {
         return institution;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getCreateDate() {
+        return ModelUtils.dateToString(createDate);
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public String getUpdateDate() {
+        return ModelUtils.dateToString(updateDate);
     }
 
     public void setUsername(String username) {

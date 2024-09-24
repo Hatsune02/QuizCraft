@@ -23,7 +23,7 @@ import com.navi.quizcraftapp.model.Trivia
 class TriviaPlayActivity : AppCompatActivity() {
     private lateinit var trivia: Trivia
     private var currentIndex = 0
-    private var userAnswers: HashMap<Int, List<String>> = HashMap()
+    private var userAnswers: HashMap<Int, Pair<List<String>, Long>> = HashMap()
     private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,20 +152,17 @@ class TriviaPlayActivity : AppCompatActivity() {
         val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val editText = findViewById<EditText>(R.id.etAnswer)
         val userInput = editText.text.toString().trim()
-        if(elapsedTime <= trivia.questionTime){
-            userAnswers[currentIndex] = listOf(userInput)
-        }
-        else{
-            userAnswers[currentIndex] = listOf()
-        }
+        userAnswers[currentIndex] = Pair(listOf(userInput), elapsedTime)
 
     }
     private fun saveTextAreaAnswer(){
+        val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val editText = findViewById<EditText>(R.id.etAnswerArea)
         val userInput = editText.text.toString().trim()
-        userAnswers[currentIndex] = listOf(userInput)
+        userAnswers[currentIndex] = Pair(listOf(userInput), elapsedTime)
     }
     private fun saveCheckBoxAnswers(){
+        val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val selectedOptions = mutableListOf<String>()
         val checkboxContainer = findViewById<LinearLayout>(R.id.checkboxContainer)
 
@@ -178,9 +175,10 @@ class TriviaPlayActivity : AppCompatActivity() {
         }
 
         // Guardar las respuestas seleccionadas en el HashMap
-        userAnswers[currentIndex] = selectedOptions
+        userAnswers[currentIndex] = Pair(selectedOptions, elapsedTime)
     }
     private fun saveRadioButtonAnswer() {
+        val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroupComponent)
         val selectedRadioButtonId = radioGroup.checkedRadioButtonId
 
@@ -189,34 +187,31 @@ class TriviaPlayActivity : AppCompatActivity() {
             val selectedOption = selectedRadioButton.text.toString()
 
             // Guardar la respuesta en el HashMap
-            userAnswers[currentIndex] = listOf(selectedOption)
+            userAnswers[currentIndex] = Pair(listOf(selectedOption), elapsedTime)
         }
-        else userAnswers[currentIndex] = listOf()
+        else userAnswers[currentIndex] = Pair(listOf(), elapsedTime)
     }
     private fun saveComboAnswer() {
+        val elapsedTime = (System.currentTimeMillis() - startTime) / 1000
         val spinnerComponent = findViewById<Spinner>(R.id.spinnerComponent)
         val selectedOption = spinnerComponent.selectedItem.toString()
 
-        userAnswers[currentIndex] = listOf(selectedOption)
+        userAnswers[currentIndex] = Pair(listOf(selectedOption), elapsedTime)
     }
 
 
     private fun showResult() {
         val score = calculateScore()
-        // Mostrar una alerta con el puntaje
-        AlertDialog.Builder(this)
-        .setTitle("Resultado Final")
-        .setMessage("Has obtenido $score/${trivia.components.size} puntos.")
-        .setPositiveButton("OK") { _, _ ->
-            // Volver a la pantalla anterior o hacer algo más
-            finish()
-        }
-        .show()
+        val intent = Intent(this, TriviaResultsActivity::class.java)
+        intent.putExtra("userAnswers", userAnswers)
+        intent.putExtra("trivia", trivia)
+        startActivity(intent)
+        finish()
     }
     private fun calculateScore(): Int {
         var score = 0
 
-        // Iterar sobre todos los componentes
+        /*// Iterar sobre todos los componentes
         for ((index, component) in trivia.components.withIndex()) {
             val correctAnswers = component.answer.map { normalizeText(it) } // Respuestas correctas normalizadas
             val userSelected = userAnswers[index]?.map { normalizeText(it) } ?: listOf() // Respuestas del usuario normalizadas
@@ -225,7 +220,7 @@ class TriviaPlayActivity : AppCompatActivity() {
             if (correctAnswers.size == userSelected.size && correctAnswers.containsAll(userSelected)) {
                 score++  // Incrementar el puntaje si es correcto
             }
-        }
+        }*/
         return score
     }
     private fun normalizeText(text: String): String {

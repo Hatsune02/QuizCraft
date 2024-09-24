@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import java.io.*;
 import java.net.Socket;
 
-public class SocketManager {
+public class SocketManager{
     private String serverIp;
     private int serverPort;
     private Socket socket;
@@ -15,8 +15,9 @@ public class SocketManager {
 
     public SocketManager(Context context, int port) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        serverIp = sharedPreferences.getString("ip_address", "192.168.0.106"); // IP por defecto
+        serverIp = sharedPreferences.getString("ip_address", "192.168.0.113"); // IP por defecto
         this.serverPort = port;
+        System.out.println(serverIp);
     }
 
     // Conexión al servidor
@@ -35,7 +36,16 @@ public class SocketManager {
 
     // Método para recibir datos del servidor
     public String receiveData() throws IOException {
-        return reader.readLine();
+        String line;
+        StringBuilder request = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            if (line.contains("EOF")) {
+                request.append(line.replace("EOF", ""));  // Eliminar "EOF"
+                break;
+            }
+            request.append(line).append("\n");
+        }
+        return request.toString();
     }
 
     // Cerrar la conexión

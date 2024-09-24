@@ -105,7 +105,7 @@ db_user ::= login_response
 
 open_response ::= LT EX ENVIO_RESPUESTA COLON;
 
-close_response ::= LT FIN_ENVIO_RESPUESTA EX GT;
+close_response ::= LT EX FIN_ENVIO_RESPUESTA GT;
 
 login_response ::= open_response USUARIO GT user:u close_response
                 {: user = u; :}
