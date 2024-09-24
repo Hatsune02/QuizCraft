@@ -1,19 +1,13 @@
 package com.navi.quizcraftweb.backend.parser_lexer.request;
 
-import com.navi.quizcraftweb.backend.dao.Connection;
-import com.navi.quizcraftweb.backend.dao.TriviaDAO;
-import com.navi.quizcraftweb.backend.dao.UserDAO;
-import com.navi.quizcraftweb.backend.model.Component;
-import com.navi.quizcraftweb.backend.model.Trivia;
-import com.navi.quizcraftweb.backend.model.User;
+import com.navi.quizcraftweb.backend.dao.*;
+import com.navi.quizcraftweb.backend.model.*;
 import com.navi.quizcraftweb.backend.parser_lexer.ErrorsLP;
-import com.navi.quizcraftweb.backend.parser_lexer.db.DBLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.db.DBParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CompileRequest {
@@ -24,7 +18,7 @@ public class CompileRequest {
     private static UserDAO userDAO;
     private static TriviaDAO triviaDAO;
 
-    public static void Compile(String text){
+    public static void compile(String text){
         reader = new StringReader(text);
         lexer = new RequestLexer(reader);
         parser = new RequestParser(lexer);
@@ -43,7 +37,7 @@ public class CompileRequest {
         }
     }
     public static User verifyRequestLogin(String text){
-        Compile(text);
+        compile(text);
         User user = null;
         if(requests.size() == 1){
             if(requests.get(0).getType() == RequestXSON.LOGIN_USUARIO){
@@ -60,7 +54,7 @@ public class CompileRequest {
         var users = parserU.idsUser;
         var trivias = parserT.idsTrivia;
         var components = parserT.idsComponent;
-        Compile(text);
+        compile(text);
         for(RequestXSON<?> request : requests){
             switch (request.getType()){
                 case RequestXSON.USUARIO_NUEVO -> {
@@ -182,6 +176,10 @@ public class CompileRequest {
                         verify = false;
                     }
                 }
+                default -> {
+                    ErrorsLP.addError("DESCONOCIDO", request.getLine(), request.getCol(), "Semantico", "Solicitud Invalida");
+                    verify = false;
+                }
             }
         }
 
@@ -232,8 +230,7 @@ public class CompileRequest {
             }
         }
     }
-    public static String viewTrivias(String text){
-        Compile(text);
+    public static String viewTrivias(){
         var trivias = triviaDAO.select();
         if(trivias.isEmpty()){
             return "";
@@ -244,5 +241,40 @@ public class CompileRequest {
             body.append(t.dbString()).append("\n,\n");
         }
         return body.substring(0, body.length() - 2);
+    }
+    public static boolean verifySocketRequest(String text){
+        compile(text);
+        boolean verify = false;
+        if(requests.size() == 1){
+            int type = requests.get(0).getType();
+            if(type == RequestXSON.LOGIN_USUARIO || type == RequestXSON.VER_TRIVIAS || type == RequestXSON.ADD_DATA){
+                verify = true;
+            }
+        }
+        return verify;
+    }
+    public static String executeSocketRequest(String text){
+        String response = "";
+        if(verifySocketRequest(text)){
+            var request = requests.get(0);
+            if(request.getType() == RequestXSON.LOGIN_USUARIO){
+                User u = (User) requests.get(0).getData();
+                var user = userDAO.login(u.getUsername(), u.getPassword());
+                if(user != null) response = "<!envio_respuesta: \"USUARIO\">\n" + user.dbString() + "\n<!fin_envio_respuesta>";
+                else response = "<!envio_respuesta: \"USUARIO\">\n<!fin_envio_respuesta>EOF";
+            }
+            else if(request.getType() == RequestXSON.VER_TRIVIAS){
+                response = "<!envio_respuesta: \"TRIVIA\">\n" + viewTrivias() + "\n<!fin_envio_respuesta>EOF";
+            }
+            else if (request.getType() == RequestXSON.ADD_DATA){
+                saveData(request);
+                response = "<!envio_respuesta: \"ADD_DATA\">\n<!fin_envio_respuesta>EOF";
+            }
+        }
+        return response;
+    }
+    private static void saveData(RequestXSON<?> request){
+        var data = (CollectedData) request.getData();
+        triviaDAO.addCollectedData(data);
     }
 }

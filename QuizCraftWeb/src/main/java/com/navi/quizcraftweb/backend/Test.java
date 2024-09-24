@@ -38,7 +38,6 @@ public class Test {
                 """;
 
         int port = 5000;
-
         try {
             // Crear un ServerSocket que escuche en el puerto especificado
             ServerSocket serverSocket = new ServerSocket(port);
@@ -54,24 +53,27 @@ public class Test {
                 PrintWriter output = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
 
                 // Leer el mensaje del cliente
-                String clientMessage = input.readLine();
+                String line;
+                StringBuilder clientMessage = new StringBuilder();
+                while ((line = input.readLine()) != null) {
+                    if (line.contains("EOF")) {
+                        clientMessage.append(line.replace("EOF", ""));  // Eliminar "EOF"
+                        break;
+                    }
+                    clientMessage.append(line).append("\n");
+                }
                 System.out.println("Mensaje recibido del cliente: " + clientMessage);
 
                 // Enviar una respuesta al cliente
-                String serverResponse = "Mensaje recibido: " + clientMessage;
+
+                String serverResponse = CompileRequest.executeSocketRequest(clientMessage.toString());
                 output.println(serverResponse);
 
                 // Cerrar conexiones
                 input.close();
                 output.close();
                 clientSocket.close();
-                File userHome = new File(System.getProperty("user.home"));
-                String appFolderName = "QuizCraft/trivias.db";
-                File appFolder = new File(userHome, appFolderName);
 
-
-
-                System.out.println(appFolder.getAbsolutePath());
                 System.out.println("Conexión cerrada con el cliente");
             }
         } catch (Exception e) {

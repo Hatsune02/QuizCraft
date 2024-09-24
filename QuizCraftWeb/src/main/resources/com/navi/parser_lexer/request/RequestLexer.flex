@@ -74,7 +74,12 @@ fecha_modificacion = (FECHA_MODIFICACION)
 eliminar_usuario = (ELIMINAR_USUARIO)
 
 login_usuario = (LOGIN_USUARIO)
+ver_trivias = (VER_TRIVIAS)
+add_data = (ADD_DATA)
 
+tiempo_total = (TIEMPO_TOTAL)
+estado = (ESTADO)
+punteo = (PUNTEO)
 
 nueva_trivia = (NUEVA_TRIVIA)
 parametros_trivia = (PARAMETROS_TRIVIA)
@@ -198,6 +203,16 @@ Integer = [0-9]+
 {return symbol(ELIMINAR_USUARIO, yytext());          }
 {login_usuario}
 {return symbol(LOGIN_USUARIO, yytext());          }
+{ver_trivias}
+{return symbol(VER_TRIVIAS, yytext());          }
+{add_data}
+{return symbol(ADD_DATA, yytext());          }
+{tiempo_total}
+{return symbol(TIEMPO_TOTAL, yytext());          }
+{estado}
+{return symbol(ESTADO, yytext());          }
+{punteo}
+{return symbol(PUNTEO, yytext());          }
 
 {nueva_trivia}
 {return symbol(NUEVA_TRIVIA, yytext());          }

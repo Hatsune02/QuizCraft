@@ -487,6 +487,7 @@ terminal XSON, EQUAL, VERSION, ONE,
         NUEVA_TRIVIA, PARAMETROS_TRIVIA, ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA, ELIMINAR_TRIVIA, MODIFICAR_TRIVIA,
         AGREGAR_COMPONENTE, PARAMETROS_COMPONENTE, ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
         CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO, ELIMINAR_COMPONENTE, MODIFICAR_COMPONENTE, VERTICAL_BAR,
+        VER_TRIVIAS, ADD_DATA, TIEMPO_TOTAL, ESTADO, PUNTEO,
         LBRACKET, RBRACKET, LBRACE, RBRACE, LT, GT, EX, Q;
 
 terminal String STRINGCONTENT, IDENTIFIER;
@@ -526,12 +527,22 @@ non terminal RequestXSON<?> request;
 
 non terminal ArrayList<RequestXSON> requestP, requests;
 
+non terminal RequestXSON<?> view_trivias_request;
+
+non terminal RequestXSON<CollectedData> add_data_request;
+
+non terminal CollectedData data_collected_data;
+
+non terminal Integer total_time, score;
+
+non terminal String estado;
 
 non terminal Integer clase_content;
 
 non terminal String string_content, string_contentP;
 
 non terminal ArrayList<String> multiple_string;
+
 
 
 start with s;
@@ -573,6 +584,9 @@ request ::=   new_user_request:r            {: resetBooleans(); RESULT = r; :}
             | delete_trivia_request:r       {: resetBooleans(); RESULT = r; :}
             | delete_component_request:r    {: resetBooleans(); RESULT = r; :}
             | login_request:r               {: resetBooleans(); RESULT = r; :}
+            | view_trivias_request:r        {: resetBooleans(); RESULT = r; :}
+            | add_data_request:r            {: resetBooleans(); RESULT = r; :}
+            | error
             ;
 
 xson_label ::= LT QM XSON VERSION EQUAL Q ONE Q QM GT;
@@ -742,6 +756,37 @@ delete_component_request ::= open_request Q ELIMINAR_COMPONENTE Q GT data_compon
                             r.setLineCol(dleft, dright);
                             RESULT = r;
                             :};
+
+
+view_trivias_request ::= open_request Q VER_TRIVIAS Q GT close_request
+                        {:
+                        RequestXSON<Trivia> r = new RequestXSON<>("", RequestXSON.VER_TRIVIAS);
+                        RESULT = r;
+                        :};
+
+add_data_request ::= open_request Q ADD_DATA Q GT data_collected_data:d close_request
+                    {:
+                    RequestXSON<CollectedData> r = new RequestXSON<>(d, RequestXSON.ADD_DATA);
+                    RESULT = r;
+                    :};
+
+data_collected_data ::= LBRACE user:u COMMA trivia:t COMMA total_time:tt COMMA estado:e COMMA score:s RBRACE
+                    {:
+                    String user = (String) u.getParameter();
+                    String trivia = (String) t.getParameter();
+                    boolean state = e.equals("Completado");
+                    CollectedData data = new CollectedData(user, trivia, tt, s, state);
+                    RESULT = data;
+                    :};
+
+total_time ::= Q TIEMPO_TOTAL Q COLON DIGIT:d
+            {: RESULT = Integer.parseInt(d); :};
+
+estado ::= Q ESTADO Q COLON Q string_contentP:s Q
+        {: RESULT = s; :};
+
+score ::= Q PUNTEO Q COLON DIGIT:d
+        {: RESULT = Integer.parseInt(d); :};
 
 
 data ::= parameter:p
@@ -914,7 +959,7 @@ name ::= Q NOMBRE Q COLON Q string_contentP:st Q
         :}
         ;
 
-institution ::= Q INSTITUCION Q COLON Q string_content:st Q
+institution ::= Q INSTITUCION Q COLON Q string_contentP:st Q
         {:
         Parameter<String> p = new Parameter<>(st, Parameter.INSTITUTION, stleft, stright);
         RESULT = p;
@@ -981,7 +1026,7 @@ create_user ::= Q USUARIO_CREACION Q COLON Q string_content:st Q
         RESULT = p;
         :};
 
-topic ::= Q TEMA Q COLON Q string_content:st Q
+topic ::= Q TEMA Q COLON Q string_contentP:st Q
         {:
         Parameter<String> p = new Parameter<>(st, Parameter.TOPIC, stleft, stright);
         RESULT = p;

@@ -13,6 +13,10 @@ public class RequestXSON <T> {
     public static final int AGREGAR_COMPONENTE = 8;
     public static final int MODIFICAR_COMPONENTE = 9;
     public static final int ELIMINAR_COMPONENTE = 10;
+    public static final int VER_TRIVIAS = 11;
+    public static final int ADD_DATA = 12;
+
+
     public static final String[] REQUESTS = {"USUARIO_NUEVO", "MODIFICAR_USUARIO", "ELIMINAR_USUARIO",
             "LOGIN_USUARIO", "NUEVA_TRIVIA", "MODIFICAR_TRIVIA", "ELIMINAR_TRIVIA", "AGREGAR_COMPONENTE",
             "MODIFICAR_COMPONENTE", "ELIMINAR_COMPONENTE"};

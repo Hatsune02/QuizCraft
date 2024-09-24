@@ -242,4 +242,33 @@ public class TriviaDAO {
         Connection.updateTextTrivia(startPosition, endPosition+1, txt);
 
     }
+
+    public void addCollectedData(CollectedData data){
+        boolean valid = false;
+        Trivia actualTrivia = new Trivia();
+        DBParser parser = Connection.connectTriviaDB();
+        ArrayList<Position> positions = parser.positionsTrivia;
+        int pos = 0;
+
+        for(Trivia t : parser.trivias){
+            if(t.getIdTrivia().equals(data.getTrivia())){
+                actualTrivia = t;
+                valid = true;
+                break;
+            }
+            pos++;
+        }
+
+        if(valid){
+            Position position = positions.get(pos);
+            int startPosition = Connection.calculatePosition(Connection.text, position.getLine1(), position.getCol1());
+            int endPosition = Connection.calculatePosition(Connection.text, position.getLine2(), position.getCol2());
+
+            actualTrivia.addData(data);
+            Connection.updateTextTrivia(startPosition, endPosition+1, actualTrivia.dbString());
+        }
+        else {
+            System.out.println("Trivia no encontrada");
+        }
+    }
 }

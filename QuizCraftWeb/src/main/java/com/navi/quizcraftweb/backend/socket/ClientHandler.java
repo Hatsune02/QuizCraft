@@ -18,25 +18,20 @@ public class ClientHandler implements Runnable {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            String request = in.readLine();
+            String line;
+            StringBuilder request = new StringBuilder();
+            while ((line = in.readLine()) != null) {
+                if (line.contains("EOF")) {
+                    request.append(line.replace("EOF", ""));  // Eliminar "EOF"
+                    break;
+                }
+                request.append(line).append("\n");
+            }
             System.out.println("Received request: " + request);
 
-            var user = CompileRequest.verifyRequestLogin(request);
+            String response = CompileRequest.executeSocketRequest(request.toString());
+            out.println(response);
 
-            if(user != null) {
-                String response = "<!envio_respuesta: \"LOGIN\">\n" + user.dbString() + "\n<!fin_envio_respuesta>";
-                out.println(response);
-            }
-            else{
-                var trivias = CompileRequest.viewTrivias(request);
-                String response = "<!envio_respuesta: \"TRIVIAS\">\n" + trivias + "<!fin_envio_respuesta>";
-                out.println(response);
-            }
-            if ("triv".equals(request)) {
-                out.println(Connection.connectUsersDB().users);
-            } else {
-                out.println("Unknown request");
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
