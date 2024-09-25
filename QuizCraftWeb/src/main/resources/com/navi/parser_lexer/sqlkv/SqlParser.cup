@@ -1,13 +1,11 @@
-package com.navi.backend.flexycup;
+package com.navi.quizcraftweb.backend.parser_lexer.sqlkv;
 import java_cup.runtime.*;
-import com.navi.backend.csv_controller.*;
-import com.navi.ui.*;
-import javax.swing.*;
+import com.navi.quizcraftweb.backend.parser_lexer.sqlkv.obj.*;
+import com.navi.quizcraftweb.backend.parser_lexer.*;
 import java.util.*;
 
 parser code
 {:
-    public ArrayList<FileTextPane> panes = new ArrayList<>();
     public SqlParser(SqlLexer lex) {
         super(lex);
     }
@@ -20,16 +18,6 @@ parser code
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
-        TError err = new TError(lexeme,"Error Sintáctico", "Token no esperado", line, col);
-        Querys.errors.add(err);
-        try {
-            while(true){
-                if(getScanner().next_token().sym == sym.P_COMA) break;
-            }
-            parse();
-        } catch (Exception e) {
-            //throw new RuntimeException(e);
-        }
     }
 
     //Metodo que se llama en el momento en que ya no es posible una recuperacion
@@ -41,8 +29,6 @@ parser code
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
-        TError err = new TError(lexeme,"Error Sintáctico", "Token no esperado", line, col);
-        Querys.errors.add(err);
     }
     protected int error_sync_size() {
         return 10;
@@ -50,247 +36,87 @@ parser code
 
 :}
 
-terminal P_COMA, COMA, ASTERISCO, AND, OR, SELECCIONAR, FILTRAR, INSERTAR, ACTUALIZAR,
-        ASIGNAR, ELIMINAR, EN, VALORES, CADENA, EQUAL, PARENT_1, PARENT_2;
+terminal SELECCIONAR, REPORTE, FILTRAR, POR, USUARIO,
+        TIEMPO_TOTAL, PUNTEO, COMMA, AND, OR;
 
-terminal String ID, REL_OP, DIGIT, PATH;
+terminal String ID, DIGIT, STRING, REL_OP;
 
-non terminal instrucciones, instruccion, seleccionar, insertar, actualizar, eliminar;
+
+non terminal instruction;
 
 non terminal String expr;
 
-non terminal ArrayList<String> listV;
+non terminal Integer reserved_word;
 
-non terminal ArrayList<ColumnsQ> listC;
+non terminal ArrayList<String> listC;
 
-non terminal ArrayList<FiltersQuery> and, or, conditionsP, conditions, filter;
+non terminal Condition condition;
 
-non terminal ArrayList<AssignQuery> asignar;
+non terminal ArrayList<Condition> conditions, filter;
 
-//Presedencia
+non terminal s;
 
 
-start with instrucciones;
+start with s;
 
-instrucciones ::= instruccion
-            | instrucciones instruccion
+s ::= instruction;
+
+instruction ::= SELECCIONAR REPORTE listC
+                {:
+
+                :}
+                | SELECCIONAR REPORTE
+                | SELECCIONAR REPORTE listC filter
+                | SELECCIONAR REPORTE  filter
+                | error;
+
+filter ::= FILTRAR POR conditions:c
+            {: RESULT = c; :}
             ;
 
-instruccion ::= seleccionar P_COMA
-            | insertar P_COMA
-            | actualizar P_COMA
-            | eliminar P_COMA
+conditions ::= condition:c
+            {:
+            ArrayList<Condition> conditions = new ArrayList<>();
+            conditions.add(c);
+            RESULT = conditions;
+            :}
+            | conditions:cs AND condition:c
+            {:
+            c.setType(Condition.AND);
+            cs.add(c);
+            RESULT = cs;
+            :}
+            | conditions:cs OR condition:c
+            {:
+            c.setType(Condition.OR);
+            cs.add(c);
+            RESULT = cs;
+            :}
             ;
 
-seleccionar ::= SELECCIONAR ASTERISCO EN PATH:path filter:f
+condition ::= reserved_word:f REL_OP:s expr:v
             {:
-            path = path.replace(".","/");
-            PathQ p = new PathQ(path, pathleft, pathright);
-            String q;
-            if(f == null){
-                q = Querys.select(p);
-            }
-            else{
-                q = Querys.select(p, f);
-            }
-            if(!q.isEmpty()){
-                FileTextPane pane = new FileTextPane(q);
-                panes.add(pane);
-            }
-            :}
-            | SELECCIONAR listC:c EN PATH:path filter:f
-            {:
-            path = path.replace(".","/");
-            PathQ p = new PathQ(path, pathleft, pathright);
-            String q;
-            if(f == null){
-                q = Querys.selectC(p, c);
-            }
-            else{
-                q = Querys.select(p, c, f);
-            }
-            if(!q.isEmpty()){
-                FileTextPane pane = new FileTextPane(q);
-                panes.add(pane);
-            }
-            :}
-            ;
-insertar    ::= INSERTAR EN PATH:path VALORES PARENT_1 listV:v PARENT_2
-            {:
-            path = path.replace(".","/");
-            PathQ p = new PathQ(path, pathleft, pathright);
-            Querys.insert(p, v);
-            :}
-            | INSERTAR EN PATH:path PARENT_1 listC:c PARENT_2 VALORES PARENT_1 listV:v PARENT_2
-            {:
-            path = path.replace(".","/");
-            if(c.size() == v.size()){
-                PathQ p = new PathQ(path, pathleft, pathright);
-                Querys.insert(p, c, v);
-            }
-            else{
-                TError err = new TError("","Semántico(?","Cantidad de columnas y valores diferentes", cleft, cright);
-                Querys.errors.add(err);
-            }
-            :}
-            ;
-actualizar  ::= ACTUALIZAR EN PATH:path ASIGNAR asignar:a filter:f
-            {:
-            path = path.replace(".","/");
-            PathQ p = new PathQ(path, pathleft, pathright);
-            if(f == null){
-                Querys.update(p, a);
-            }
-            else{
-                Querys.update(p, a, f);
-            }
-            :}
-            ;
-asignar     ::= ID:id EQUAL expr:e
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            ArrayList<AssignQuery> a = new ArrayList<>();
-            AssignQuery as = new AssignQuery(col,e);
-            a.add(as);
-            RESULT = a;
-            :}
-            | asignar:a COMA ID:id EQUAL expr:e
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            AssignQuery as = new AssignQuery(col,e);
-            a.add(as);
-            RESULT = a;
-            :}
-            ;
-eliminar    ::= ELIMINAR EN PATH:path filter:f
-            {:
-            path = path.replace(".","/");
-            PathQ p = new PathQ(path, pathleft, pathright);
-            if(f == null){
-                Querys.delete(p);
-            }
-            else{
-                Querys.delete(p, f);
-            }
-            :}
-            ;
-filter      ::= FILTRAR conditions:cond
-            {:
-            ArrayList<FiltersQuery> f = new ArrayList<>();
-            for (int i = cond.size() - 1; i >= 0; i--) {
-                f.add(cond.get(i));
-            }
-            RESULT = f;
-            :}
-            |
-            ;
-
-conditions  ::= ID:id EQUAL expr:e conditionsP:condP
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, "=", e, 0);
-            condP.add(fil);
-            RESULT = condP;
-            :}
-            | ID:id REL_OP:sign expr:e conditionsP:condP
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, sign, e, 0);
-            condP.add(fil);
-            RESULT = condP;
+            RESULT = new Condition(f,s,v);
             :};
 
-
-conditionsP ::= {:RESULT = new ArrayList<FiltersQuery>();:}
-            | AND ID:id EQUAL expr:e and:a
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, "=", e, 2);
-            a.add(fil);
-            RESULT = a;
-            :}
-            | AND ID:id REL_OP:sign expr:e and:a
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, sign, e, 2);
-            a.add(fil);
-            RESULT = a;
-            :}
-            | OR ID:id EQUAL expr:e or:o
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, "=", e, 3);
-            o.add(fil);
-            RESULT = o;
-            :}
-            | OR ID:id REL_OP:sign expr:e or:o
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, sign, e, 3);
-            o.add(fil);
-            RESULT = o;
-            :}
-            ;
-and         ::= {:RESULT = new ArrayList<FiltersQuery>();:}
-            | AND ID:id EQUAL expr:e and:a
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, "=", e, 2);
-            a.add(fil);
-            RESULT = a;
-            :}
-            | AND ID:id REL_OP:sign expr:e and:a
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, sign, e, 2);
-            a.add(fil);
-            RESULT = a;
-            :}
-            ;
-or         ::= {:RESULT = new ArrayList<FiltersQuery>();:}
-            | OR ID:id EQUAL expr:e or:o
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, "=", e, 3);
-            o.add(fil);
-            RESULT = o;
-            :}
-            | OR ID:id REL_OP:sign expr:e or:o
-            {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            FiltersQuery fil = new FiltersQuery(col, sign, e, 3);
-            o.add(fil);
-            RESULT = o;
-            :}
-            ;
-listV       ::= expr:e
-            {:
-            ArrayList<String> v = new ArrayList<>();
-            v.add(e);
-            RESULT = v;
-            :}
-            | listV:v COMA expr:e
-            {:
-            v.add(e);
-            RESULT = v;
-            :}
-            ;
 listC       ::= ID:id
             {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            ArrayList<ColumnsQ> c = new ArrayList<>();
-            c.add(col);
-            RESULT = c;
+            ArrayList<String> trivias = new ArrayList<>();
+            trivias.add(id);
+            RESULT = trivias;
             :}
-            | listC:c COMA ID:id
+            | listC:t COMMA ID:id
             {:
-            ColumnsQ col = new ColumnsQ(id, idleft, idright);
-            c.add(col);
-            RESULT = c;
+            t.add(id);
+            RESULT = t;
             :}
             ;
+reserved_word ::= USUARIO           {: RESULT = Condition.USUARIO;:}
+                | TIEMPO_TOTAL      {: RESULT = Condition.TIEMPO_TOTAL;:}
+                | PUNTEO            {: RESULT = Condition.PUNTEO;:}
+                ;
 
 expr        ::= DIGIT:d {:RESULT = d;:}
-            | CADENA:s {:RESULT = s.toString().replace("\"","");:}
+            | STRING:s {:RESULT = s.toString().replace("\"","");:}
             ;
 

@@ -159,7 +159,7 @@ user ::= LBRACE:b1 username:u password:p name:n institution:i creation_date:c up
 
         if(e.equals("null")) usr.setUpdateDate(null);
         else usr.setUpdateDateString(e);
-        System.out.println(usr);
+
         idsUser.add(u);
         RESULT = usr;
         :}

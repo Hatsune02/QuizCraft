@@ -464,7 +464,7 @@ class CUP$DBParser$actions {
 
         if(e.equals("null")) usr.setUpdateDate(null);
         else usr.setUpdateDateString(e);
-        System.out.println(usr);
+
         idsUser.add(u);
         RESULT = usr;
         

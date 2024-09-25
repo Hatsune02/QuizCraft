@@ -1,8 +1,8 @@
-package com.navi.backend.flexycup;
+package com.navi.quizcraftweb.backend.parser_lexer.sqlkv;
 import java_cup.runtime.*;
-import static com.navi.backend.flexycup.sym.*;
-import com.navi.backend.csv_controller.*;
-import java.util.ArrayList;
+import static com.navi.quizcraftweb.backend.parser_lexer.sqlkv.sym.*;
+import com.navi.quizcraftweb.backend.parser_lexer.*;
+
 %% //separador de area
 
 %public
@@ -14,15 +14,36 @@ import java.util.ArrayList;
 
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
+
+/* Reserved words*/
+seleccionar = (SELECCIONAR)
+reporte = (REPORTE)
+filtrar = (FILTRAR)
+por = (POR)
+usuario = (\"USUARIO\")
+tiempo_total = (\"TIEMPO_TOTAL\")
+punteo = (\"PUNTEO\")
+/* Operators */
+RelatedOperations = "<=" | ">=" | "=" | "<" | ">"
+and = (AND)
+or = (OR)
+
+/* Numbers */
 Digit = [0-9]+
-Identifier = [a-zA-Z0-9_@+#*-]+
-path = {Identifier}("."{Identifier})+
-Cadena = \"([^\"]*)\" | ”([^\"]*)”
-RelatedOperations = "!=" | "<>" | "<=" | ">=" | "=" | "<" | ">"
+Decimal = {Digit}\.{Digit}
+
+/* Strings */
+Identifier = [-_$][-_$a-zA-Z0-9]+
+Q = [\"]
+q = [\']
+StringContent = [^\"\'\\\\]*[-_$a-zA-Z][^\"\'\\\\]*
+String = {Q}{StringContent}{Q} | {q}{StringContent}{q}
+
+
+/* Structures */
+Comma = [,]
 
 %{
-    public static ArrayList<TError> errors = new ArrayList<>();
-
     private Symbol symbol(int type){
         return new Symbol(type, yyline+1,yycolumn+1);
     }
@@ -30,38 +51,51 @@ RelatedOperations = "!=" | "<>" | "<=" | ">=" | "=" | "<" | ">"
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
     private void error(){
-        System.out.println("Error en linea: "+(yyline+1)+", columna: "+(yycolumn+1));
-        TError err = new TError(yytext(), "Error Léxico", "Símbolo inválido", yyline+1, yycolumn+1);
-        errors.add(err);
+        ErrorsLP.addError(yytext(), yyline+1, yycolumn+1, "Error Léxico","Caracter desconocido");
     }
 %}
 
 %%
 //Reglas lexicas
 
-    ";"                     { return symbol(P_COMA, yytext());        }
-    ","                     { return symbol(COMA, yytext());          }
-    "*"                     { return symbol(ASTERISCO, yytext());     }
-    "("                     { return symbol(PARENT_1, yytext());      }
-    ")"                     { return symbol(PARENT_2, yytext());      }
-    "AND"                   { return symbol(AND, yytext());           }
-    "OR"                    { return symbol(OR, yytext());            }
-    "SELECCIONAR"           { return symbol(SELECCIONAR, yytext());   }
-    "FILTRAR"               { return symbol(FILTRAR, yytext());       }
-    "INSERTAR"              { return symbol(INSERTAR, yytext());      }
-    "ACTUALIZAR"            { return symbol(ACTUALIZAR, yytext());    }
-    "ASIGNAR"               { return symbol(ASIGNAR, yytext());       }
-    "ELIMINAR"              { return symbol(ELIMINAR, yytext());      }
-    "EN"                    { return symbol(EN, yytext());            }
-    "VALORES"               { return symbol(VALORES, yytext());       }
-    {path}                  {return symbol(PATH, yytext());  }
-    {Digit}                 { return symbol(DIGIT, yytext());         }
-    {Cadena}                { return symbol(CADENA, yytext());        }
-    {Identifier}            { return symbol(ID, yytext());            }
-    "="                     { return symbol(EQUAL, yytext());         }
-    {RelatedOperations}     { return symbol(REL_OP, yytext());        }
-    {WhiteSpace}            { /**/ }
+{seleccionar}
+{return symbol(SELECCIONAR, yytext());}
+{reporte}
+{return symbol(REPORTE, yytext());}
+{filtrar}
+{return symbol(FILTRAR, yytext());}
+{por}
+{return symbol(POR, yytext());}
+{usuario}
+{return symbol(USUARIO, yytext());}
+{tiempo_total}
+{return symbol(TIEMPO_TOTAL, yytext());}
+{punteo}
+{return symbol(PUNTEO, yytext());}
 
+{Digit}
+{return symbol(DIGIT, yytext());}
+{Decimal}
+{return symbol(DIGIT, yytext());}
+
+{Identifier}
+{return symbol(ID, yytext());}
+{String}
+{return symbol(STRING, yytext());}
+{RelatedOperations}
+{return symbol(REL_OP, yytext());}
+{and}
+{return symbol(AND, yytext());}
+{or}
+{return symbol(OR, yytext());}
+
+{Comma}
+{return symbol(COMMA, yytext());}
+
+{WhiteSpace}            { /**/ }
+
+[\^´°¬|!$%&?¡¿\w]+
+{ErrorsLP.addError(yytext(), yyline+1, yycolumn+1, "Error Léxico","Cadena no definida");}
 [^]                 {error(); }
 
 
