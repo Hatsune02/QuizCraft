@@ -35,4 +35,15 @@ public class CollectedData {
         if (done) return "Completado";
         else return "Fallo";
     }
+
+    @Override
+    public String toString() {
+        return "CollectedData{" +
+                "username='" + username + '\'' +
+                ", trivia='" + trivia + '\'' +
+                ", time=" + time +
+                ", score=" + score +
+                ", done=" + done +
+                '}';
+    }
 }

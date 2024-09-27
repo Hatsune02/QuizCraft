@@ -20,9 +20,9 @@ seleccionar = (SELECCIONAR)
 reporte = (REPORTE)
 filtrar = (FILTRAR)
 por = (POR)
-usuario = (\"USUARIO\")
-tiempo_total = (\"TIEMPO_TOTAL\")
-punteo = (\"PUNTEO\")
+usuario = (USUARIO)
+tiempo_total = (TIEMPO_TOTAL)
+punteo = (PUNTEO)
 /* Operators */
 RelatedOperations = "<=" | ">=" | "=" | "<" | ">"
 and = (AND)

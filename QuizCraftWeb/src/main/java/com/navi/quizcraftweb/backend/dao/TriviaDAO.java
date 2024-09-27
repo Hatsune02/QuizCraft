@@ -199,7 +199,7 @@ public class TriviaDAO {
         String txt = "(\n" + trivia.dbComponents() + "\t";
         Connection.updateTextTrivia(startPosition, endPosition+1, txt);
     }
-    public void deleteComponent(String idTrivia, String idComponent){
+    public void deleteComponent(String idComponent, String idTrivia){
         boolean validTrivia = false;
         boolean valid = false;
         Trivia trivia = new Trivia();
@@ -266,6 +266,31 @@ public class TriviaDAO {
 
             actualTrivia.addData(data);
             Connection.updateTextTrivia(startPosition, endPosition+1, actualTrivia.dbString());
+        }
+        else {
+            System.out.println("Trivia no encontrada");
+        }
+    }
+    public void updateAllTheTrivia(Trivia trivia){
+        boolean valid = false;
+        DBParser parser = Connection.connectTriviaDB();
+        ArrayList<Position> positions = parser.positionsTrivia;
+        int pos = 0;
+
+        for(Trivia t : parser.trivias){
+            if(t.getIdTrivia().equals(trivia.getIdTrivia())){
+                valid = true;
+                break;
+            }
+            pos++;
+        }
+
+        if(valid){
+            Position position = positions.get(pos);
+            int startPosition = Connection.calculatePosition(Connection.text, position.getLine1(), position.getCol1());
+            int endPosition = Connection.calculatePosition(Connection.text, position.getLine2(), position.getCol2());
+
+            Connection.updateTextTrivia(startPosition, endPosition+1, trivia.dbString());
         }
         else {
             System.out.println("Trivia no encontrada");

@@ -15,6 +15,9 @@ import com.navi.quizcraftweb.backend.parser_lexer.request.CompileRequest;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.request.RequestParser;
 import com.navi.quizcraftweb.backend.parser_lexer.request.objs.RequestXSON;
+import com.navi.quizcraftweb.backend.parser_lexer.sqlkv.CompileSQLKV;
+import com.navi.quizcraftweb.backend.parser_lexer.sqlkv.SqlLexer;
+import com.navi.quizcraftweb.backend.parser_lexer.sqlkv.SqlParser;
 
 import javax.swing.*;
 import java.io.*;
@@ -79,6 +82,7 @@ public class Test {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecciona un archivo de texto");
 
@@ -90,6 +94,9 @@ public class Test {
             try {
                 String content = new String(Files.readAllBytes(Paths.get(selectedFile.getAbsolutePath())));
                 System.out.println("Contenido del archivo:\n" + content);
+                User u = new User();
+                u.setUsername("admin");
+                CompileRequest.userSession = u;
                 CompileRequest.execute(content);
                 var errors = ErrorsLP.getErrors();
                 errors.forEach(System.out::println);
@@ -100,6 +107,10 @@ public class Test {
             System.out.println("No se seleccionó ningún archivo.");
         }
 
+/*
+        String query =  "SELECCIONAR REPORTE $trivia1 FILTRAR POR USUARIO = \"admin\" OR PUNTEO > 60";
+        CompileSQLKV.compile(query);
+*/
 
 
        /* Connection.createAdmin();

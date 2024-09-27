@@ -47,7 +47,7 @@ checkbox = (\"CHECKBOX\")
 radio = (\"RADIO\")
 fichero = (\"FICHERO\")
 combo = (\"COMBO\")
-combo = (\"NONE\")
+none = (\"NONE\")
 
 estructura = (\"ESTRUCTURA\")
 datos_recopilados = (\"DATOS_RECOPILADOS\")
@@ -148,6 +148,8 @@ Integer = [0-9]+
 {return symbol(FICHERO, yytext());}
 {combo}
 {return symbol(COMBO, yytext());}
+{none}
+{return symbol(NONE, yytext());}
 
 {estructura}
 {return symbol(ESTRUCTURA, yytext());}

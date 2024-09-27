@@ -15,6 +15,7 @@ public class CompileRequest {
     private static RequestLexer lexer;
     private static RequestParser parser;
     public static ArrayList<RequestXSON> requests;
+    public static User userSession = new User();
     private static UserDAO userDAO;
     private static TriviaDAO triviaDAO;
 
@@ -43,6 +44,7 @@ public class CompileRequest {
             if(requests.get(0).getType() == RequestXSON.LOGIN_USUARIO){
                 User u = (User) requests.get(0).getData();
                 user = userDAO.login(u.getUsername(), u.getPassword());
+                userSession = u;
             }
         }
         return user;
@@ -87,7 +89,8 @@ public class CompileRequest {
                 }
                 case RequestXSON.NUEVA_TRIVIA -> {
                     Trivia t = (Trivia) request.getData();
-                    if(trivias.contains(t.getIdTrivia()) && users.contains(t.getCreateUser())){
+                    if(t.getCreateUser() == null) t.setCreateUser(userSession.getUsername());
+                    if(trivias.contains(t.getIdTrivia())){
                         ErrorsLP.addError(t.getIdTrivia(), request.getLine(), request.getCol(), "Semantico", "Trivia ya existente");
                         verify = false;
                     }
@@ -199,7 +202,17 @@ public class CompileRequest {
                         userDAO.updateUser(u, oldUser);
                     }
                     case RequestXSON.ELIMINAR_USUARIO -> {
-                        userDAO.deleteUser(request.getId());
+                        String userId = request.getId();
+                        userDAO.deleteUser(userId);
+                        for(Trivia t: triviaDAO.select()){
+                            if(t.getCreateUser().equals(userId)){
+                                triviaDAO.deleteTrivia(t.getIdTrivia());
+                            }
+                            else{
+                                t.getCollectedData().removeIf(data -> data.getUsername().equals(userId));
+                                triviaDAO.updateAllTheTrivia(t);
+                            }
+                        }
                     }
                     case RequestXSON.NUEVA_TRIVIA -> {
                         Trivia t = (Trivia) request.getData();
@@ -222,9 +235,9 @@ public class CompileRequest {
                         triviaDAO.updateComponent(c);
                     }
                     case RequestXSON.ELIMINAR_COMPONENTE -> {
-                        String t = request.getId();
-                        String c = request.getId2();
-                        triviaDAO.deleteComponent(t, c);
+                        String c = request.getId();
+                        String t = request.getId2();
+                        triviaDAO.deleteComponent(c, t);
                     }
                 }
             }

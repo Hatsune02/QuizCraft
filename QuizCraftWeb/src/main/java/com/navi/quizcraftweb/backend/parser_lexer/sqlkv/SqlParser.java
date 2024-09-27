@@ -35,7 +35,7 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
     "\000\023\000\002\002\004\000\002\011\003\000\002\002" +
-    "\005\000\002\002\004\000\002\002\006\000\002\002\005" +
+    "\004\000\002\002\005\000\002\002\005\000\002\002\006" +
     "\000\002\002\003\000\002\010\005\000\002\007\003\000" +
     "\002\007\005\000\002\007\005\000\002\006\005\000\002" +
     "\005\003\000\002\005\005\000\002\004\003\000\002\004" +
@@ -50,11 +50,11 @@ public class SqlParser extends java_cup.runtime.lr_parser {
     unpackFromStrings(new String[] {
     "\000\035\000\006\003\005\004\007\001\002\000\004\002" +
     "\000\001\002\000\004\002\ufffb\001\002\000\004\002\037" +
-    "\001\002\000\004\005\010\001\002\000\010\002\ufffe\006" +
+    "\001\002\000\004\005\010\001\002\000\010\002\uffff\006" +
     "\012\016\011\001\002\000\010\002\ufff5\006\ufff5\013\ufff5" +
-    "\001\002\000\004\007\020\001\002\000\010\002\uffff\006" +
-    "\012\013\015\001\002\000\004\002\ufffc\001\002\000\004" +
-    "\016\017\001\002\000\004\002\ufffd\001\002\000\010\002" +
+    "\001\002\000\004\007\020\001\002\000\010\002\ufffe\006" +
+    "\012\013\015\001\002\000\004\002\ufffd\001\002\000\004" +
+    "\016\017\001\002\000\004\002\ufffc\001\002\000\010\002" +
     "\ufff4\006\ufff4\013\ufff4\001\002\000\010\010\022\011\023" +
     "\012\025\001\002\000\004\021\033\001\002\000\004\021" +
     "\ufff3\001\002\000\004\021\ufff2\001\002\000\010\002\ufffa" +
@@ -202,40 +202,58 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // instruction ::= SELECCIONAR REPORTE listC 
+          case 2: // instruction ::= SELECCIONAR REPORTE 
             {
               Object RESULT =null;
 		
+                Query.selectAll();
+                
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
 
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // instruction ::= SELECCIONAR REPORTE listC 
+            {
+              Object RESULT =null;
+		int ileft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<String> i = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+                Query.select(i);
                 
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // instruction ::= SELECCIONAR REPORTE 
+          case 4: // instruction ::= SELECCIONAR REPORTE filter 
             {
               Object RESULT =null;
-
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
-            }
-          return CUP$SqlParser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // instruction ::= SELECCIONAR REPORTE listC filter 
-            {
-              Object RESULT =null;
-
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
-            }
-          return CUP$SqlParser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // instruction ::= SELECCIONAR REPORTE filter 
-            {
-              Object RESULT =null;
-
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<Condition> f = (ArrayList<Condition>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+                Query.selectAll(f);
+                
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // instruction ::= SELECCIONAR REPORTE listC filter 
+            {
+              Object RESULT =null;
+		int ileft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).right;
+		ArrayList<String> i = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)).value;
+		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
+		ArrayList<Condition> f = (ArrayList<Condition>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
+		
+                Query.select(i, f);
+                
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 

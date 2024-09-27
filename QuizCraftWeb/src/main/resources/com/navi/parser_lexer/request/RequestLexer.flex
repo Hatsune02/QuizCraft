@@ -131,7 +131,7 @@ VerticalBar = [|]
 /* Strings */
 
 Q = [\"]
-StringContent = [a-zA-Z0-9]+
+StringContent = [a-zA-Z0-9]+[-:;$a-zA-Z0-9]*
 //String = {Q}{StringContent}{Q}
 
 /* Others */

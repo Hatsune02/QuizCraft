@@ -61,13 +61,22 @@ start with s;
 
 s ::= instruction;
 
-instruction ::= SELECCIONAR REPORTE listC
+instruction ::= SELECCIONAR REPORTE
                 {:
-
+                Query.selectAll();
                 :}
-                | SELECCIONAR REPORTE
-                | SELECCIONAR REPORTE listC filter
-                | SELECCIONAR REPORTE  filter
+                | SELECCIONAR REPORTE listC:i
+                {:
+                Query.select(i);
+                :}
+                | SELECCIONAR REPORTE filter:f
+                {:
+                Query.selectAll(f);
+                :}
+                | SELECCIONAR REPORTE listC:i filter:f
+                {:
+                Query.select(i, f);
+                :}
                 | error;
 
 filter ::= FILTRAR POR conditions:c

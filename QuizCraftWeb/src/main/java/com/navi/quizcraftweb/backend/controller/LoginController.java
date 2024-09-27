@@ -12,7 +12,6 @@ import jakarta.servlet.annotation.*;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    UserDAO userDAO = new UserDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String solicitude = request.getParameter("request");

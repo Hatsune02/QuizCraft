@@ -656,7 +656,7 @@ public class RequestParser extends java_cup.runtime.lr_parser {
     }
 
     public boolean validateNewTrivia(){
-        boolean requiredCondition = hasIdTrivia && hasName && hasQuestionTime && hasCreateUser && hasTopic;
+        boolean requiredCondition = hasIdTrivia && hasName && hasQuestionTime && hasTopic;
         boolean other = !(hasUser || hasPassword || hasInstitution ||
                 hasOldUser || hasNewUser || hasNewPassword  || hasUpdateDate ||
                 hasId || hasTrivia || hasClass || hasIndex || hasVisibleText ||
@@ -1491,7 +1491,6 @@ class CUP$RequestParser$actions {
                             c.setNewComponent(d, hasOptions,  hasLine, hasColumns);
                         }
                         else errorsNewComponent(d);
-
                         RequestXSON<Component> r = new RequestXSON<>(c, RequestXSON.AGREGAR_COMPONENTE);
                         r.setLineCol(dleft, dright);
                         RESULT = r;

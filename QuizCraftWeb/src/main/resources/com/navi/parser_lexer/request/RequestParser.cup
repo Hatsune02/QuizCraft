@@ -182,7 +182,7 @@ parser code
     }
 
     public boolean validateNewTrivia(){
-        boolean requiredCondition = hasIdTrivia && hasName && hasQuestionTime && hasCreateUser && hasTopic;
+        boolean requiredCondition = hasIdTrivia && hasName && hasQuestionTime && hasTopic;
         boolean other = !(hasUser || hasPassword || hasInstitution ||
                 hasOldUser || hasNewUser || hasNewPassword  || hasUpdateDate ||
                 hasId || hasTrivia || hasClass || hasIndex || hasVisibleText ||

@@ -36,16 +36,6 @@ public class Condition {
             default -> false;
         };
     }
-/*    public boolean filterData(Component component){
-        return switch (sign) {
-            case "=" -> filterE(component);
-            case ">" -> filterG(component);
-            case "<" -> filterL(component);
-            case ">=" -> filterGE(component);
-            case "<=" -> filterLE(component);
-            default -> false;
-        };
-    }*/
 
     public boolean filterE(CollectedData data){
         if(isNumber(value)){
@@ -62,27 +52,96 @@ public class Condition {
                 return false;
             }
         }
-        if (type == USUARIO) {
-            return data.getUsername().equals(value);
+        if (field == USUARIO) {
+            return value.equals(data.getUsername());
         }
         ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un string en este campo");
         return false;
     }
-
-
     public boolean filterG(CollectedData data){
+        if(isNumber(value)){
+            try{
+                if (field == TIEMPO_TOTAL) {
+                    return data.getTime() > Integer.parseInt(value);
+                }
+                else if(field == PUNTEO){
+                    return data.getScore() > Integer.parseInt(value);
+                }
+                ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un numero en este campo");
+                return false;
+            }catch (Exception e){
+                return false;
+            }
+        }
+        if (field == USUARIO) {
+            return value.compareTo(data.getUsername()) > 0;
+        }
+        ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un string en este campo");
         return false;
     }
     public boolean filterL(CollectedData data){
+        if(isNumber(value)){
+            try{
+                if (field == TIEMPO_TOTAL) {
+                    return data.getTime() < Integer.parseInt(value);
+                }
+                else if(field == PUNTEO){
+                    return data.getScore() < Integer.parseInt(value);
+                }
+                ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un numero en este campo");
+                return false;
+            }catch (Exception e){
+                return false;
+            }
+        }
+        if (field == USUARIO) {
+            return value.compareTo(data.getUsername()) < 0;
+        }
+        ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un string en este campo");
         return false;
     }
     public boolean filterGE(CollectedData data){
+        if(isNumber(value)){
+            try{
+                if (field == TIEMPO_TOTAL) {
+                    return data.getTime() >= Integer.parseInt(value);
+                }
+                else if(field == PUNTEO){
+                    return data.getScore() >= Integer.parseInt(value);
+                }
+                ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un numero en este campo");
+                return false;
+            }catch (Exception e){
+                return false;
+            }
+        }
+        if (field == USUARIO) {
+            return value.compareTo(data.getUsername()) >= 0;
+        }
+        ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un string en este campo");
         return false;
     }
     public boolean filterLE(CollectedData data){
+        if(isNumber(value)){
+            try{
+                if (field == TIEMPO_TOTAL) {
+                    return data.getTime() <= Integer.parseInt(value);
+                }
+                else if(field == PUNTEO){
+                    return data.getScore() <= Integer.parseInt(value);
+                }
+                ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un numero en este campo");
+                return false;
+            }catch (Exception e){
+                return false;
+            }
+        }
+        if (field == USUARIO) {
+            return value.compareTo(data.getUsername()) <= 0;
+        }
+        ErrorsLP.addError(value, 1, 1, "Semantico", "No se puede comparar un string en este campo");
         return false;
     }
-
     public boolean isNumber(String value){
         try{
             Integer.parseInt(value);
