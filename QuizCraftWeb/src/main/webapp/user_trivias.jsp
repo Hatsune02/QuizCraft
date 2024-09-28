@@ -10,7 +10,14 @@
 <%@ include file="navbar.jsp" %>
 
 <div class="container-trivias">
-    <h1 class="label_trivia">Mis Trivias</h1>
+    <div class="button-container">
+        <h1 class="label_trivia">Mis Trivias</h1>
+        <form action="trivias" method="post" enctype="multipart/form-data" style="margin: 0;">
+            <input type="hidden" name="action" value="import">
+            <input type="file" name="triviaFile" accept=".xtriv" required style="display: none;" id="fileInput">
+            <button type="button" class="btn" onclick="document.getElementById('fileInput').click();">Importar</button>
+        </form>
+    </div>
 
     <!-- Itera sobre la lista de trivias y crea una tarjeta para cada una -->
     <c:forEach var="trivia" items="${triviaList}">
@@ -39,6 +46,13 @@
         </div>
     </c:forEach>
 </div>
-
+<script>
+    // Evento que se dispara cuando se selecciona un archivo
+    document.getElementById('fileInput').addEventListener('change', function() {
+        if (this.files.length > 0) {
+            this.form.submit(); // Envía el formulario
+        }
+    });
+</script>
 </body>
 </html>

@@ -188,18 +188,21 @@ public class CompileRequest {
 
         return verify;
     }
-    public static void execute(String text){
+    public static String execute(String text){
+        ArrayList<String> serverResponses = new ArrayList<>();
         if(verifyRequests(text)){
             for(RequestXSON<?> request : requests){
                 switch (request.getType()){
                     case RequestXSON.USUARIO_NUEVO -> {
                         User u = (User) request.getData();
                         userDAO.insertUser(u);
+                        serverResponses.add(createResponse("USUARIO_CREADO", u.dbString()));
                     }
                     case RequestXSON.MODIFICAR_USUARIO -> {
                         User u = (User) request.getData();
                         String oldUser = request.getId();
                         userDAO.updateUser(u, oldUser);
+                        serverResponses.add(createResponse("USUARIO_MODIFICADO", u.dbString()));
                     }
                     case RequestXSON.ELIMINAR_USUARIO -> {
                         String userId = request.getId();
@@ -213,34 +216,55 @@ public class CompileRequest {
                                 triviaDAO.updateAllTheTrivia(t);
                             }
                         }
+                        String delete = "\t\"USUARIO\": "+ userId;
+                        serverResponses.add(createResponse("USUARIO_ELIMINADO", "\t"+userId));
                     }
                     case RequestXSON.NUEVA_TRIVIA -> {
                         Trivia t = (Trivia) request.getData();
                         triviaDAO.insertTrivia(t);
+                        serverResponses.add(createResponse("TRIVIA_CREADA", t.dbString()));
                     }
                     case RequestXSON.MODIFICAR_TRIVIA -> {
                         Trivia t = (Trivia) request.getData();
                         triviaDAO.updateTrivia(t);
+                        serverResponses.add(createResponse("TRIVIA_MODIFICADA", t.dbString()));
                     }
                     case RequestXSON.ELIMINAR_TRIVIA -> {
                         String t = request.getId();
                         triviaDAO.deleteTrivia(t);
+                        String delete = "\t\"ID_TRIVIA\": " + t;
+                        serverResponses.add(createResponse("TRIVIA_ELIMINADA", delete));
                     }
                     case RequestXSON.AGREGAR_COMPONENTE -> {
                         Component c = (Component) request.getData();
                         triviaDAO.insertComponent(c);
+                        serverResponses.add(createResponse("COMPONENTE_CREADO", c.dbString()));
                     }
                     case RequestXSON.MODIFICAR_COMPONENTE -> {
                         Component c = (Component) request.getData();
                         triviaDAO.updateComponent(c);
+                        serverResponses.add(createResponse("COMPONENTE_MODIFICADO", c.dbString()));
                     }
                     case RequestXSON.ELIMINAR_COMPONENTE -> {
                         String c = request.getId();
                         String t = request.getId2();
                         triviaDAO.deleteComponent(c, t);
+                        String delete = "\t\"ID\": " + c + "\n\t\"TRIVIA\": "+t;
+                        serverResponses.add(createResponse("COMPONENTE_ELIMINADO", delete));
                     }
                 }
             }
+        }
+        if(serverResponses.size() == 1){
+            return serverResponses.get(0);
+        }
+        else {
+            StringBuilder serverResponse = new StringBuilder("<!envio_respuestas>\n");
+            for (String line: serverResponses){
+                serverResponse.append(line).append("\n");
+            }
+            serverResponse.append("<!fin_envio_respuestas>");
+            return serverResponse.toString();
         }
     }
     public static String viewTrivias(){
@@ -289,5 +313,12 @@ public class CompileRequest {
     private static void saveData(RequestXSON<?> request){
         var data = (CollectedData) request.getData();
         triviaDAO.addCollectedData(data);
+    }
+
+    private static String createResponse(String name, String body){
+        String openSendResponse = "<!envio_respuesta:\"" + name + "\">\n";
+        String closeSendResponse = "\n<!fin_envio_respuesta>";
+
+        return openSendResponse + body + closeSendResponse;
     }
 }

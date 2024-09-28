@@ -3,15 +3,13 @@ package com.navi.quizcraftweb.backend.parser_lexer.sqlkv.obj;
 import com.navi.quizcraftweb.backend.dao.TriviaDAO;
 import com.navi.quizcraftweb.backend.model.CollectedData;
 import com.navi.quizcraftweb.backend.model.Trivia;
-import com.navi.quizcraftweb.backend.parser_lexer.ErrorsLP;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 public class Query {
     private static TriviaDAO triviaDAO;
-    public static ArrayList<Report> reports;
+    public static ArrayList<Report> reports = new ArrayList<>();
 
     public static void selectAll(){
         reports = new ArrayList<>();
@@ -31,7 +29,7 @@ public class Query {
     }
 
     public static void select(ArrayList<String> idTrivias){
-       reports = new ArrayList<>();
+        reports = new ArrayList<>();
         triviaDAO = new TriviaDAO();
         var trivias = triviaDAO.select();
         for (Trivia t : trivias) {

@@ -18,22 +18,22 @@
     <!-- Contenido de las Tabs -->
     <div id="request" class="tab-content active">
         <h2>Enviar Solicitud</h2>
-        <form>
-                <textarea placeholder='<?xson version="1.0" ?>
+        <form action="request" method="post">
+            <textarea name="solicitude" placeholder='<?xson version="1.0" ?>
 <!realizar_solicitud: "REQUERIMIENTO_USUARIO" >
     { "SOLICITUD":[{
         "PARAMETRO_1": "",
         "PARAMETRO_2": ""
     }
     ]}
-<fin_solicitud_realizada!>' rows="19" cols="110" required></textarea><br><br>
+<fin_solicitud_realizada!>' rows="19" cols="110"  required></textarea><br><br>
             <input type="submit" value="Enviar Solicitud">
         </form>
     </div>
 
     <div id="response" class="tab-content">
         <h2>Respuestas del Servidor</h2>
-        <textarea readonly rows="19" cols="110">Aquí aparecerán las respuestas del servidor...</textarea>
+        <textarea id="serverResponse" readonly rows="19" cols="110">${serverResponse}</textarea>
     </div>
 </div>
 

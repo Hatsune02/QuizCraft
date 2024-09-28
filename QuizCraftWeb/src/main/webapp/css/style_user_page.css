@@ -1,5 +1,5 @@
 body {
-    background-color: #1c1c1c; /* Color de fondo oscuro */
+    background-color: #34495e; /* Color de fondo oscuro */
     color: #e0e0e0; /* Color de texto claro */
     margin: 0;
     font-family: Arial, sans-serif;
@@ -8,7 +8,7 @@ body {
 /* Estilos del navbar */
 .navbar {
     background-color: #39c5bb; /* Color Aqua base */
-    padding: 0px; /* Espaciado interno */
+    padding: 0; /* Espaciado interno */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,7 +92,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #1c1c1c; /* Fondo oscuro para el contenedor */
+    background-color: #34495e; /* Fondo oscuro para el contenedor */
 }
 
 .tabs {
@@ -114,7 +114,7 @@ body {
 
 .tab-button.active {
     background-color: #39c5bb; /* Color Aqua base para la tab activa */
-    color: #1c1c1c; /* Color de texto oscuro para la tab activa */
+    color: #34495e; /* Color de texto oscuro para la tab activa */
 }
 
 .content {
@@ -144,12 +144,13 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    border: 2px solid #276f6b; /* Color Aqua oscuro para el borde */
+    border: 2px solid #276f6b;
     border-radius: 4px;
     font-family: monospace;
     font-size: 14px;
-    background-color: #2c2c2c; /* Fondo oscuro para el área de texto */
-    color: #e0e0e0; /* Color de texto claro */
+    background-color: #1f2e3a;
+    color: #e0e0e0;
+    resize: none;
 }
 
 input[type="submit"] {
@@ -163,5 +164,25 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #2f9c95; /* Tono más oscuro para el hover */
+    background-color: #2f9c95;
+}
+
+input[type="submit"]:active {
+    transform: translateY(2px);
+}
+
+
+/* Estilos para la barra de desplazamiento personalizada */
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #2c3e50; /* Fondo oscuro para la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #86cecb; /* Color Miku para el "thumb" (la parte que se arrastra) */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #5fb7b3; /* Color más oscuro al pasar el cursor por encima */
 }

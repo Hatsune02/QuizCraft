@@ -19,10 +19,14 @@ public class AuthFilter implements Filter {
 
         String loginURI = "/QuizCraftWeb"; // Página principal
         String userPageURI = "/QuizCraftWeb/request"; // Página de usuario
+        String triviaPageURI = "/QuizCraftWeb/trivias"; // Página de usuario
+        String reportsPageURI = "/QuizCraftWeb/reports"; // Página de usuario
 
         boolean loggedIn = (session != null && session.getAttribute("user") != null);
         // Si no está logueado y trata de ir a la página de usuario, lo rediriges al login
-        if (!loggedIn && httpRequest.getRequestURI().startsWith(userPageURI)) {
+        if (!loggedIn && (httpRequest.getRequestURI().startsWith(userPageURI) ||
+                httpRequest.getRequestURI().startsWith(triviaPageURI) ||
+                httpRequest.getRequestURI().startsWith(reportsPageURI))) {
             httpResponse.sendRedirect(loginURI);
         } else {
             chain.doFilter(request, response);
