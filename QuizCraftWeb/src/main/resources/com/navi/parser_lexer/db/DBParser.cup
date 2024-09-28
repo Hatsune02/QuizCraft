@@ -66,7 +66,7 @@ parser code
 :}
 
 terminal
-        DB_USER, DB_TRIVIA,
+        DB_USER, DB_TRIVIA, NEW_TRIVIA,
         ID_TRIVIA, TIEMPO_PREGUNTA, USUARIO_CREACION, TEMA,
         ID, TRIVIA, CLASE, INDICE, TEXTO_VISIBLE, OPCIONES, FILAS, COLUMNAS, RESPUESTA,
         CAMPO_TEXTO, AREA_TEXTO, CHECKBOX, RADIO, FICHERO, COMBO, NONE,
@@ -82,7 +82,7 @@ terminal String USUARIO, PASSWORD, INSTITUCION, NOMBRE, FECHA_CREACION, FECHA_MO
 terminal Integer DIGIT;
 
 
-non terminal s, db_user, db_trivia;
+non terminal s, db_user, db_trivia, new_trivia;
 
 non terminal User user;
 
@@ -121,6 +121,7 @@ start with s;
 
 s ::=  db_user
     | db_trivia
+    | new_trivia
     ;
 
 db_user ::= DB_USER LPAREN users:us RPAREN:f
@@ -195,6 +196,12 @@ db_trivia ::= DB_TRIVIA LPAREN trivias:ts RPAREN:f
             trivias = new ArrayList<>();
             :}
             ;
+
+new_trivia ::= NEW_TRIVIA LPAREN trivia:t RPAREN
+            {:
+            trivias = new ArrayList<>();
+            trivias.add(t);
+            :};
 
 trivias ::= trivia:t
             {:

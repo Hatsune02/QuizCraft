@@ -3,7 +3,6 @@ package com.navi.quizcraftweb.backend.controller;
 import com.navi.quizcraftweb.backend.dao.TriviaDAO;
 import com.navi.quizcraftweb.backend.model.Trivia;
 import com.navi.quizcraftweb.backend.model.User;
-import com.navi.quizcraftweb.backend.parser_lexer.request.CompileRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -108,9 +107,9 @@ public class UserTriviasController extends HttpServlet {
     }
     private void saveImportTrivia(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
         String newContent = request.getParameter("importedContent");
+        triviaDAO = new TriviaDAO();
+        triviaDAO.insertImportTrivia(newContent, user.getUsername());
 
-        System.out.println(newContent);
-
-        response.sendRedirect("trivias");
+        response.sendRedirect("request");
     }
 }

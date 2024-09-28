@@ -1,6 +1,7 @@
 package com.navi.quizcraftweb.backend.dao;
 
 import com.navi.quizcraftweb.backend.model.User;
+import com.navi.quizcraftweb.backend.parser_lexer.ErrorsLP;
 import com.navi.quizcraftweb.backend.parser_lexer.db.DBLexer;
 import com.navi.quizcraftweb.backend.parser_lexer.db.DBParser;
 
@@ -45,6 +46,7 @@ public class Connection {
         lexer = new DBLexer(reader);
         parser = new DBParser(lexer);
         try{
+            ErrorsLP.clearErrors();
             parser.parse();
         }
         catch(Exception ex){
@@ -64,6 +66,20 @@ public class Connection {
         lexer = new DBLexer(reader);
         parser = new DBParser(lexer);
         try{
+            ErrorsLP.clearErrors();
+            parser.parse();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return parser;
+    }
+    public static DBParser readImport(String importText){
+        reader = new StringReader(importText);
+        lexer = new DBLexer(reader);
+        parser = new DBParser(lexer);
+        try{
+            ErrorsLP.clearErrors();
             parser.parse();
         }
         catch(Exception ex){

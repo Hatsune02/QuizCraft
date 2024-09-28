@@ -16,7 +16,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 /* ___Reserved words___ */
 db_user = (db\.user)
 db_trivia = (db\.trivia)
-
+new_trivia = (new\.trivia)
     /* parameters */
 
 usuario = (\"USUARIO\")
@@ -93,6 +93,8 @@ Integer = [0-9]+
 {return symbol(DB_USER, yytext());          }
 {db_trivia}
 {return symbol(DB_TRIVIA, yytext());          }
+{new_trivia}
+{return symbol(NEW_TRIVIA, yytext());          }
 
 {usuario}
 {return symbol(USUARIO, yytext());          }

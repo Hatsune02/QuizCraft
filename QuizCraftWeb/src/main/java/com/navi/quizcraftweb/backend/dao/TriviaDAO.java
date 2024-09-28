@@ -37,6 +37,7 @@ public class TriviaDAO {
             Connection.insertTextTrivia(position, insertText);
         }
         else{
+            ErrorsLP.addError(trivia.getIdTrivia(), 1, 1, "Semantico", "Trivia ya existente");
             System.out.println("Trivia ya existente");
         }
     }
@@ -294,6 +295,18 @@ public class TriviaDAO {
         }
         else {
             System.out.println("Trivia no encontrada");
+        }
+    }
+
+    public void insertImportTrivia(String importText, String user){
+        DBParser parser = Connection.readImport(importText);
+        if(parser.trivias != null && parser.trivias.size() == 1){
+            var trivia = parser.trivias.get(0);
+            trivia.setCreateUser(user);
+            for(Component component: trivia.getComponents()){
+                component.setTrivia(trivia.getIdTrivia());
+            }
+            insertTrivia(trivia);
         }
     }
 }

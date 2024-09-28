@@ -8,54 +8,56 @@ package com.navi.quizcraftweb.backend.parser_lexer.db;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int ID_TRIVIA = 4;
-  public static final int NOMBRE = 37;
-  public static final int CHECKBOX = 19;
+  public static final int NEW_TRIVIA = 4;
+  public static final int ID_TRIVIA = 5;
+  public static final int NOMBRE = 38;
+  public static final int CHECKBOX = 20;
   public static final int DB_USER = 2;
-  public static final int LPAREN = 24;
-  public static final int RESPUESTA = 16;
-  public static final int ESTRUCTURA = 28;
-  public static final int INDICE = 11;
-  public static final int RPAREN = 25;
-  public static final int USUARIO = 34;
-  public static final int COMMA = 41;
-  public static final int TRIVIA = 9;
-  public static final int DIGIT = 42;
-  public static final int TIEMPO_TOTAL = 30;
-  public static final int ID = 8;
-  public static final int FICHERO = 21;
+  public static final int LPAREN = 25;
+  public static final int RESPUESTA = 17;
+  public static final int ESTRUCTURA = 29;
+  public static final int INDICE = 12;
+  public static final int RPAREN = 26;
+  public static final int USUARIO = 35;
+  public static final int COMMA = 42;
+  public static final int TRIVIA = 10;
+  public static final int DIGIT = 43;
+  public static final int TIEMPO_TOTAL = 31;
+  public static final int ID = 9;
+  public static final int FICHERO = 22;
   public static final int EOF = 0;
-  public static final int CLASE = 10;
+  public static final int CLASE = 11;
   public static final int error = 1;
-  public static final int DATOS_RECOPILADOS = 29;
-  public static final int FECHA_MODIFICACION = 39;
-  public static final int PASSWORD = 35;
-  public static final int FECHA_CREACION = 38;
-  public static final int USUARIO_CREACION = 6;
-  public static final int TEMA = 7;
-  public static final int COLON = 40;
-  public static final int NONE = 23;
-  public static final int TIEMPO_PREGUNTA = 5;
-  public static final int LBRACE = 26;
-  public static final int RADIO = 20;
-  public static final int INSTITUCION = 36;
+  public static final int DATOS_RECOPILADOS = 30;
+  public static final int FECHA_MODIFICACION = 40;
+  public static final int PASSWORD = 36;
+  public static final int FECHA_CREACION = 39;
+  public static final int USUARIO_CREACION = 7;
+  public static final int TEMA = 8;
+  public static final int COLON = 41;
+  public static final int NONE = 24;
+  public static final int TIEMPO_PREGUNTA = 6;
+  public static final int LBRACE = 27;
+  public static final int RADIO = 21;
+  public static final int INSTITUCION = 37;
   public static final int DB_TRIVIA = 3;
-  public static final int ESTADO = 32;
-  public static final int COMBO = 22;
-  public static final int RBRACE = 27;
-  public static final int STRING = 33;
-  public static final int COLUMNAS = 15;
-  public static final int FILAS = 14;
-  public static final int AREA_TEXTO = 18;
-  public static final int CAMPO_TEXTO = 17;
-  public static final int PUNTEO = 31;
-  public static final int TEXTO_VISIBLE = 12;
-  public static final int OPCIONES = 13;
+  public static final int ESTADO = 33;
+  public static final int COMBO = 23;
+  public static final int RBRACE = 28;
+  public static final int STRING = 34;
+  public static final int COLUMNAS = 16;
+  public static final int FILAS = 15;
+  public static final int AREA_TEXTO = 19;
+  public static final int CAMPO_TEXTO = 18;
+  public static final int PUNTEO = 32;
+  public static final int TEXTO_VISIBLE = 13;
+  public static final int OPCIONES = 14;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "DB_USER",
   "DB_TRIVIA",
+  "NEW_TRIVIA",
   "ID_TRIVIA",
   "TIEMPO_PREGUNTA",
   "USUARIO_CREACION",

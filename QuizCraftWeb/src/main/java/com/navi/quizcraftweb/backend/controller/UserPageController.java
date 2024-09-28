@@ -14,6 +14,7 @@ public class UserPageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         obtainUser(request);
+        viewErrors(request);
         request.getRequestDispatcher("user_requests.jsp").forward(request, response);
     }
     private void obtainUser(HttpServletRequest request){
@@ -35,5 +36,12 @@ public class UserPageController extends HttpServlet {
         request.setAttribute("serverResponse", responseText.toString());
         request.getRequestDispatcher("user_requests.jsp").forward(request, response);
     }
-
+    private void viewErrors(HttpServletRequest request) throws ServletException, IOException {
+        var errors = ErrorsLP.getErrors();
+        StringBuilder responseText = new StringBuilder();
+        if (!errors.isEmpty()) {
+            errors.forEach(e -> responseText.append(e).append("\n"));
+        }
+        request.setAttribute("serverResponse", responseText.toString());
+    }
 }

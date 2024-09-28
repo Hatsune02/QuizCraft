@@ -8,14 +8,14 @@
         <listener-class>com.navi.quizcraftweb.backend.socket.SocketServerContextListener</listener-class>
     </listener>
 
-        <filter>
-            <filter-name>AuthFilter</filter-name>
-            <filter-class>com.navi.quizcraftweb.backend.controller.AuthFilter</filter-class>
-        </filter>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.navi.quizcraftweb.backend.controller.AuthFilter</filter-class>
+    </filter>
 
-        <filter-mapping>
-            <filter-name>AuthFilter</filter-name>
-            <url-pattern>/*</url-pattern> <!-- Aplica el filtro a todas las rutas -->
-        </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern> <!-- Aplica el filtro a todas las rutas -->
+    </filter-mapping>
 
 </web-app>
