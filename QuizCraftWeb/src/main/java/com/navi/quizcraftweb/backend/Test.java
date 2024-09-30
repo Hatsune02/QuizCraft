@@ -30,41 +30,112 @@ import java.util.ArrayList;
 public class Test {
     public static void main(String[] args) {
         String text = """
-                <?xson version="1.0" ?>
-                <!realizar_solicitud: "LOGIN_USUARIO" >
-                    { "DATOS_USUARIO":[{
-                        "USUARIO": "admin",
-                        "PASSWORD": "1234"
-                    }
-                    ]}
-                <fin_solicitud_realizada!>
+                terminal SELECCIONAR, REPORTE, FILTRAR, POR, USUARIO,
+                        TIEMPO_TOTAL, PUNTEO, COMMA, AND, OR;
+                
+                terminal String ID, DIGIT, STRING, REL_OP, ERROR;
+                
+                
+                non terminal instruction;
+                
+                non terminal String expr;
+                
+                non terminal Integer reserved_word;
+                
+                non terminal ArrayList<String> listC;
+                
+                non terminal Condition condition;
+                
+                non terminal ArrayList<Condition> conditions, filter;
+                
+                non terminal s;
+                
+                
+                start with s;
+                
+                s ::= instruction;
+                
+                instruction ::= SELECCIONAR REPORTE
+                                {:
+                                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll();
+                                :}
+                                | SELECCIONAR REPORTE listC:i
+                                {:
+                                if(ErrorsLP.getErrors().isEmpty()) Query.select(i);
+                                :}
+                                | SELECCIONAR REPORTE filter:f
+                                {:
+                                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll(f);
+                                :}
+                                | SELECCIONAR REPORTE listC:i filter:f
+                                {:
+                                if(ErrorsLP.getErrors().isEmpty()) Query.select(i, f);
+                                :};
+                
+                filter ::= FILTRAR POR conditions:c
+                            {: RESULT = c; :}
+                            |FILTRAR POR error
+                            ;
+                
+                conditions ::= condition:c
+                            {:
+                            ArrayList<Condition> conditions = new ArrayList<>();
+                            conditions.add(c);
+                            RESULT = conditions;
+                            :}
+                            | conditions:cs AND condition:c
+                            {:
+                            c.setType(Condition.AND);
+                            cs.add(c);
+                            RESULT = cs;
+                            :}
+                            | conditions:cs OR condition:c
+                            {:
+                            c.setType(Condition.OR);
+                            cs.add(c);
+                            RESULT = cs;
+                            :}
+                            | conditions AND error
+                            | conditions OR error
+                            ;
+                
+                condition ::= reserved_word:f REL_OP:s expr:v
+                            {:
+                            RESULT = new Condition(f,s,v);
+                            :}
+                            | reserved_word REL_OP error
+                            ;
+                
+                listC       ::= ID:id
+                            {:
+                            ArrayList<String> trivias = new ArrayList<>();
+                            trivias.add(id);
+                            RESULT = trivias;
+                            :}
+                            | listC:t COMMA ID:id
+                            {:
+                            t.add(id);
+                            RESULT = t;
+                            :}
+                            | error
+                            | listC error
+                            ;
+                reserved_word ::= USUARIO           {: RESULT = Condition.USUARIO;:}
+                                | TIEMPO_TOTAL      {: RESULT = Condition.TIEMPO_TOTAL;:}
+                                | PUNTEO            {: RESULT = Condition.PUNTEO;:}
+                                | reserved_word error
+                                ;
+                
+                expr        ::= DIGIT:d {:RESULT = d;:}
+                            | STRING:s {:RESULT = s.toString().replace("\\"","");:}
+                            | expr error
+                            ;
+                
+                
                 """;
 
-/*        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Selecciona un archivo de texto");
+        String output = text.replaceAll("\\{[^\\}]*\\}", "");
 
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // Leer el contenido del archivo
-            try {
-                String content = new String(Files.readAllBytes(Paths.get(selectedFile.getAbsolutePath())));
-                System.out.println("Contenido del archivo:\n" + content);
-                User u = new User();
-                u.setUsername("admin");
-                CompileRequest.userSession = u;
-                CompileRequest.execute(content);
-                var errors = ErrorsLP.getErrors();
-                errors.forEach(System.out::println);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("No se seleccionó ningún archivo.");
-        }*/
-        CompileRequest.verifyRequestLogin(text);
-        ErrorsLP.getErrors().forEach(System.out::println);
-
+        System.out.println(output);
     }
 }
