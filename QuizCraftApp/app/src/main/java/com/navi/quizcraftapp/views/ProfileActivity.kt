@@ -19,7 +19,6 @@ class ProfileActivity : AppCompatActivity() {
     }
     private fun setUI(){
         viewUser()
-        btn()
     }
     private fun viewUser(){
         val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
@@ -46,18 +45,7 @@ class ProfileActivity : AppCompatActivity() {
         tvCreationDate.text = creationDate
         tvUpdateDate.text = updateDate
     }
-    private fun btn(){
-        val btnLogout = findViewById<Button>(R.id.btnLogout)
-        btnLogout.setOnClickListener { logout() }
-    }
-    private fun logout(){
-        val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
 
-        navigateLogin()
-    }
     private fun navigateLogin(){
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)

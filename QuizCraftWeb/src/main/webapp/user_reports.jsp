@@ -15,6 +15,7 @@
         <table id="reportTable">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Trivia</th>
                 <th>Tema</th>
                 <th>Preguntas</th>
@@ -27,6 +28,7 @@
             <!-- Aquí se llenarán los datos enviados desde el servlet -->
             <c:forEach var="report" items="${reports}">
                 <tr>
+                    <td>${report.idTrivia}</td>
                     <td>${report.nameTrivia}</td>
                     <td>${report.topic}</td>
                     <td>${report.questions}</td>
