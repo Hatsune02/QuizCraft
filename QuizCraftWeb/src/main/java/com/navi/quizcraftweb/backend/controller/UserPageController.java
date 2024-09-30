@@ -24,6 +24,7 @@ public class UserPageController extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String solicitude = request.getParameter("solicitude");
+        request.setAttribute("solicitude", solicitude);
         String serverResponse = CompileRequest.execute(solicitude);
         var errors = ErrorsLP.getErrors();
         StringBuilder responseText = new StringBuilder();

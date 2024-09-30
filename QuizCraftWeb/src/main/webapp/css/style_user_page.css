@@ -98,7 +98,6 @@ body {
 .tabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 15px;
 }
 .tab-button {
     background-color: #2c2c2c; /* Fondo oscuro para las tabs */
@@ -139,8 +138,36 @@ body {
     margin-bottom: 20px;
     color: #39c5bb; /* Color Aqua base */
 }
+.editor {
+    display: flex;
+    background-color: #1f2e3a; /* Fondo del contenedor del editor */
+    border: 2px solid #276f6b; /* Borde del contenedor */
+    border-radius: 4px;
+    max-width: 1030px; /* Ancho máximo del editor */
+    height: 300px; /* Altura fija */
+    overflow: hidden; /* Sin scroll en el contenedor */
+}
+
+.line-numbers {
+    background-color: #34495e; /* Color del fondo para los números de línea */
+    color: #e0e0e0; /* Color del texto para los números de línea */
+    padding: 10px;
+    text-align: right;
+    font-size: 14px;
+    user-select: none; /* Evitar la selección de texto */
+    border-right: 2px solid #276f6b; /* Borde entre números y textarea */
+    overflow: hidden; /* Sin scroll en los números de línea */
+}
+
+.cursor-position {
+    margin-top: 5px; /* Espacio entre el editor y el texto de posición */
+    color: #e0e0e0; /* Color del texto */
+    font-size: 14px; /* Tamaño de fuente */
+}
 
 textarea {
+    flex-grow: 1;
+    height: 100%;
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
@@ -151,6 +178,7 @@ textarea {
     background-color: #1f2e3a;
     color: #e0e0e0;
     resize: none;
+    overflow: auto;
 }
 
 input[type="submit"] {

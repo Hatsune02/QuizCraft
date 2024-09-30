@@ -1,7 +1,7 @@
 package com.navi.quizcraftweb.backend.parser_lexer;
 import lombok.*;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class TError {
     private String lexeme;
@@ -10,5 +10,9 @@ public class TError {
     private String type;
     private String description;
 
-
+    @Override
+    public String toString() {
+        if(description.equals("Se esperaba: ")) return "ERROR: " + lexeme + ", línea:" + line + ", columna: " + column + ", tipo: " + type;
+        return "ERROR: " + lexeme + ", línea:" + line + ", columna: " + column + ", tipo: " + type + " (" + description + ")";
+    }
 }

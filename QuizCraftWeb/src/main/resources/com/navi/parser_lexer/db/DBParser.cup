@@ -271,7 +271,8 @@ component ::= LBRACE:b1 id_component:i param_trivia:t clase:c index:in visible_t
             {:
             Component component = new Component(i, t, c, in, v, a);
             if(!o.equals("null")) component.setOptions(o);
-
+            component.setLine(l);
+            component.setColumns(col);
             //Agregar ids del componente
             if(!idsComponent.containsKey(t)){
                 idsComponent.put(t, new ArrayList<>());

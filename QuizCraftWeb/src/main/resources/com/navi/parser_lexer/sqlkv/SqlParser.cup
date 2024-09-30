@@ -11,24 +11,66 @@ parser code
     }
     //Metodo al que se llama ante algun error sintactico
     public void syntax_error(Symbol s){
-        String lexeme = s.value.toString();
+        String lexeme;
+        if(s.value != null) lexeme = s.value.toString();
+        else lexeme = "null";
         int line = s.left;
         int col = s.right;
         System.out.println("ERROR SINTÁCTICO RECUPERADO");
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
+        HashMap<String, String> symbolNames = Validate.getSymbolNames();
+        List<Integer> tokens = expected_token_ids();
+        String des = "Se esperaba: ";
+        for(Integer i : tokens) {
+            String fromId = symbl_name_from_id(i);
+            String symbolName = symbolNames.get(fromId);
+            if(symbolName != null){
+                des += "'"+symbolName+ "' o ";
+            }
+            else{
+                if(!fromId.equals("error") && !fromId.equals("EOF")){
+                    des += fromId +" o ";
+                }
+            }
+        }
+        if(des.length() > 16) des = des.substring(0, des.length() - 3);
+        addError(lexeme, line, col, des);
     }
 
     //Metodo que se llama en el momento en que ya no es posible una recuperacion
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-        String lexeme = s.value.toString();
+        String lexeme;
+        if(s.value != null) lexeme = s.value.toString();
+        else lexeme = "null";
         int line = s.left;
         int col = s.right;
         System.out.println("ERROR SINTACTICO NO RECUPERABLE");
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
+        HashMap<String, String> symbolNames = Validate.getSymbolNames();
+        List<Integer> tokens = expected_token_ids();
+        String des = "Se esperaba: ";
+        for(Integer i : tokens) {
+            String fromId = symbl_name_from_id(i);
+            String symbolName = symbolNames.get(fromId);
+            if(symbolName != null){
+                des += "'"+symbolName+ "' o ";
+            }
+            else{
+                if(!fromId.equals("error") && !fromId.equals("EOF")){
+                    des += fromId +" o ";
+                }
+            }
+        }
+        if(des.length() > 16) des = des.substring(0, des.length() - 3);
+        addError(lexeme, line, col, des);
+    }
+
+    private void addError(String lexeme, int line, int col, String description){
+        ErrorsLP.addError(lexeme, line, col, "Error Sintáctico", description);
     }
     protected int error_sync_size() {
         return 10;
@@ -39,7 +81,7 @@ parser code
 terminal SELECCIONAR, REPORTE, FILTRAR, POR, USUARIO,
         TIEMPO_TOTAL, PUNTEO, COMMA, AND, OR;
 
-terminal String ID, DIGIT, STRING, REL_OP;
+terminal String ID, DIGIT, STRING, REL_OP, ERROR;
 
 
 non terminal instruction;
@@ -63,24 +105,24 @@ s ::= instruction;
 
 instruction ::= SELECCIONAR REPORTE
                 {:
-                Query.selectAll();
+                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll();
                 :}
                 | SELECCIONAR REPORTE listC:i
                 {:
-                Query.select(i);
+                if(ErrorsLP.getErrors().isEmpty()) Query.select(i);
                 :}
                 | SELECCIONAR REPORTE filter:f
                 {:
-                Query.selectAll(f);
+                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll(f);
                 :}
                 | SELECCIONAR REPORTE listC:i filter:f
                 {:
-                Query.select(i, f);
-                :}
-                | error;
+                if(ErrorsLP.getErrors().isEmpty()) Query.select(i, f);
+                :};
 
 filter ::= FILTRAR POR conditions:c
             {: RESULT = c; :}
+            |FILTRAR POR error
             ;
 
 conditions ::= condition:c
@@ -101,12 +143,16 @@ conditions ::= condition:c
             cs.add(c);
             RESULT = cs;
             :}
+            | conditions AND error
+            | conditions OR error
             ;
 
 condition ::= reserved_word:f REL_OP:s expr:v
             {:
             RESULT = new Condition(f,s,v);
-            :};
+            :}
+            | reserved_word REL_OP error
+            ;
 
 listC       ::= ID:id
             {:
@@ -119,13 +165,17 @@ listC       ::= ID:id
             t.add(id);
             RESULT = t;
             :}
+            | error
+            | listC error
             ;
 reserved_word ::= USUARIO           {: RESULT = Condition.USUARIO;:}
                 | TIEMPO_TOTAL      {: RESULT = Condition.TIEMPO_TOTAL;:}
                 | PUNTEO            {: RESULT = Condition.PUNTEO;:}
+                | reserved_word error
                 ;
 
 expr        ::= DIGIT:d {:RESULT = d;:}
             | STRING:s {:RESULT = s.toString().replace("\"","");:}
+            | expr error
             ;
 

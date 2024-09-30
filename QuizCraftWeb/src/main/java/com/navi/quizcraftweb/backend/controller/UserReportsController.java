@@ -40,9 +40,11 @@ public class UserReportsController extends HttpServlet {
             errorMessage = "Error: Comando no válido.";
             fullHistory = (fullHistory == null ? "" : fullHistory) + "\n" + command + "\n" + errorMessage;
             var errors = ErrorsLP.getErrors();
+            String aux = "";
             for (TError e: errors){
-                fullHistory = fullHistory + "\n" + command + "\n" + e;
+                aux += "\n" + e;
             }
+            fullHistory += aux;
         }
 
         request.setAttribute("reports", reports);

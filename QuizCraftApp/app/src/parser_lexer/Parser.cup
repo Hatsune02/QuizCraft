@@ -217,7 +217,8 @@ component ::= LBRACE id_component:i param_trivia:t clase:c index:in visible_text
             {:
             Component component = new Component(i, t, c, in, v, a);
             component.setOptions(o);
-
+            component.setLine(l);
+            component.setColumns(col);
             RESULT = component;
             :}
             ;

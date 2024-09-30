@@ -470,10 +470,10 @@ parser code
     }
 
     private void addParameterError(String type, int line, int col){
-        addError(type, line, col, "Parametro " + type + " duplicado");
+        ErrorsLP.addError(type, line, col, "Semántico", "Parametro " + type + " duplicado");
     }
     private void addPError(String type, int line, int col){
-        addError(type, line, col, "Parametro " + type + " no esperado");
+        ErrorsLP.addError(type, line, col, "Semántico", "Parametro " + type + " no esperado");
     }
     protected int error_sync_size() {
             return 1;
@@ -613,12 +613,15 @@ new_user_request ::= open_request Q USUARIO_NUEVO Q GT data_user:d close_request
 
                 ;
 
-open_user_data ::= LBRACE Q DATOS_USUARIO Q COLON LBRACKET LBRACE;
+open_user_data ::= LBRACE Q DATOS_USUARIO Q COLON LBRACKET LBRACE
+                | error;
 
-close_data ::= RBRACE RBRACKET RBRACE;
+close_data ::= RBRACE RBRACKET RBRACE
+                | error;
 
 data_user ::= open_user_data data:d close_data
                 {: RESULT = d; :}
+                | error
                 ;
 
 update_user_request ::= open_request Q MODIFICAR_USUARIO Q GT data_user:d close_request
@@ -679,6 +682,7 @@ new_trivia_request ::= open_request Q NUEVA_TRIVIA Q GT data_trivia:d close_requ
 
 data_trivia ::= open_trivia_data data:d close_data
                 {: RESULT = d; :}
+                | error
                 ;
 
 update_trivia_request ::= open_request Q MODIFICAR_TRIVIA Q GT data_trivia:d close_request
@@ -725,6 +729,7 @@ new_component_request ::= open_request Q AGREGAR_COMPONENTE Q GT data_component:
 
 data_component ::= open_component_data data:d close_data
                 {: RESULT = d; :}
+                | error
                 ;
 
 update_component_request ::= open_request Q MODIFICAR_COMPONENTE Q GT data_component:d close_request
@@ -934,6 +939,7 @@ parameter ::= user:p
             else addParameterError(p.getTypeStr(), pleft, pright);
             RESULT = p;
             :}
+            | error {: RESULT = new Parameter<String>();:}
             ;
 
 

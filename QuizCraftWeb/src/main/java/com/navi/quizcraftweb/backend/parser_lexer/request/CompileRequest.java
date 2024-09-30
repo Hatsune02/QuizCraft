@@ -217,7 +217,7 @@ public class CompileRequest {
                             }
                         }
                         String delete = "\t\"USUARIO\": "+ userId;
-                        serverResponses.add(createResponse("USUARIO_ELIMINADO", "\t"+userId));
+                        serverResponses.add(createResponse("USUARIO_ELIMINADO", delete));
                     }
                     case RequestXSON.NUEVA_TRIVIA -> {
                         Trivia t = (Trivia) request.getData();

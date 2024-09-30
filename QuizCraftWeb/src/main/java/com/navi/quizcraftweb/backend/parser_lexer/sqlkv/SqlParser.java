@@ -34,13 +34,15 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\023\000\002\002\004\000\002\011\003\000\002\002" +
+    "\000\032\000\002\002\004\000\002\011\003\000\002\002" +
     "\004\000\002\002\005\000\002\002\005\000\002\002\006" +
-    "\000\002\002\003\000\002\010\005\000\002\007\003\000" +
-    "\002\007\005\000\002\007\005\000\002\006\005\000\002" +
-    "\005\003\000\002\005\005\000\002\004\003\000\002\004" +
-    "\003\000\002\004\003\000\002\003\003\000\002\003\003" +
-    "" });
+    "\000\002\010\005\000\002\010\005\000\002\007\003\000" +
+    "\002\007\005\000\002\007\005\000\002\007\005\000\002" +
+    "\007\005\000\002\006\005\000\002\006\005\000\002\005" +
+    "\003\000\002\005\005\000\002\005\003\000\002\005\004" +
+    "\000\002\004\003\000\002\004\003\000\002\004\003\000" +
+    "\002\004\004\000\002\003\003\000\002\003\003\000\002" +
+    "\003\004" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -48,25 +50,33 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\006\003\005\004\007\001\002\000\004\002" +
-    "\000\001\002\000\004\002\ufffb\001\002\000\004\002\037" +
-    "\001\002\000\004\005\010\001\002\000\010\002\uffff\006" +
-    "\012\016\011\001\002\000\010\002\ufff5\006\ufff5\013\ufff5" +
-    "\001\002\000\004\007\020\001\002\000\010\002\ufffe\006" +
-    "\012\013\015\001\002\000\004\002\ufffd\001\002\000\004" +
-    "\016\017\001\002\000\004\002\ufffc\001\002\000\010\002" +
-    "\ufff4\006\ufff4\013\ufff4\001\002\000\010\010\022\011\023" +
-    "\012\025\001\002\000\004\021\033\001\002\000\004\021" +
-    "\ufff3\001\002\000\004\021\ufff2\001\002\000\010\002\ufffa" +
-    "\014\027\015\030\001\002\000\004\021\ufff1\001\002\000" +
-    "\010\002\ufff9\014\ufff9\015\ufff9\001\002\000\010\010\022" +
-    "\011\023\012\025\001\002\000\010\010\022\011\023\012" +
-    "\025\001\002\000\010\002\ufff7\014\ufff7\015\ufff7\001\002" +
-    "\000\010\002\ufff8\014\ufff8\015\ufff8\001\002\000\006\017" +
-    "\036\020\034\001\002\000\010\002\uffef\014\uffef\015\uffef" +
+    "\000\044\000\004\004\006\001\002\000\004\002\000\001" +
+    "\002\000\004\002\046\001\002\000\004\005\007\001\002" +
+    "\000\012\002\uffff\003\011\006\012\016\010\001\002\000" +
+    "\012\002\ufff2\003\ufff2\006\ufff2\013\ufff2\001\002\000\012" +
+    "\002\ufff0\003\ufff0\006\ufff0\013\ufff0\001\002\000\004\007" +
+    "\021\001\002\000\012\002\ufffe\003\016\006\012\013\015" +
+    "\001\002\000\004\002\ufffd\001\002\000\004\016\020\001" +
+    "\002\000\012\002\uffef\003\uffef\006\uffef\013\uffef\001\002" +
+    "\000\004\002\ufffc\001\002\000\012\002\ufff1\003\ufff1\006" +
+    "\ufff1\013\ufff1\001\002\000\012\003\023\010\024\011\025" +
+    "\012\026\001\002\000\006\003\040\021\037\001\002\000" +
+    "\004\002\ufffa\001\002\000\006\003\uffee\021\uffee\001\002" +
+    "\000\006\003\uffed\021\uffed\001\002\000\006\003\uffec\021" +
+    "\uffec\001\002\000\010\002\ufffb\014\031\015\032\001\002" +
+    "\000\010\002\ufff9\014\ufff9\015\ufff9\001\002\000\012\003" +
+    "\035\010\024\011\025\012\026\001\002\000\012\003\033" +
+    "\010\024\011\025\012\026\001\002\000\010\002\ufff5\014" +
+    "\ufff5\015\ufff5\001\002\000\010\002\ufff7\014\ufff7\015\ufff7" +
     "\001\002\000\010\002\ufff6\014\ufff6\015\ufff6\001\002\000" +
-    "\010\002\ufff0\014\ufff0\015\ufff0\001\002\000\004\002\001" +
-    "\001\002" });
+    "\010\002\ufff8\014\ufff8\015\ufff8\001\002\000\010\003\042" +
+    "\017\044\020\041\001\002\000\006\003\uffeb\021\uffeb\001" +
+    "\002\000\012\002\uffe9\003\uffe9\014\uffe9\015\uffe9\001\002" +
+    "\000\010\002\ufff3\014\ufff3\015\ufff3\001\002\000\012\002" +
+    "\ufff4\003\045\014\ufff4\015\ufff4\001\002\000\012\002\uffea" +
+    "\003\uffea\014\uffea\015\uffea\001\002\000\012\002\uffe8\003" +
+    "\uffe8\014\uffe8\015\uffe8\001\002\000\004\002\001\001\002" +
+    "" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -74,18 +84,20 @@ public class SqlParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\006\002\003\011\005\001\001\000\002\001" +
+    "\000\044\000\006\002\003\011\004\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\006\005\012" +
+    "\010\013\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\010\016\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\010\004\021\006\027\007\026\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\006\004\021\006\035\001\001\000\006\004" +
+    "\021\006\033\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\004\003\042\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\006\005\012\010\013\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\010\015\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\010\004\020\006\025\007\023\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\006\004\020\006\031" +
-    "\001\001\000\006\004\020\006\030\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\003\034\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001" });
+    "\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -129,24 +141,66 @@ public class SqlParser extends java_cup.runtime.lr_parser {
     }
     //Metodo al que se llama ante algun error sintactico
     public void syntax_error(Symbol s){
-        String lexeme = s.value.toString();
+        String lexeme;
+        if(s.value != null) lexeme = s.value.toString();
+        else lexeme = "null";
         int line = s.left;
         int col = s.right;
         System.out.println("ERROR SINTÁCTICO RECUPERADO");
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
+        HashMap<String, String> symbolNames = Validate.getSymbolNames();
+        List<Integer> tokens = expected_token_ids();
+        String des = "Se esperaba: ";
+        for(Integer i : tokens) {
+            String fromId = symbl_name_from_id(i);
+            String symbolName = symbolNames.get(fromId);
+            if(symbolName != null){
+                des += "'"+symbolName+ "' o ";
+            }
+            else{
+                if(!fromId.equals("error") && !fromId.equals("EOF")){
+                    des += fromId +" o ";
+                }
+            }
+        }
+        if(des.length() > 16) des = des.substring(0, des.length() - 3);
+        addError(lexeme, line, col, des);
     }
 
     //Metodo que se llama en el momento en que ya no es posible una recuperacion
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-        String lexeme = s.value.toString();
+        String lexeme;
+        if(s.value != null) lexeme = s.value.toString();
+        else lexeme = "null";
         int line = s.left;
         int col = s.right;
         System.out.println("ERROR SINTACTICO NO RECUPERABLE");
         System.out.println("\tLexeme: " + lexeme);
         System.out.println("\trow: " + line);
         System.out.println("\tcol: " + col);
+        HashMap<String, String> symbolNames = Validate.getSymbolNames();
+        List<Integer> tokens = expected_token_ids();
+        String des = "Se esperaba: ";
+        for(Integer i : tokens) {
+            String fromId = symbl_name_from_id(i);
+            String symbolName = symbolNames.get(fromId);
+            if(symbolName != null){
+                des += "'"+symbolName+ "' o ";
+            }
+            else{
+                if(!fromId.equals("error") && !fromId.equals("EOF")){
+                    des += fromId +" o ";
+                }
+            }
+        }
+        if(des.length() > 16) des = des.substring(0, des.length() - 3);
+        addError(lexeme, line, col, des);
+    }
+
+    private void addError(String lexeme, int line, int col, String description){
+        ErrorsLP.addError(lexeme, line, col, "Error Sintáctico", description);
     }
     protected int error_sync_size() {
         return 10;
@@ -206,7 +260,7 @@ class CUP$SqlParser$actions {
             {
               Object RESULT =null;
 		
-                Query.selectAll();
+                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll();
                 
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
@@ -220,7 +274,7 @@ class CUP$SqlParser$actions {
 		int iright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<String> i = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
 		
-                Query.select(i);
+                if(ErrorsLP.getErrors().isEmpty()) Query.select(i);
                 
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
@@ -234,7 +288,7 @@ class CUP$SqlParser$actions {
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<Condition> f = (ArrayList<Condition>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
 		
-                Query.selectAll(f);
+                if(ErrorsLP.getErrors().isEmpty()) Query.selectAll(f);
                 
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
@@ -251,29 +305,29 @@ class CUP$SqlParser$actions {
 		int fright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<Condition> f = (ArrayList<Condition>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
 		
-                Query.select(i, f);
+                if(ErrorsLP.getErrors().isEmpty()) Query.select(i, f);
                 
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-3)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // instruction ::= error 
-            {
-              Object RESULT =null;
-
-              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("instruction",0, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
-            }
-          return CUP$SqlParser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // filter ::= FILTRAR POR conditions 
+          case 6: // filter ::= FILTRAR POR conditions 
             {
               ArrayList<Condition> RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).right;
 		ArrayList<Condition> c = (ArrayList<Condition>)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
 		 RESULT = c; 
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("filter",6, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // filter ::= FILTRAR POR error 
+            {
+              ArrayList<Condition> RESULT =null;
+
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("filter",6, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
@@ -333,7 +387,25 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // condition ::= reserved_word REL_OP expr 
+          case 11: // conditions ::= conditions AND error 
+            {
+              ArrayList<Condition> RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditions",5, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // conditions ::= conditions OR error 
+            {
+              ArrayList<Condition> RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("conditions",5, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // condition ::= reserved_word REL_OP expr 
             {
               Condition RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
@@ -353,7 +425,16 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // listC ::= ID 
+          case 14: // condition ::= reserved_word REL_OP error 
+            {
+              Condition RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("condition",4, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // listC ::= ID 
             {
               ArrayList<String> RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
@@ -369,7 +450,7 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // listC ::= listC COMMA ID 
+          case 16: // listC ::= listC COMMA ID 
             {
               ArrayList<String> RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-2)).left;
@@ -387,7 +468,25 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // reserved_word ::= USUARIO 
+          case 17: // listC ::= error 
+            {
+              ArrayList<String> RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listC",3, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // listC ::= listC error 
+            {
+              ArrayList<String> RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("listC",3, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 19: // reserved_word ::= USUARIO 
             {
               Integer RESULT =null;
 		 RESULT = Condition.USUARIO;
@@ -396,7 +495,7 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // reserved_word ::= TIEMPO_TOTAL 
+          case 20: // reserved_word ::= TIEMPO_TOTAL 
             {
               Integer RESULT =null;
 		 RESULT = Condition.TIEMPO_TOTAL;
@@ -405,7 +504,7 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // reserved_word ::= PUNTEO 
+          case 21: // reserved_word ::= PUNTEO 
             {
               Integer RESULT =null;
 		 RESULT = Condition.PUNTEO;
@@ -414,7 +513,16 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // expr ::= DIGIT 
+          case 22: // reserved_word ::= reserved_word error 
+            {
+              Integer RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("reserved_word",2, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 23: // expr ::= DIGIT 
             {
               String RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
@@ -426,7 +534,7 @@ class CUP$SqlParser$actions {
           return CUP$SqlParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // expr ::= STRING 
+          case 24: // expr ::= STRING 
             {
               String RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()).left;
@@ -434,6 +542,15 @@ class CUP$SqlParser$actions {
 		String s = (String)((java_cup.runtime.Symbol) CUP$SqlParser$stack.peek()).value;
 		RESULT = s.toString().replace("\"","");
               CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("expr",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
+            }
+          return CUP$SqlParser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 25: // expr ::= expr error 
+            {
+              String RESULT =null;
+
+              CUP$SqlParser$result = parser.getSymbolFactory().newSymbol("expr",1, ((java_cup.runtime.Symbol)CUP$SqlParser$stack.elementAt(CUP$SqlParser$top-1)), ((java_cup.runtime.Symbol)CUP$SqlParser$stack.peek()), RESULT);
             }
           return CUP$SqlParser$result;
 

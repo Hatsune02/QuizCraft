@@ -577,7 +577,7 @@ public class SqlLexer implements java_cup.runtime.Scanner {
         return new Symbol(type, yyline+1,yycolumn+1);
     }
     private Symbol symbol(int type, Object value){
-        System.out.println(value.toString());
+        System.out.println(type + " " + (yyline+1) + " " + (yycolumn+1) + " " + value);
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
     private void error(){
@@ -1022,6 +1022,7 @@ public class SqlLexer implements java_cup.runtime.Scanner {
           case 19: break;
           case 3:
             { ErrorsLP.addError(yytext(), yyline+1, yycolumn+1, "Error Léxico","Cadena no definida");
+return symbol(ERROR, yytext());
             }
           // fall through
           case 20: break;

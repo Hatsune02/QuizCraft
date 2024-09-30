@@ -850,7 +850,8 @@ class CUP$DBParser$actions {
 		
             Component component = new Component(i, t, c, in, v, a);
             if(!o.equals("null")) component.setOptions(o);
-
+            component.setLine(l);
+            component.setColumns(col);
             //Agregar ids del componente
             if(!idsComponent.containsKey(t)){
                 idsComponent.put(t, new ArrayList<>());

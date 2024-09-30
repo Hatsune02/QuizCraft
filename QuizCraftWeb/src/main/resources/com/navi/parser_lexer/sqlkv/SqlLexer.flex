@@ -48,6 +48,7 @@ Comma = [,]
         return new Symbol(type, yyline+1,yycolumn+1);
     }
     private Symbol symbol(int type, Object value){
+        //System.out.println(type + " " + (yyline+1) + " " + (yycolumn+1) + " " + value);
         return new Symbol(type, yyline+1, yycolumn+1, value);
     }
     private void error(){
@@ -95,7 +96,8 @@ Comma = [,]
 {WhiteSpace}            { /**/ }
 
 [\^´°¬|!$%&?¡¿\w]+
-{ErrorsLP.addError(yytext(), yyline+1, yycolumn+1, "Error Léxico","Cadena no definida");}
+{ErrorsLP.addError(yytext(), yyline+1, yycolumn+1, "Error Léxico","Cadena no definida");
+return symbol(ERROR, yytext());}
 [^]                 {error(); }
 
 

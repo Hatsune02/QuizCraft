@@ -13,6 +13,7 @@ public class sym {
   public static final int USUARIO = 6;
   public static final int POR = 5;
   public static final int FILTRAR = 4;
+  public static final int ERROR = 16;
   public static final int DIGIT = 13;
   public static final int STRING = 14;
   public static final int EOF = 0;
@@ -40,7 +41,8 @@ public class sym {
   "ID",
   "DIGIT",
   "STRING",
-  "REL_OP"
+  "REL_OP",
+  "ERROR"
   };
 }
 

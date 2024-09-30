@@ -254,7 +254,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-    public User user = null;
+    public User user = new User();
     public ArrayList<Trivia> trivias = new ArrayList<>();
 
 
@@ -759,7 +759,8 @@ class CUP$Parser$actions {
 		
             Component component = new Component(i, t, c, in, v, a);
             component.setOptions(o);
-
+            component.setLine(l);
+            component.setColumns(col);
             RESULT = component;
             
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("component",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-10)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
